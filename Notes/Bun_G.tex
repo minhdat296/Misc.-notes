@@ -138,10 +138,34 @@
                 $$
         \end{remark}
         \begin{remark}[Change of groups]
-            Fix an $S$-scheme $Z$ acted upon by two group $S$-schemes $G, H$ via $\alpha_Z^G: Z \x_S G \to Z, \alpha_Z^H: Z \x_S H \to Z$.  
+            Fix an $S$-scheme $Z$ acted upon by two group $S$-schemes $G, H$ via $\alpha_{Z, G}: Z \x_S G \to Z, \alpha_{Z, H}: Z \x_S H \to Z$. Suppose also that there is a group $S$-scheme homomorphism:
+                $$\varphi: G \to H$$
+            Such a homomorphism induces the following commutative diagram:
+                $$
+                    \begin{tikzcd}
+                	{Z \x_S G} & Z \\
+                	{Z \x_S H} & Z
+                	\arrow["{\pr_1}"', shift right=2, from=1-1, to=1-2]
+                	\arrow["{\alpha_{Z, G}}", shift left=2, from=1-1, to=1-2]
+                	\arrow["{\pr_1}"', shift right=2, from=2-1, to=2-2]
+                	\arrow["{\alpha_{Z, H}}", shift left=2, from=2-1, to=2-2]
+                	\arrow["{\id_Z \x \varphi}"', from=1-1, to=2-1]
+                	\arrow["{\id_Z}", from=1-2, to=2-2]
+                    \end{tikzcd}
+                $$
+            which, when viewed as a morphism of groupoids internal to $\Sch_{/S}$, tells us that there is a resulting $1$-morphism of prestacks:
+                $$[Z/G] \to [Z/H]$$
         \end{remark}
 
     \section{Mapping stacks and \texorpdfstring{$\Bun_G$}{}}
+        \begin{definition}[Mapping prestacks] \label{def: mapping_prestacks}
+            Suppose that $X$ is an $S$-scheme and $\scrY$ is an $S$-prestack. Let us then define the \textbf{mapping prestack} $\Maps_S(X, \scrY)$ to be the category fibred in groupoids over $\Sch_{/S}$, whose section over each $T \in \Ob(\Sch_{/S})$ is the groupoid of $1$-morphisms $X_T \to \scrY$, i.e.:
+                $$\Maps_S(X, \scrY)(T) := \scrY(X_T)$$
+        \end{definition}
+        \begin{definition}[$\Bun_G$] \label{def: Bun_G}
+            Suppose that $G$ is a group $S$-scheme and $X$ is an $S$-scheme acted upon by $G$. The \textbf{moduli prestack of $G$-bundles} $\Bun_G(X)$ is then defined to be a mapping prestack as follows:
+                $$\Bun_G(X) := \Maps_S(X, [S/G])$$
+        \end{definition}
     
     \addcontentsline{toc}{section}{References}
     \printbibliography
