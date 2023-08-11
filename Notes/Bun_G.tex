@@ -1,0 +1,149 @@
+\input{article preambles}
+
+\setcounter{section}{-1}
+
+\input{commands}
+
+\begin{document}
+
+    \title{$\Bun_G$ is a smooth algebraic stack}
+    
+    \author{Dat Minh Ha}
+    \maketitle
+    
+    \begin{abstract}
+        
+    \end{abstract}
+    
+    {
+      \hypersetup{} 
+      %\dominitoc
+      \tableofcontents %sort sections alphabetically
+    }
+
+    \section{Introduction}
+
+    \section{Quotient stacks}
+        \begin{convention}
+            Fix a base scheme $S$. If $\tau$ is a topology on the category $\Sch_{/S}$ then we shall write $S_{\tau}$ for the corresponding small site of $S$-schemes; e.g. $S_{\fppf}$ means the site whose objects are fppf morphisms $t: T \to S$ and whose morphisms are the commutative triangles:
+                $$
+                    \begin{tikzcd}
+                	T && {T'} \\
+                	& S
+                	\arrow["t"', from=1-1, to=2-2]
+                	\arrow["{t'}", from=1-3, to=2-2]
+                	\arrow[from=1-1, to=1-3]
+                    \end{tikzcd}
+                $$
+            and on this site, the topology is given by jointly surjective families of fppf morphisms $\{f_i: T_i \to S\}_{i \in I}$.
+        \end{convention}
+    
+        \begin{definition}[Equivariant morphisms] \label{def: equivariant_morphisms}
+            Suppose that $X, Y$ are $S$-schemes acted upon by the same group $S$-scheme $G$ via actions $\alpha_X: X \x_S G \to X, \alpha_Y: Y \x_S G \to Y$. A morphisms of $S$-schemes:
+                $$f: X \to Y$$
+            is said to be \textbf{$G$-equivariant} if and only if it induces the following morphism of internal groupoids in $\Sch_{/S}$:
+                $$
+                    \begin{tikzcd}
+                	{X \x_S G} & X \\
+                	{Y \x_S G} & Y
+                	\arrow["f", from=1-2, to=2-2]
+                	\arrow["{f \x \id_G}"', from=1-1, to=2-1]
+                	\arrow["{\pr_1}"', shift right=2, from=1-1, to=1-2]
+                	\arrow["{\pr_1}"', shift right=2, from=2-1, to=2-2]
+                	\arrow["{\alpha_X}", shift left=2, from=1-1, to=1-2]
+                	\arrow["{\alpha_Y}", shift left=2, from=2-1, to=2-2]
+                    \end{tikzcd}
+                $$
+        \end{definition}
+        \begin{remark}
+            Equivalently, a morphism of $S$-schemes $f: X \to Y$, both acted upon by some group $S$-scheme $G$, is $G$-equivariant if and only if it induces a morphism of fppf sheaves (of sets) $\bar{f}: X/G \to Y/G$ fitting into the following commutative square in $\Sh(S_{\fppf})$:
+                $$
+                    \begin{tikzcd}
+                	X & Y \\
+                	{X/G} & {Y/G}
+                	\arrow["{\coeq(\alpha_X, \pr_1)}"', from=1-1, to=2-1]
+                	\arrow["{\bar{f}}", dashed, from=2-1, to=2-2]
+                	\arrow["f", from=1-1, to=1-2]
+                	\arrow["{\coeq(\alpha_Y, \pr_1)}", from=1-2, to=2-2]
+                    \end{tikzcd}
+                $$
+            The equivalence with definition \ref{def: equivariant_morphisms} is guaranteed by the universal property of coequalisers. 
+        \end{remark}
+        \begin{definition}[Invariant morphisms] \label{def: invariant_morphisms}
+            Suppose that $X, Y$ are $S$-schemes acted upon by the same group $S$-scheme $G$ via actions $\alpha_X: X \x_S G \to X, \alpha_Y: Y \x_S G \to Y$. A morphism of $S$-schemes:
+                $$f: X \to Y$$
+            is then \textbf{$G$-invariant} if and only if it is $G$-equivariant and there is a lifting $X/G \to Y$ fitting into the following commutative diagram in $\Sh(S_{\fppf})$:
+                $$
+                    \begin{tikzcd}
+                	X & Y \\
+                	{X/G} & {Y/G}
+                	\arrow["{\coeq(\alpha_X, \pr_1)}"', from=1-1, to=2-1]
+                	\arrow["{\bar{f}}", from=2-1, to=2-2]
+                	\arrow["f", from=1-1, to=1-2]
+                	\arrow["{\coeq(\alpha_Y, \pr_1)}", from=1-2, to=2-2]
+                	\arrow[dashed, from=2-1, to=1-2]
+                    \end{tikzcd}
+                $$
+        \end{definition}
+        \begin{proposition}[Compositions of equivariant/invariant morphisms] \label{prop: compositions_of_equivariant_and_of_invariant_morphisms}
+            Let $G$ be a group $S$-scheme. Then, compositions of $G$-equivariant (respectively, $G$-invariant) morphisms of $S$-schemes are once more $G$-equivariant (respectively, $G$-invariant).
+        \end{proposition}
+        \begin{proposition}[Base-changing equivariant/invariant morphisms] \label{prop: base_changes_of_equivariant_and_of_invariant_morphisms}
+            Let $G$ be a group $S$-scheme and fix a $G$-equivariant (respectively, $G$-invariant) morphism of $S$-schemes:
+                $$f: X \to Y$$
+            Then, for all $T \in \Ob(S_{\fppf})$, the base-changed morphism:
+                $$f \x \id_T: X_T \to Y_T$$
+            will be $G_T$-equivariant (respectively, $G_T$-invariant). 
+        \end{proposition}
+
+        \begin{definition}[Quotient prestacks] \label{def: quotient_prestacks}
+            Suppose that $G$ is a group $S$-scheme acting on some $S$-scheme $Z$ via $\alpha_Z: Z \x_S G \to Z$. One can then form the \textbf{quotient prestack} $[Z/_{\alpha}G]$ as the category fibred in groupoids over $\Sch_{/S}$ whose sections over objects $T \in \Ob(\Sch_{/S})$ are the groupoids\footnote{... internal to the category of sets.}:
+                $$
+                    \begin{tikzcd}
+                	{Z(T) \x G(T)} & {Z(T)}
+                	\arrow["{\pr_1}"', shift right=2, from=1-1, to=1-2]
+                	\arrow["{\alpha_Z(T)}", shift left=2, from=1-1, to=1-2]
+                    \end{tikzcd}
+                $$
+        \end{definition}
+        \begin{example}[Classifying stacks of group schemes]
+            Let $G$ be a group $S$-scheme acting trivially on the terminal object $S \in \Ob(\Sch_{/S})$. The quotient prestack $[S/G]$ is then the prestack over objects $T \in \Ob(\Sch_{/S})$ are the groupoids:
+                $$
+                    \begin{tikzcd}
+                	{\{*\} \x G(T)} & {\{*\}}
+                	\arrow["{\pr_1}"', shift right=2, from=1-1, to=1-2]
+                	\arrow["{\alpha_S(T)}", shift left=2, from=1-1, to=1-2]
+                    \end{tikzcd}
+                $$
+            (note that $S(T) \cong \{*\}$), which are nothing but the groupoids with a unqiue object and with elements of $G(T)$ (and compositions of such elements) as morphisms. 
+        \end{example}
+        \begin{remark}[Functoriality of quotient prestacks]
+            Let $G$ be a group $S$-scheme.
+        
+            From proposition \ref{prop: compositions_of_equivariant_and_of_invariant_morphisms}, one sees that any composition:
+                $$X \to Y \to Z$$
+            of morphisms of $S$-schemes acted upon by $G$ induces a composition of $1$-morphisms of stacks:
+                $$[X/G] \to [Y/G] \to [Z/G]$$
+            and note that such compositions are $2$-associative. From proposition \ref{prop: base_changes_of_equivariant_and_of_invariant_morphisms}, one sees that given any $S$-scheme $X$ acted upon by $G$ and any arbitrary $S$-scheme $T$, there is a $2$-pullback:
+                $$
+                    \begin{tikzcd}
+                	{[X_T/G_T]} & {[X/G]} \\
+                	T & S
+                	\arrow[from=1-2, to=2-2]
+                	\arrow[from=2-1, to=2-2]
+                	\arrow[from=1-1, to=2-1]
+                	\arrow[from=1-1, to=1-2]
+                	\arrow["2"{description}, "\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+                    \end{tikzcd}
+                $$
+        \end{remark}
+        \begin{remark}[Change of groups]
+            Fix an $S$-scheme $Z$ acted upon by two group $S$-schemes $G, H$ via $\alpha_Z^G: Z \x_S G \to Z, \alpha_Z^H: Z \x_S H \to Z$.  
+        \end{remark}
+
+    \section{Mapping stacks and \texorpdfstring{$\Bun_G$}{}}
+    
+    \addcontentsline{toc}{section}{References}
+    \printbibliography
+
+\end{document}
