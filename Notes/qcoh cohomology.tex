@@ -1,0 +1,100 @@
+\input{article preambles}
+
+\setcounter{section}{-1}
+
+\input{commands}
+
+\begin{document}
+
+    \title{Cohomology of quasi-coherent sheaves on schemes}
+    
+    \author{Dat Minh Ha}
+    \maketitle
+    
+    \begin{abstract}
+        
+    \end{abstract}
+    
+    {
+      \hypersetup{} 
+      %\dominitoc
+      \tableofcontents %sort sections alphabetically
+    }
+
+    \section{Introduction}
+
+    \section{Serre's affineness criterion and finiteness of cohomology}
+        \subsection{The category of quasi-coherent sheaves}
+            Suppose that $X$ is a scheme - say, with a fixed Zariski cover:
+                $$\{ f_i: \Spec A_i \to X \}_{i \in I}$$
+            and that we are interested in somehow \say{patching} together the categories $A_i\mod$\footnote{... viewed as sheaves of modules on the affine schemes $\Spec A_i$ - we will explain this point of view in more details shortly.} into a global category of sheaves of modules on $X$. A \textit{na\"ive} guess might be that one should just consider the category $\scrO_X\mod$ and be done with it: after all, this is a rather good category for homological algebraic purposes, being abelian and having enough injectives.
+            
+            However, one can do better, and one should want more out of a category of $\scrO_X$-modules. $\scrO_X\mod$ is without enough projectives, so whatever \say{the} derived category of $\scrO_X$-modules might be, its objects must be of cohomological degrees $\geq 0$ and we are thus unable to speak of left-derived functors. The category $\scrO_X\mod$ is also somehow \say{too large}: it is almost never compactly generated. The category $\QCoh(X)$ consisting of the so-called \say{quasi-coherent} $\scrO_X$-modules is a certain full subcategory of $\scrO_X\mod$ that helps us fix these issues.
+
+            \begin{convention}
+                Unless stated to be otherwise, all sites will be assumed to be small. 
+
+                If $X$ is a scheme and $\tau$ is a topology on the category of schemes, then we will write $X_{\tau} := (\Sch_{/X})_{\tau}$ to mean the category $\Sch_{/X}$ equipped with the topology $\tau$. 
+
+                
+            \end{convention}
+
+            We begin by seeing how, for any commutative ring $A$, the category $A\mod$ is the same as that of $\scrO_X$-modules for $X := \Spec A$. 
+            \begin{lemma}[Sheafifying modules] \label{lemma: sheafifying_modules}
+                Let $A$ be a commutative ring and set $X := \Spec A$. There is a fully faithful exact functor:
+                    $$A\mod \hookrightarrow \scrO_X\mod$$
+                sending each $A$-module $M$ to the $\scrO_X$-module ${}^{\sh}M$ on the (small) site $X_{\Zar}$ given by:
+                    $${}^{\sh}M(\Spec A[1/f]) := M[1/f]$$
+                for every $f \in A$. 
+            \end{lemma}
+            \begin{corollary}
+                Let $A$ be a commutative, $X := \Spec A$, and consider a prime ideal $\p$ of $A$, defining a point $x \in |X|$. Then:
+                    $${}^{\sh}M_x \cong M_{\p}$$
+            \end{corollary}
+            
+            Now, let us see the definition of the category of quasi-coherent modules. This can be stated more generally for any site, not simply the Zariski site of a scheme, but we will not need to work in this full generality.
+            \begin{definition}[Quasi-coherent modules] \label{def: quasi_coherent_modules}
+                If $A$ is a commutative ring then we define the category $\QCoh(\Spec A)$ of \textbf{quasi-coherent $\scrO_{\Spec A}$-modules} to be the essential image of the fully faithful functor $A\mod \hookrightarrow \scrO_X\mod$ from lemma \ref{lemma: sheafifying_modules}.
+
+                If $X$ is a scheme with a Zariski cover:
+                    $$\{ f_i: \Spec A_i \to X \}_{i \in I}$$
+                then the category $\QCoh(X)$ of quasi-coherent $\scrO_X$-modules will be the subcategory of $\scrO_X\mod$ consisting of those objects $\scrM$ such that for every $i \in I$, one has that:
+                    $$f_i^*\scrM \cong {}^{\sh}M_i$$
+                for some $A_i$-module $M_i$.
+            \end{definition}
+            \begin{remark}
+                $\QCoh(X)$ is a full subcategory of $\scrO_X\mod$.
+            \end{remark}
+            \begin{remark}
+                For any commutative ring $A$, the inverse functor:
+                    $$\QCoh(\Spec A) \to A\mod$$
+                is given simply by taking global sections, i.e.:
+                    $$\scrM \mapsto \Gamma(\Spec A, \scrM)$$
+            \end{remark}
+
+            As all good constructions in algebraic geometry are, the creation of quasi-coherent modules is functorial, albeit in a slightly weak sense. 
+            \begin{proposition}[Functoriality of $\QCoh$] \label{prop: qcoh_functoriality}
+                The assignment $X \mapsto \QCoh(X)$ defines a stack (in categories!) over $X_{\Zar}$. 
+            \end{proposition}
+            
+
+        \subsection{Serre's affineness criterion}
+
+        \subsection{Base-changing cohomology: the pull-push yoga}
+
+        \subsection{Finiteness and Riemann-Roch}
+
+    \section{Duality Theorem}
+        \subsection{Serre Duality}
+
+        \subsection{Verdier Duality}
+
+    \section{Zariski's Main Theorem}
+        \subsection{The Theorem of Formal Functions}
+
+        \subsection{Zariski's Main Theorem}
+    
+    \addcontentsline{toc}{section}{References}
+    \printbibliography
+
+\end{document}
