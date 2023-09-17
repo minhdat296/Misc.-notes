@@ -23,7 +23,7 @@
 
     \section{Introduction}
 
-    \section{Generalities on quasi-coherent sheaves}
+    \section{A six-functor formalism for quasi-coherent sheaves}
         \subsection{The category of quasi-coherent sheaves}
             Suppose that $X$ is a scheme - say, with a fixed Zariski cover:
                 $$\{ f_i: \Spec A_i \to X \}_{i \in I}$$
@@ -159,44 +159,91 @@
                 If $X$ is a scheme such that $\scrO_X$ is not coherent as a module over itself, then naturally, we shall refer to $\scrO_X$ as an \textbf{incoherent sheaf of rings}. There is the following example of such a ring, due to Brian Conrad: \href{http://math.stanford.edu/~vakil/216blog/incoherent.pdf}{http://math.stanford.edu/~vakil/216blog/incoherent.pdf}.
             \end{example}
 
-        \subsection{Finiteness and vanishing theorems}
-            Let us now move on to discussing (derived) direct image functors along morphisms of schemes and how taking their cohomologies relativises the process of taking usual sheaf cohomologies.
+            Before we move on, let us consider the following meta-definition, which in itself is not quite a well-defined mathematical notion, but nevertheless is a good schematic for what a \say{good} cohomology theory should look like. Over the course of the rest of this section, we shall see how quasi-coherent modules enjoy one such cohomology theory.
+            \begin{definition}[Six-functor formalisms] \label{def: six_functor_formalisms}
+                A six-functor formalism is a datum satisfying the following hypotheses:
+                \begin{itemize}
+                    \item A pair $(\C, E)$ of a finitely complete $(\infty, 1)$-category $\C$ (e.g. $\C := \Sch$) and a specified class $E \subseteq \Mor(\C)$ of morphisms which:
+                    \begin{itemize}
+                        \item contains all isomorphisms,
+                        \item is closed under pullbacks, and
+                        \item is closed under compositions.
+                    \end{itemize}
+                    \item \textbf{(Functoriality):} Two $(\infty, 2)$-functors:
+                        $$\Shv^*, \Shv^!: \C^{\op} \to (\infty, 1)\-\Stab\Cat_2$$
+                    which assign to each object $X \in \Ob(\C)$ a stable $(\infty, 1)$-category $\Shv(X)$ and to each morphism $(f: X \to Y) \in \Mor(\C)$, two respective adjunctions:
+                        $$f_*: \Shv(X) \leftrightarrows \Shv(Y): f_*$$
+                        $$f^!: \Shv(Y) \leftrightarrows \Shv(X): f_!$$
+                    At this point, we have a \textbf{four-functor formalism}; the functors $f_*$ and $f_!$ respectively, are called the \textbf{$*$- and $!$-pushforwards} respectively, whereas the functors $f^*$ and $f^!$ are the \textbf{$*$- and $!$-pullbacks}. 
+                    \item \textbf{(Base-change):} For each $(f: X \to Y) \in E$, the $!$-pushforward:
+                        $$f_!: \Shv(X) \to \Shv(Y)$$
+                    is to satisfy the following property: for each $(\infty, 1)$-pullback square:
+                        $$
+                            \begin{tikzcd}
+                        	{X'} & X \\
+                        	{Y'} & Y
+                        	\arrow["{f'}"', from=1-1, to=2-1]
+                        	\arrow["q", from=2-1, to=2-2]
+                        	\arrow["p", from=1-1, to=1-2]
+                        	\arrow["f", from=1-2, to=2-2]
+                        	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+                            \end{tikzcd}
+                        $$
+                    there is a natural isomorphism of $(\infty, 1)$-functors $\Shv(X) \to \Shv(Y')$:
+                        $$q^* f_! \xrightarrow[]{\cong} f'_! p^*$$
+                    and these natural isomorphisms should be compatible with pasting $(\infty, 1)$-pullbacks. 
+                    \item \textbf{(Duality):} As a stable $(\infty, 1)$-category, each $\Shv(X)$ ought to be self-dual in the sense of Lurie. Moreover, this duality ought to exchange $f^*$ with $f_*$ and $f_!$ with $f^!$. 
+                    \item \textbf{(Tensoriality):} For each $X, Y \in \Ob(\C)$, there ought to be an $(\infty, 1)$-functor:
+                        $$\boxtimes_{X, Y}: \Shv(X) \tensor \Shv(Y) \to \Shv(X \x Y)$$
+                    (with $\Shv(X) \tensor \Shv(Y)$ being in the sense of Lurie) natural in $X, Y$, which is such that for every $X \in \Ob(\C)$ (and let us write $\Delta_X: X \to X^2$ for the diagonal thereof), the following composition defines a closed symmetric monoidal structure on $\Shv(X)$:
+                        $$\Shv(X)^{\tensor 2} \xrightarrow[]{\boxtimes_{X, X}} \Shv(X^2) \xrightarrow[]{\Delta_X^*} \Shv(X)$$
+                    These tensor products and their corresponding internal hom-functors are the remaining two functors in the six-functor formalism. 
+                        
+                    Furthermore, we require that the $*$-pullback:
+                        $$f^*: \Shv(Y) \to \Shv(X)$$
+                    is $(\infty, 1)$-monoidal for each $(f: X \to Y) \in \Mor(\C)$ with respect to the aforementioned closed symmetric monoidal structures on $\Shv(Y), \Shv(X)$.
 
-            Let $f: X \to Y$ be a morphism of schemes. The first thing to check is that the morphism of topoi:
-                $$f_*: \Sh(X_{\Zar}) \leftrightarrows \Sh(Y_{\Zar}): f^*$$
-            restricts down to an adjunction:
-                $$f_*: \QCoh(X) \leftrightarrows \QCoh(Y): f^*$$
-            Now, we should note that abstractly, a right-adjoint $Rf_*$ of $Lf^*$ exists by Lurie's Adjoint Functor Theorem when we consider them as (t-exact) $(\infty, 1)$-functors between the stable $(\infty, 1)$-categories $\rmD(\QCoh(X))$ and $\rmD(\QCoh(Y))$, and then we can descend this adjunction down to an adjunction between two t-exact functors between the \textit{triangulated} $1$-categories $\rmD(\QCoh(X))$ and $\rmD(\QCoh(Y))$, which are the same as the homotopy categories of the two stable $(\infty, 1)$-categories mentioned above. However, since we would like to be able to perform explicit computations of sheaf cohomologies, simply knowing that there is a well-defined t-exact adjunction:
-                $$Rf_*: \rmD(\QCoh(X)) \leftrightarrows \rmD(\QCoh(Y)): Lf^*$$
-            is not good enough. For instance, we would like to be able to 
-            \begin{convention}
-                Let $f: X \to Y$ be a morphism of schemes. For any $i \in \N$ and any $\scrM \in \Ob(\QCoh(X))$, let us write:
-                    $$R^if_*\scrM := \Ext^i_{\scrO_Y}(f_*\scrO_X, f_*\scrM)$$
-                wherein it is understood that some injective resolution of $f_*\scrM$ has been chosen (and by Gabber's Theorem, such an injective resolution can always be chosen).
-            \end{convention}
-            \begin{lemma}[Injective quasi-coherent modules over locally Noetherian schemes are flasque] \label{lemma: injective_quasi_coherent_modules_over_locally_noetherian_schemes_are_flasque}
-                Suppose that $X$ is a scheme and that $\scrI$ is an injective object of $\QCoh(X)$. Then $\scrI$ will be flasque. 
-            \end{lemma}
-            \begin{theorem}[Serre's Affineness Criterion (absolute version)] \label{theorem: absolute_serre_affineness_criterion}
-                If $X$ is a qcqs scheme
+                    Finally, we require that with respect to any $(f: X \to Y) \in \Mor(\C)$, $\Shv(X)$ becomes a module over the closed symmetric monoidal category $\Shv(Y)$ in the following way.  
+                \end{itemize}
+            \end{definition}
+            \begin{example}
+                Take $\C$ to be the $1$-category $\Sch_{/S}$ of schemes (viewed as a trivial $(\infty, 1)$-category) - or even the $(\infty, 1)$-category of derived schemes - over a fixed base scheme $S$. Next, consider $E$ to either be the class of open immersions or of proper morphisms; we shall write $E_{\open}$ and $E_{\proper}$ to denote these classes, respectively.
+
+                Consider firstly:
+                    $$\QCoh^*: \Sch_{/S}^{\op} \to (\infty, 1)\-\Cat_2$$
+                to be the $(\infty, 2)$-functor as in proposition \ref{prop: qcoh_functoriality}, sending $S$-schemes $X$ to the categories of quasi-coherent $\scrO_X$-modules and sending morphisms of $S$-schemes:
+                    $$f: X \to Y$$
+                to (t-exact) left-derived $*$-pullbacks:
+                    $$Lf^*: \rmD(\QCoh(Y)) \to \rmD(\QCoh(X))$$
+                between the derived categories of $\scrO_Y, \scrO_X$-modules with quasi-coherent cohomologies, viewed as stable $(\infty, 1)$-categories; the heart of the standartd t-structures on these categories are nothing but the abelian categories $\QCoh(Y)$ and $\QCoh(X)$. 
+            \end{example}
+
+        \subsection{Functoriality}
+            Pushing forward along proper morphisms is rather special. 
+            \begin{theorem}[Proper adjunction] \label{theorem: proper_adjunction}
+                
             \end{theorem}
                 \begin{proof}
                     
                 \end{proof}
-            \begin{theorem}[Serre's Affineness Criterion (relative version)] \label{theorem: theorem: relative_serre_affineness_criterion}
+
+            The following result is classically known as the \say{extension propery} of quasi-coherent modules (from open subschemes). 
+            \begin{theorem}[Open adjunction] \label{theorem: open_adjunction}
                 
             \end{theorem}
+                \begin{proof}
+                    
+                \end{proof}
 
-        It is also important to know how quasi-coherent modules - as sheaves ought to - globalise, in the sense of how they extend results proven on an open subscheme to the entire scheme.
+            Finally, let us perform some actual computations in order to yield some 
 
-        \subsection{Base-changing cohomology: first glimpses of a six-functor formalism}
+        \subsection{Base-change}
 
-    \section{Duality theorems}
-        \subsection{Serre Duality}
+        \subsection{Duality}
 
-        \subsection{Verdier Duality}
+        \subsection{Tensor structures}
 
-    \section{Geometry }
+    \section{Some applications}
         \subsection{The Riemann-Roch-Hirzebruch-Grothendieck Theorem}
     
         \subsection{The Theorem of Formal Functions}
