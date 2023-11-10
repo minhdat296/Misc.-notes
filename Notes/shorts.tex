@@ -1,0 +1,122 @@
+\input{article preambles}
+
+\setcounter{section}{-1}
+
+\input{commands}
+
+\begin{document}
+
+    \title{Short notes}
+    
+    \author{Dat Minh Ha}
+    \maketitle
+    
+    \begin{abstract}
+        
+    \end{abstract}
+    
+    {
+      \hypersetup{} 
+      %\dominitoc
+      \tableofcontents %sort sections alphabetically
+    }
+
+    \section{Introduction}
+        Short unsorted notes.
+
+    \section{Projective spaces}
+        \subsection{Projective spaces as moduli spaces}
+            \begin{convention}
+                If $S$ is a scheme and $\tau$ is a topology on the category of schemes, then write $S_{\tau}$ for the (small) $\tau$-site of $S$-schemes.
+            \end{convention}
+        
+            In algebraic geometry, nothing should be defined in terms of charts, but rather always in terms of functors of points because ultimately, we care about points valued in some ring for the sake of finding solutions of systems of polynomials equations; charts should always be computed from functors of points somehow. The topologies on the category of schemes are also horrendous from a point-set perspective, so we'd rather not have to look at them too directly.
+            
+            A particularly grave offender of this principle are the projective spaces $\P^n_S$ (with $n$ even being possibly infinite) over some fixed base scheme $S$. These are inevitably always given in terms of the $\Proj$-construction, which is ultimately a construction of locally ringed spaces in terms of Zariski charts; this locally ringed space would then need to be shown to be a scheme, adding to our despair. Sometimes one might also see the definition:
+                $$\P^n_S := \A^{n + 1}_S/(\G_m)_S$$
+            but quotients are rather hard to deal with in algebraic geometry, as the category of schemes does not admit all colimits (not even finite ones). How can we rectify this problem then ? Funnily enough, we can go back to the very basics, and remind ourselves that classically, i.e. when $S := \Spec k$ for some algebraically closed field $k$, the set of $k$-points of the projective space $\P^n_k$ is nothing but the set of all lines in the vector space $k^{\oplus (n + 1)}$. While we might be tempted to view these points as $1$-dimensional subspaces of $k^{\oplus (n + 1)}$, it is actually beneficial to view them as $1$-dimensional quotients instead. Ultimately, we do this because it makes it possible for us to say that the functor:
+                $$\P^n_k: (\Spec k)_{\Zar}^{\aff, \op} \to \Sets$$
+                $$\Spec A \mapsto \{ \text{locally free rank-$1$ quotients of $A^{\oplus (n + 1)}$} \}$$
+            satisfies descent; this is a technical issue, mostly to do with the fact that tensor products interact better with quotients than submodules.
+    
+            More generally, given any locally free $\scrO_S$-module $\scrE$, we can form the symmetric algebra $\Sym_{\scrO_S}(\scrE)$ via the left-adjoint to the forgetful functor:
+                $$\Comm\Alg(\QCoh(S)) \to \QCoh(S)$$
+            and then take its relative $\Spec$ to obtain an $S$-scheme:
+                $$\V(\scrE) := \Spec_S( \Sym_{\scrO_S}(\E) )$$
+            We then have:
+            \begin{definition}[Projective spaces from locally free modules]
+                Let $S$ be a scheme and $\scrE$ be a locally free $\scrO_S$-module. Then, the \textbf{projective space} constructed from $\scrE$ (sometimes called a \textbf{projective space bundle}) will be the functor:
+                    $$\P(\scrE): S_{\Zar}^{\op} \to \Sets$$
+                    $$(f: T \to S) \mapsto \{ \text{locally free rank-$1$ quotients of $f^* \scrE$} \}$$
+                When $\scrE \cong \scrO_S^{\oplus (n + 1)}$, we will instead write:
+                    $$\P^n_S := \P(\scrO_S^{\oplus (n + 1)})$$
+            \end{definition}
+            It is not hard to show that this satisfies Zariski descent. Also, for the definition to make sense, recall that:
+            \begin{itemize}
+                \item $*$-pullbacks of locally free modules are also locally free\footnote{This is what allows us to show that $\P(\scrE)$ satisfies Zariski descent.}, and
+                \item any quotient of a locally free module is locally free.
+            \end{itemize}
+    
+            \begin{example}
+                In fact, $\P(\scrE)$ satisfies \'etale descent, which implies that when $S \cong \Spec k$ for $k$ being some field (which forces $\scrE \cong \scrO_S^{\oplus (n + 1)}$ for some $n$ possibly infinite), in which case we have that:
+                    $$S_{\et} \cong \{ \text{finite separable field extensions $k'/k$} \}$$
+                which makes it possible to picture $\P^n_k(k)$ as the following $\Gal(k^{\sep}/k)$-set:
+                    $$\P^n_k(k) \cong \{ \text{ $1$-dimensional quotients of $(k^{\sep})^{\oplus (n + 1)}$ } \}$$
+                If $k$ is algebraically closed (or separably closed and of characteristic $0$), then any Galois action will be trivial, and we recover the classical definition of projective $n$-spaces over an algebraically closed field (cf. \cite[Chapter 1]{hartshorne}).
+            \end{example}
+            \begin{example}
+                The Zariski version of the previous example requires taking $S \cong \Spec A$ for some local ring $A$ (e.g. $A \cong k[\![t]\!]$ for $k$ being a field). Recall also that any locally free rank-$1$ module over a local ring is trivially free and of rank $1$.
+                
+                If $A$ is a local domain with fraction field $K := \Frac A$ then we will also have that:
+                    $$\P^n_A(A) \cong \P^n_K(K)$$
+                as $\Gal(K^{\alg}/K)$-sets\footnote{Keyword: \textbf{concretely invertible modules}.}.
+            \end{example}
+    
+            Now, what about a Zariski covering for $\P(\scrE)$, i.e. how is the definition above equivalent to the usual one via $\Proj$ ? Let us first note that $\Sym_{\scrO_S}(\scrE)$ is $\N$-graded, and when $\scrE$ is locally free, the existence of said grading implies that there is an $\N$-graded $\scrO_{S, s}$-algebra isomorphism\footnote{To prove this, use the universal property of $\scrO_{S, s}[x_1, ..., x_{n + 1}]$ as an $\N$-graded commutative $\scrO_{S, s}$-algebra.}:
+                $$(\Sym_{\scrO_S}(\scrE))_s \cong \Sym_{\scrO_{S, s}}(\scrE_s) \xrightarrow[]{\cong} \scrO_{S, s}[x_1, ..., x_{n + 1}]$$
+            (say, $\rank_{\scrO_S} \scrE := n(s) + 1$ for some $n(s)$ possibly infinite and depending on the point $s \in |S|$). When $\scrE$ is of some constant finite rank $n$ (i.e. $\scrE$ is a rank-$n$ vector bundle over $S$) there are thus $n + 1$ natural coordinate projections maps:
+                $$\Sym_{\scrO_S}(\scrE))_s \to \scrO_{S, s}\left[\frac{x_1}{x_i}, ..., ..., \frac{x_{n + 1}}{x_i}\right] \cong \scrO_{S, s}[x_1, ..., \not{x_i}, ..., x_{n + 1}] =: A_i, 1 \leq i, j \leq n + 1$$
+                $$x_j \mapsto \frac{x_j}{x_i}$$
+            which can be easily seen to be localisations; these projection maps thus induce $n + 1$ open immersions:
+                $$U_i := \Spec A_i \cong \A^n_S \hookrightarrow \P(\scrE)$$
+            The affine open subschemes $U_i$ intersect each other at:
+                $$U_{ij} \cong \Spec_S ( A_i \tensor_{\scrO_S} A_j ) \cong \Spec_S A_i\left[\frac{1}{x_j}\right]$$
+            One then has that:
+                $$\P(\scrE) \cong \indlim\{U_{ij} \to U_i\}_{1 \leq i \not = j \leq n + 1}$$
+            \begin{example}
+                Let $k$ be a field. Then $\P^1_k$ will be the following pushout in $\Sch_{/\Spec k}$ (this statement actually does not depend on us assuming that $k$ is a field):
+                    $$
+                        \begin{tikzcd}
+                    	{\Spec k\left[ \left( \frac{x_1}{x_2} \right)^{\pm 1} \right]} & {\Spec k[x_1]} \\
+                    	{\Spec k[x_2]} & {\P^1_k}
+                    	\arrow[from=1-1, to=2-1]
+                    	\arrow[from=1-1, to=1-2]
+                    	\arrow[from=1-2, to=2-2]
+                    	\arrow[from=2-1, to=2-2]
+                    	\arrow["\lrcorner"{anchor=center, pos=0.125, rotate=180}, draw=none, from=2-2, to=1-1]
+                        \end{tikzcd}
+                    $$
+                but simultaneously (this statement does need $k$ to be a field), it classifies lines in $k^{\oplus 2}$ up to $\Gal(k^{\sep}/k)$-conjugates. The maps $\Spec k[x_j] \to \P^1_k$ are given by:
+                    $$x_j \mapsto \frac{x_j}{x_i}, 1 \leq i \not = j \leq 2$$
+            \end{example}
+    
+        \subsection{Cohomology of projective spaces}
+            \begin{definition}[Ample invertible modules] \label{def: ample_invertible_modules}
+                Let $S$ be a base scheme and $\pi: X \to S$ be a quasi-compact morphism of schemes. An invertible $\scrO_X$-module $\scrL$ is then said to be \textbf{(relatively) ample} if and only if:
+                    $$\exists N(\scrL) \in \N: n \geq N(\scrL) \implies ( \forall i > 0: R^i\pi_*\scrL^{\tensor r} \cong 0 )$$
+                The number $N(\scrL)$ is the \textbf{amplitude} of $\scrL$.
+            \end{definition}
+        
+            Fix a finite locally free $\scrO_S$-module $\scrE$ of constant rank $n$ and choose for $\P(\scrE)$ the usual Zariski covering by $n + 1$ copies of $\A^n_S$. 
+            \begin{lemma}
+                The structure sheaf of $\scrO_{\A^n_S}$ is ample. 
+            \end{lemma}
+
+            \todo[inline]{Not done.}
+
+    
+    
+    \addcontentsline{toc}{section}{References}
+    \printbibliography
+
+\end{document}
