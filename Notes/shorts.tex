@@ -114,7 +114,35 @@
 
             \todo[inline]{Not done.}
 
-    
+    \section{Classical Beilinson-Bernstein localisation}
+        Let $\g$ be a finite-dimensional simple Lie algebra over an algebraically closed field $k$ of characteristic $0$, and denote by $\calO$ the usual BGG category. Recall that this category is interesting because its various homological properties, such as being Artinian, having enough projectives, being compactly generated (particular by Verma modules via finite colimits), etc. 
+
+        It is known that $\calO$ is semi-simple, particularly in the following manner:
+            $$\calO \cong \bigoplus_{\chi \in \Spec \rmZ(\g)} \calO_{\chi}$$
+        wherein $\calO_{\chi}$ is the full subcategory of $\calO$ (so-called \say{block}) spanned by those objects on which the centre $\rmZ(\g)$ of the universal enveloping algebra $\rmU(\g)$ acts via the character:
+            $$\chi: \rmZ(\g) \to k$$
+        (corresponding to points of $\Spec \rmZ(\g)$, since $k$ is algebraically closed; this is due to Hilbert's \textit{Nullstellensatz}).
+        
+        If $X$ is a smooth $k$-scheme with a group $k$-scheme $G$ (say, with Lie algebra $\g$; generic $\g$ for a moment) acting on it, then there will be an induced Lie algebra homomorphism:
+            $$\g \to \Gamma_{\scrD_X\mod}(X, \Theta_X)$$
+        wherein $\Theta_X$ denotes the tangent sheaf of $X$. Using PBW, this upgrades to an associative $k$-algebra homomorphism:
+            $$\rmU(\g) \to \Gamma_{\scrD_X\mod}(X, \scrD_X)$$
+        wherein $\scrD_X$ denotes the sheaf of differential operators on $X$. From this, we infer that should $\scrM$ be a left-$\scrD_X$-module then its global section:
+            $$\Gamma_{\scrD_X\mod}(X, \scrM)$$
+        will carry a natural $\g$-module\footnote{... or to be less abusive with terminologies, left-$\rmU(\g)$-module.} structure, and we thus obtain a functor:
+            $$\Gamma_{\scrD_X\mod}(X, -): \scrD_X\mod \to \g\mod$$
+        This gives a crude link between geometry and representation theory, in the sense that there is some kind of a relationship between sheaves on $X$ and $\g$-modules. In order to obtain an inverse relationship, let us first see how we can go from $\g$-modules to $\scrD_X$-modules via some procedure of \say{extension of scalars}: the obvious thing to try is:
+            $$P_X: \g\mod \to \scrD_X\mod$$
+            $$M \mapsto \scrD_X \tensor_{\underline{\rmU(\g)}} \underline{M}$$
+        (with $\underline{(-)}$ denoting constant sheaves), seeing how:
+            $$\Gamma_{\scrD_X\mod}(X, -) \cong \Hom_{\scrD_X}(\scrD_X, -)$$
+        by definition. The goal now is to somehow realise the vision that not only should we have an adjunction:
+            $$P_X \ladjoint \Gamma_{\scrD_X\mod}(X, -)$$
+        but also to restrict both the domain and codomains of these functors down to categories on which this adjunction becomes an adjoint equivalence.
+
+        Now, back to representation theory. Let $G$ be the simple algebraic group $k$-scheme associated to the finite-dimensional simple Lie algebra $\g$ from the beginning, and choose once and for all a (positive) Borel subgroup $B^+ < G$. $B^+$ acts naturally by right-multiplication on $G$, so we can consider the quotient stack:
+            $$[G/B^+]$$
+        
     
     \addcontentsline{toc}{section}{References}
     \printbibliography

@@ -338,6 +338,12 @@
     \IfValueT{#2}{^{#2}}
   }%
 }
+\NewDocumentCommand{\brevetensor}{e{_^}}{%
+  \mathbin{\mathop{\breve{\otimes}}\displaylimits
+    \IfValueT{#1}{_{#1}}
+    \IfValueT{#2}{^{#2}}
+  }%
+}
 \NewDocumentCommand{\semidirect}{e{_^}}{%
   \mathbin{\mathop{\rtimes}\displaylimits
     \IfValueT{#1}{_{#1}}
@@ -396,6 +402,7 @@
 \newcommand{\bfV}{\mathbf{V}}
 \newcommand{\C}{\mathcal{C}}
 \newcommand{\D}{\mathcal{D}}
+\newcommand{\scrD}{\mathscr{D}}
 \newcommand{\T}{\mathscr{T}} %Tate modules
 \newcommand{\calM}{\mathcal{M}}
 \newcommand{\calN}{\mathcal{N}}
@@ -440,6 +447,7 @@
 \newcommand{\frakE}{\mathfrak{E}}
 \newcommand{\frakF}{\mathfrak{F}}
 \newcommand{\g}{\mathfrak{g}}
+\newcommand{\frakl}{\mathfrak{l}}
 \newcommand{\h}{\mathfrak{h}}
 \renewcommand{\k}{\mathfrak{k}}
 \newcommand{\z}{\mathfrak{z}}
