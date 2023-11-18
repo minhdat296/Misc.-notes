@@ -23,8 +23,8 @@
 
     \section{Introduction}
 
-    \section{A six-functor formalism for quasi-coherent sheaves}
-        \subsection{The category of quasi-coherent sheaves}
+    \section{A six-functor formalism for quasi-coherent modules on a scheme}
+        \subsection{The category of quasi-coherent modules on a scheme; compact generation}
             Suppose that $X$ is a scheme - say, with a fixed Zariski cover:
                 $$\{ f_i: \Spec A_i \to X \}_{i \in I}$$
             and that we are interested in somehow \say{patching} together the categories $A_i\mod$\footnote{... viewed as sheaves of modules on the affine schemes $\Spec A_i$ - we will explain this point of view in more details shortly.} into a global category of sheaves of modules on $X$. A \textit{na\"ive} guess might be that one should just consider the category $\scrO_X\mod$ and be done with it: after all, this is a rather good category for homological algebraic purposes, being abelian and having enough injectives.
@@ -192,7 +192,7 @@
                 between the derived categories of $\scrO_Y, \scrO_X$-modules with quasi-coherent cohomologies, viewed as stable $(\infty, 1)$-categories; the heart of the standartd t-structures on these categories are nothing but the abelian categories $\QCoh(Y)$ and $\QCoh(X)$. 
             \end{example}
 
-        \subsection{Functoriality}
+        \subsection{Functorial characterisations of properties of morphisms of schemes; the pull-push yoga for quasi-coherent modules}
             \begin{convention}
                 We write $(\infty, 1)-\Stab\Cat_r$ to mean the $(\infty, r)$-category ($r = 1, 2$) of stable $(\infty, 1)$-categories, $(\infty, 1)$-functors between them, and natural transformations between said functors when $r = 2$.
             \end{convention}
@@ -302,7 +302,7 @@
                     
                 \end{proof}
 
-        \subsection{Base-change}
+        \subsection{Cohomological base-change}
 
         \subsection{Duality}
 
@@ -345,25 +345,164 @@
                 
             \end{theorem}
 
-    \section{Oka-Cartan Vanishing Theorems for complex analytic spaces}
-        \begin{remark}[Proof sketch]
-            We will only be dealing with topological $\bbC$-vector spaces that are \textit{locally convex}.
+        \subsection{The archimedean GAGA principle of Serre}
+            \begin{convention}
+                In this subsection, we work exclusively over $\bbC$. 
+            \end{convention}
+
+            \begin{lemma}[Complex-analytic completions of finite-type $\bbC$-algebras] \label{lemma: complex_analytic_completions_of_finite_type_C_algebras}
+                There is an \textbf{analytification functor}:
+                    $$(-)^{\an}: \bbC\-\Comm\Alg^{\ft} \to \bbC\-\Ban\Comm\Alg^{\locconvex}$$
+                from the category of finite-type $\bbC$-algebras to that of locally convex Banach $\bbC$-algebras, sending objects $A$ of the former to objects $A^{\an}$ of the former, given as the complex-analytic completion of $A$. Furthermore, this functor is compatible with base-change in the sense that, if:
+                    $$\phi: A \to B$$
+                is a homomorphism of finite-type $\bbC$-algebras then:
+                    $$B^{\an} \cong (A \tensor_{A, \phi} B)^{\an} \cong A^{\an} \hattensor_{A, \phi} B$$
+            \end{lemma}
+                \begin{proof}
+                    
+                \end{proof}
+            \begin{remark}[Associated complex-analytic topological spaces] \label{remark: associated_complex_analytic_topological_spaces}
+                Let $X$ be a finite-type $\bbC$-scheme. Since $\bbC$ is algebraically closed, closed points of $X$ are in bijection with $X(\bbC)$ by Hilbert's \textit{Nullstellensatz}. At the same time, $X(\bbC)$ - by definition - consists of all solutions to the system of polynomials in $\bbC^n$ cut out by $X$ (say, $\dim X \leq n$), so $X(\bbC)$ naturally inherits the subspace topology from the complex-analytic space $\bbC^n$. In this sense, we have that:
+                    $$X^{\an} := X(\bbC)$$
+                is the natural complex-analytic topological space associated to the underlying topological space of $X$.
+
+                The identification of closed points of $X$ gives rise to a natural continuous embedding:
+                    $$i_X: X^{\an} \to X$$
+            \end{remark}
+            In order to obtain complex-analytic locally ringed spaces associated to locally finite-type $\bbC$-schemes, we need also to somehow complex-analytically complete the structure sheaves of these schemes. 
+            \begin{proposition}[Complex-analytic completions of locally finite-type $\bbC$-schemes] \label{prop: complex_analytic_completions_of_locally_finite_type_C_schemes}
+                There is an \textbf{analytification functor}:
+                    $$(-)^{\an}: \Sch_{/\Spec \bbC}^{\lft} \to \An\Spc$$
+                    $$(X, \scrO_X) \mapsto (X^{\an}, \scrO_{X^{\an}})$$
+                from the category of locally finite-type $\bbC$-schemes to that of complex-analytic spaces, determined by:
+                    $$\scrO_X^{\an} := (i_X^*\scrO_X)^{\an}$$
+                with notations as in remark \ref{remark: associated_complex_analytic_topological_spaces}. Furthermore, if:
+                    $$f: X \to Y$$
+                is a morphism of locally finite-type $\bbC$-schemes then we will obtain a pullback square:
+                    $$
+                        \begin{tikzcd}
+                    	{X^{\an}} & {Y^{\an}} \\
+                    	X & Y
+                    	\arrow["{f^{\an}}", from=1-1, to=1-2]
+                    	\arrow["f", from=2-1, to=2-2]
+                    	\arrow["{i_X}"', from=1-1, to=2-1]
+                    	\arrow["{i_Y}", from=1-2, to=2-2]
+                    	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+                        \end{tikzcd}
+                    $$
+            \end{proposition}
+                \begin{proof}
+                    
+                \end{proof}
+            \begin{lemma}[(Faithful) flatness of complex-analytifications] \label{lemma: flatness_of_complex_analytifications}
+                Let $A$ be an arbitrary finite-type $\bbC$-algebra. Then $A^{\an}$ will be flat over $A$. 
+            \end{lemma}
+                \begin{proof}
+                    
+                \end{proof}
+            \begin{corollary} \label{coro: flatness_of_complex_analytifications}
+                For any locally finite-type $\bbC$-scheme $X$, the pullback functor:
+                    $$i_X^*: \scrO_X\mod \to \scrO_{X^{\an}}\mod$$
+                is exact. 
+            \end{corollary}
             
-            Denote by $\bbC\-\Vect^{\locconvex}$ the category of such vector spaces and continuous (equivalently, bounded) $\bbC$-linear maps between them. This category admits a particular quasi-abelian full subcategory: the category $\bbC\Ban^{\locconvex}$ of locally convex $\bbC$-Banach spaces, wherein kernels and monomorphisms actually coincide, but there are epimorphisms which are not cokernels, which is uiltimately a density issue. Unlike the larger category of \textit{all} Banach spaces (without the local convexity assumption), $\bbC\Ban^{\locconvex}$ is not (small-)complete; in fact, its (small) pro-completion is nothing but $\bbC\-\Vect^{\locconvex}$. Because limits commute, the category $\bbC\-\Vect^{\locconvex}$ therefore also has all kernels and monomorphisms which also coincide.
-    
-            Let $X$ be a Stein manifold over $\bbC^{\an}$ (the vector space $\bbC$ viewed as a complex manifold). It is known that $X$ can be written as a countable union of so-called Cartan-Weil domains. If we were to view $X$ as a locally ringed space over $\bbC^{\an}$, then the more appropriate way to phrase this would be that $X$ can always be written as a countable filtered colimit of a diagram of open immersions of such domains into $X$, say:
-                $$X \cong \indlim_{n \in \N} X_n$$
-            wherein $X_n$ are Cartan-Weil domains equipped with open immersions $j_n: X_n \hookrightarrow X$. An important fact is that the filtered colimit $X$ does not depend on how one chooses the open immersions $j_n: X_n \hookrightarrow X$. Let us also recall that any open immersion of arbitrary ringed spaces:
-                $$j: U \hookrightarrow X$$
-            induces an isomorphism of $\scrO_U$-modules:
-                $$j^{\flat}: j^*\scrO_X \xrightarrow[]{\cong} \scrO_U$$
-            Anyway, the fact that one can write $X \cong \indlim_{n \in \N} X_n$ as above implies that any $\scrO_X$-module is nothing but the cofiltered limit of a diagram of $\scrO_X$-modules 
+            \begin{remark}
+                Consider a morphism:
+                    $$f: X \to Y$$
+                between schemes locally of finite type over $\Spec \bbC$. This gives rise to a pullback square of locally ringed spaces:
+                    $$
+                        \begin{tikzcd}
+                    	{X^{\an}} & {Y^{\an}} \\
+                    	X & Y
+                    	\arrow["{f^{\an}}", from=1-1, to=1-2]
+                    	\arrow["f", from=2-1, to=2-2]
+                    	\arrow["{i_X}"', from=1-1, to=2-1]
+                    	\arrow["{i_Y}", from=1-2, to=2-2]
+                    	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+                        \end{tikzcd}
+                    $$
+                as stated in proposition \ref{prop: complex_analytic_completions_of_locally_finite_type_C_schemes}, which in turn gives rise to the following cohomological base-change map/spectral sequence:
+                    $$Li_Y^* \circ R f_* \Rightarrow R f^{\an}_* \circ Li_X^*$$
+                but since the functors $i_X^*, i_Y^*$ are exact \textit{a priori} (cf. corollary \ref{coro: flatness_of_complex_analytifications}), this reduces down to a cohomological comparison map as follows:
+                    $$i_Y^* \circ R f_* \Rightarrow R f^{\an}_* \circ i_X^*$$
+                The existence of such a natural transformation allows us to formulate a version of proper base-change in this context, which yields us cohomological comparison isomorphisms that interpolate between the Zariski and complex-analytic topologies on locally finite-type $\bbC$-schemes and their associated analytic spaces respectively (see corollary \ref{coro: GAGA_cohomological_comparison}). 
+            \end{remark}
+            \begin{theorem}[Relative analytification of sheaves of modules] \label{theorem: relative_analytification_of_sheaves_of_modules}
+                Suppose that:
+                    $$f: X \to Y$$
+                is a morphism between schemes locally of finite type over $\Spec \bbC$. If $f$ is proper, then the canonical natural transformation:
+                    $$i_Y^* \circ R f_* \Rightarrow R f^{\an}_* \circ i_X^*$$
+                will be a natural isomorphism of t-exact functors $\rmD^+(\scrO_X\mod) \to \rmD^+(\scrO_{Y^{\an}}\mod)$.
+            \end{theorem}
+                \begin{proof}
+                    This is a result of proper base-change for general ringed spaces (see \cite[\href{https://stacks.math.columbia.edu/tag/09V4}{Tag 09V4}]{stacks} for now). 
+                \end{proof}
+            \begin{corollary}[GAGA cohomological comparison] \label{coro: GAGA_cohomological_comparison}
+                When $Y \cong \Spec \bbC$ (and hence $i_Y^*$ is just the identity functor), there are isomorphisms of $\bbC$-vector spaces:
+                    $$H^{\bullet}(X, \scrM) \cong H^{\bullet}(X^{\an}, i_X^*\scrM)$$
+                In turn, this implies that the pullback functor:
+                    $$i_X^*: \scrO_X\mod \to \scrO_{X^{\an}}\mod$$
+                is fully faithful on top of being exact, and since both of its domain and codomain are abelian categories, this implies in particular that short exact sequences are reflected. 
+            \end{corollary}
+
+            We shall now see that when we restrict our attention to coherent modules only, the module analytification functor $i_X^*$ (for any locally finite-type $\bbC$-scheme $X$) will furthermore be essentially surjective, thus giving rise to an adjoint equivalence:
+                $$i_X^*: \Coh(X) \leftrightarrows \Coh(X^{\an}): i_{X *}$$
+            between the categories of coherent modules on $X$ and on $X^{\an}$, with the latter being given as the category of coherent modules on the ringed space $(X^{\an}, \scrO_{X^{\an}})$ (cf. \cite[\href{https://stacks.math.columbia.edu/tag/01BU}{Tag 01BU}]{stacks}).
+            \begin{remark}[A few reminders on coherent modules on ringed spaces]
+                Again, we refer the reader to \cite[\href{https://stacks.math.columbia.edu/tag/01BU}{Tag 01BU}]{stacks} for a more detailed discussion, but the following list of properties is important enough for our purposes to warrant at least a mention. Suppose for a moment that $(X, \scrO_X)$ is a general ringed space and write $\Coh(X)$ to denote the category of coherent $\scrO_X$-modules.
+                \begin{itemize}
+                    \item $\Coh(X)$ is an abelian subcategory of $\scrO_X\mod$, and this is somewhat interesting, seeing how $\QCoh(X)$ is not generally even abelian for ringed spaces, unlike for schemes where quasi-coherent modules are extremely well-behaved (cf. theorem \ref{theorem: qcoh_homological_properties})
+                    \item In fact, $\Coh(X)$ is closed under all extensions/short exacct sequences, and thus is a Serre subcategory of $\scrO_X\mod$ by definition.
+                    \item $\Coh(X)$ has enough injectives, and said injective objects are flasque. 
+                    \item An $\scrO_X$-module is coherent if and only if it is finitely presented.
+                    \item If:
+                        $$f: X \to Y$$
+                    is a morphism between general ringed spaces and if $\scrN$ is a coherent $\scrO_Y$-module, then we will not usually be guaranteed that the pullback $f^*\scrN$ is coherent over $\scrO_X$. When $f$ is proper, though, and if $\scrM$ is some coherent $\scrO_X$-module, then the pushforward $f_*\scrM$ will in fact be coherent (cf. lemma \ref{lemma: pushforwards_of_analytic_coherent_modules}), and this is one of the reasons why having the cohomological base-change formula as in theorem \ref{theorem: relative_analytification_of_sheaves_of_modules} is important for our purposes!
+
+                    That said, there is a well-defined pullback functor:
+                        $$f^*: \scrO_Y\mod^{\fin} \to \scrO_X\mod^{\fin}$$
+                    between the categories of finitely generated $\scrO_Y$- and $\scrO_X$-modules. The issue mentioned above stems from the fact that the pullback of a finitely presented module is only finitely generated in general.
+                \end{itemize}
                 
-            It is also known that the functor of global sections\footnote{One needs to check here that if $X$ is a Cartan-Weil domain then $\Gamma(X, \scrO_X)$ will be locally convex and complete as a topological $\bbC$-vector space, i.e. a locally convex Banach space by definition. In fact, this is the point of considering Cartan-Weil domains (and hence Stein manifolds) in the first place.}:
-                $$\Gamma(X, -): \scrO_X\mod \to \bbC\Ban^{\locconvex}$$
-            is left-exact and therefore admits a right-derived functor\footnote{Here, we need to know also that $\scrO_X\mod$ and $\bbC\Ban^{\locconvex}$ both have enough injectives.}:
-                $$R\Gamma(X, -): \rmD^+(\scrO_X\mod) \to \rmD^+(\bbC\Ban^{\locconvex})$$
-        \end{remark}
+                These properties will from now on be used without explicit mention.
+            \end{remark}
+
+            Before we establish a proper base change theorem for analytic coherent modules, let us first make sure that proper pushforwards of analytic coherent modules remain coherent. 
+            \begin{lemma}[Pushforwards of analytic coherent modules] \label{lemma: pushforwards_of_analytic_coherent_modules}
+                Suppose that:
+                    $$f: \calX \to \calY$$
+                is a morphism of complex-analytic spaces. If $f$ is proper then for any coherent $\scrO_{\calX}$-module $\scrM$, the pushforward $f_*\scrM$ will be a coherent $\scrO_{\calY}$-module. 
+            \end{lemma}
+                \begin{proof}
+                    
+                \end{proof}
+            \begin{lemma}[Derived $!$-pushforwards and pullbacks of analytic coherent modules] \label{lemma: derived_!_pushforwards_and_pullbacks_of_analytic_coherent_modules}
+                Suppose that:
+                    $$f: \calX \to \calY$$
+                is a morphism of complex-analytic spaces. If $f$ is proper then the t-exact functor functor:
+                    $$Rf^*: \Coh(\calX) \to \Coh(\calY)$$
+                (well-defined thanks to lemma \ref{lemma: pushforwards_of_analytic_coherent_modules}) will admit a right-adjoint:
+                    $$Rf^!: \Coh(\calY) \to \Coh(\calX)$$
+                In this case (i.e. when $f$ is proper), it is typical to write:
+                    $$Lf_! := Rf^*$$
+                and refer to the derived adjunction $( Lf_! \ladjoint Rf^! )$ as the pair of (derived) $!$-pushforward and $!$-pullback.
+            \end{lemma}
+                \begin{proof}
+                    
+                \end{proof}
+            \begin{remark}[\textit{D\'evissage}]
+                Suppose that:
+                    $$f: X \to Y$$
+                is a morphism between schemes locally of finite type over $\Spec \bbC$. One important reason to care about derived $!$-pushforwards as opposed to derived $*$-pushforwards along proper morphisms is that, as a left-adjoint, the functor:
+                    $$Lf^{\an}_!: \Coh(X^{\an}) \to \Coh(Y^{\an})$$
+                preserves colimits. 
+            \end{remark}
+            \begin{theorem}[Relative analytification of coherent modules] \label{theorem: relative_analytification_of_coherent_modules}
+                
+            \end{theorem}
+                \begin{proof}
+                    
+                \end{proof}
         
     \addcontentsline{toc}{section}{References}
     \printbibliography
