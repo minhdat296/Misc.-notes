@@ -114,38 +114,80 @@
 
             \todo[inline]{Not done.}
 
-    \section{Classical Beilinson-Bernstein localisation}
-        Let $\g$ be a finite-dimensional simple Lie algebra over an algebraically closed field $k$ of characteristic $0$, and denote by $\calO$ the usual BGG category. Recall that this category is interesting because its various homological properties, such as being Artinian, having enough projectives, being compactly generated (particular by Verma modules via finite colimits), etc. 
+    \section{Fusion categories and Kazhdan-Lusztig stuff}
+        \begin{convention}
+            Fix once and for all an algebraically closed base field $k$.
+        \end{convention}
+    
+        \subsection{Fusion categories}
+            \begin{definition}[Finite linear categories] \label{def: finite_linear_categories}
+                A $k$-linear\footnote{Hom sets are $k$-vector spaces.} abelian category is said to be \textbf{$k$-finite} if and only if:
+                \begin{enumerate}
+                    \item the hom vector spaces are all finite-dimensional over $k$,
+                    \item it is simultaneously Artinian and Noetherian (so that objects will have finite length),
+                    \item and there are only finitely many isomorphism classes of simple objects, each admitting a projective cover (i.e. an epimorphism from a projective object\footnote{This is weaker than having enough projectives.}).
+                \end{enumerate}
+            \end{definition}
+            \begin{example}
+                Let $\chara k = 0$ and $\g$ be a finite-dimensional simple Lie algebra over $k$. Let $\chi$ be a central character of $\g$ (i.e. a homomorphism of algebras from the centre $\rmU(\g)$ to $k$) and write $\Pi_{\chi}$ for the set of weights of $\g$ corresponding to the character $\chi$ via the Harish-Chandra Isomorphism. Denote by $\calO_{\chi}$ the category generated via finite colimits (finite direct sums and quotients) by the Verma modules $\standard_{\lambda}$ of highest-weights $\lambda \in \Pi_{\chi}$. This category $\calO_{\chi}$ is an instance of a $k$-finite abelian category.   
 
-        It is known that $\calO$ is semi-simple, particularly in the following manner:
-            $$\calO \cong \bigoplus_{\chi \in \Spec \rmZ(\g)} \calO_{\chi}$$
-        wherein $\calO_{\chi}$ is the full subcategory of $\calO$ (so-called \say{block}) spanned by those objects on which the centre $\rmZ(\g)$ of the universal enveloping algebra $\rmU(\g)$ acts via the character:
-            $$\chi: \rmZ(\g) \to k$$
-        (corresponding to points of $\Spec \rmZ(\g)$, since $k$ is algebraically closed; this is due to Hilbert's \textit{Nullstellensatz}).
-        
-        If $X$ is a smooth $k$-scheme then let us write:
-            $$\Dmod(X) := {}^l\scrD_X\mod$$
-        for the category of left-modules over the sheaf $\scrD_X$ of differential operators on $X$. If $X$ has a group $k$-scheme $G$ (say, with Lie algebra $\g$; generic $\g$ for a moment) acting on it, then there will be an induced Lie algebra homomorphism:
-            $$\g \to \Gamma_{\Dmod(X)}(X, \Theta_X)$$
-        wherein $\Theta_X$ denotes the tangent sheaf of $X$. Using PBW, this upgrades to an associative $k$-algebra homomorphism:
-            $$\rmU(\g) \to \Gamma_{\Dmod(X)}(X, \scrD_X)$$
-        wherein $\scrD_X$ denotes the sheaf of differential operators on $X$. From this, we infer that should $\scrM$ be a left-$\scrD_X$-module then its global section:
-            $$\Gamma_{\Dmod(X)}(X, \scrM)$$
-        will carry a natural $\g$-module\footnote{... or to be less abusive with terminologies, left-$\rmU(\g)$-module.} structure, and we thus obtain a functor:
-            $$\Gamma_{\Dmod(X)}(X, -): \Dmod(X) \to \g\mod$$
-        This gives a crude link between geometry and representation theory, in the sense that there is some kind of a relationship between sheaves on $X$ and $\g$-modules. In order to obtain an inverse relationship, let us first see how we can go from $\g$-modules to $\scrD_X$-modules via some procedure of \say{extension of scalars}: the obvious thing to try is:
-            $$P_X: \g\mod \to \Dmod(X)$$
-            $$M \mapsto \scrD_X \tensor_{\underline{\rmU(\g)}} \underline{M}$$
-        (with $\underline{(-)}$ denoting constant sheaves), seeing how:
-            $$\Gamma_{\Dmod(X)}(X, -) \cong \Hom_{\scrD_X}(\scrD_X, -)$$
-        by definition. The goal now is to somehow realise the vision that not only should we have an adjunction:
-            $$P_X \ladjoint \Gamma_{\Dmod(X)}(X, -)$$
-        but also to restrict both the domain and codomains of these functors down to categories on which this adjunction becomes an adjoint equivalence.
+                As a side note, the so-called category $\calO$ generated via finite colimits by all the Verma modules of $\g$ is semi-simple and decomposes as:
+                    $$\calO \cong \bigoplus_{\text{central characters $\chi: \rmZ(\g) \to k$}} \calO_{\chi}$$
+                However, since there are infinitely many central characters (or alternatively, infinitely many Verma modules, each correpsonding to a weight of $\g$), $\calO$ fails to be $k$-finite. 
+            \end{example}
+            \begin{remark}
+                A theorem of Deligne asserts that any $k$-finite category $\calO$ is $k$-linearly equivalent to some ${}^rA\mod^{\fd}$, the category of \textit{finite-dimensional} right-modules over some finite-dimensional $k$-algebra $A$. How does one obtain $A$ ? If we write $\{\simple_{\lambda}\}_{\lambda \in \Pi}$ for a (finite) set of representatives of the finitely many isomorphism classes of simple objects of $\calO$, and $P_{\lambda} \to \simple_{\lambda}$ for their projective covers, then:
+                    $$A \cong \End_{\calO}( \bigoplus_{\lambda \in \Pi} P_{\lambda} )$$
+                As such, another large class of examples of finite linear categories are nothing but categories of finite-dimensional right-modules (or equivalently, left-modules, thanks to finite-dimensionality) over finite-dimensional associative algebras (e.g. matrix algebras, finite group algebras, path algebras of finite quivers without loops, etc.).  
+            \end{remark}
 
-        Let $X$ be a smooth $k$-scheme and $G$ be a group $k$-scheme acting on it. If we write $\Dmod(X)^G$ for the category of $G$-equivariant left-$\scrD_X$-modules, then \textit{a priori} we will have that:
-            $$\Dmod([X/G]) \cong \Dmod(X)^G$$ 
+            Imposing semi-simplicity and then putting a monoidal structure onto a finite linear category yields us the notion of a fusion category:
+            \begin{definition}[Fusion categories] \label{def: fusion_categories}
+                A \textbf{$k$-fusion category} is a semi-simple $k$-finite rigid tensor category, which is to say that it is a $k$-finite abelian category $\calO$ with a $k$-bilinear monoidal structure $\tensor$ whose unit $\1$ satisfies:
+                    $$\End_{\calO}(\1) \cong k$$
+                and wherein every object $M$ has a unique-up-to-isomorphism dual $M^{\vee}$ with respect to $\tensor$, i.e.:
+                    $$M \tensor M^{\vee} \cong \1 \cong M^{\vee} \tensor M$$
+            \end{definition}
+            The following is a neat reconstruction-style theorem characterising fusion categories amongst monoidal categories. Note that often, the interesting examples fusion categories tend not to be monoidally rigid; recall that rigid monoidal categories are Tannaka-equivalent to categories of modules over Hopf algebras, not weak ones. 
+            \begin{theorem}[Victor Ostrik]
+                Every fusion category is Tannaka-equivalent\footnote{... which is to say that if $\calO$ is a fusion category and $Y$ is a weak Hopf algebra, and if there are $k$-linear monoidal functors $F: \calO \to k\mod, G: Y\mod \to k\mod$ (i.e. \say{fibre functors}) then there will be an equivalence $\calO \cong Y\mod$ compatible with these fibre functors; furthermore, we will have that $\End_{\Nat}(F) \cong Y$ as weak Hopf algebras.} to the category of modules over some weak Hopf $k$-algebra. 
+            \end{theorem}
+            However, the point in writing down the notion of fusion categories arguably had less to do with this reconstruction theorem, but rather with K-theory; in particular, this is why the semi-simplicity condition is needed. To explain this, let us firstly recall the notion of Grothendieck groups $K_0$.
+            \begin{definition}[Grothendieck groups] 
+                Let $\calA$ be an additive category. To such a category $\calA$, one can associate a so-called \textbf{Grothendieck group} $\K_0(\calA)$ which is generated by the \textit{isomorphism classes} of objects of $\calA$, modulo the relations:
+                    $$[M] = [M'] + [M'']$$
+                given for every short exact sequence $0 \to M' \to M \to M'' \to 0$ ($[-]$ denotes isomorphism classes) that exists in $\calA$; the group operation is given by direct sums and the unit is $[0]$. 
+            \end{definition}
+            \begin{example}
+                Direct sums are commutative, so Grothendieck groups are always abelian. 
+            \end{example}
+            \begin{example}
+                Let $D$ be a field or a local commutative ring. Then we will have that:
+                    $$\K_0(D\mod^{\ft}) \cong \Z$$
+                because the category $D\mod^{\ft}$ is generated via finite colimits (i.e. finite direct sums and quotients in this case) by a single isomorphism class of objects, namely that of $D$ itself, and hence $\K_0(D\mod^{\ft})$ will be free on $1$ generator as an abelian group, i.e. isomorphic to $\Z$.  
+            \end{example}
+            \begin{example}
+                Let $R$ be a PID and consider the abelian (hence additive) category $R\mod^{\ft}$ of finitely generated $R$-modules. The classification theorem for finitely generated modules over PIDs tells us that any finitely generated $R$-module $M$ decomposes into a finite direct sum of cyclic $R$-modules; more specifically:
+                    $$M \cong R^{\oplus \rank_R M} \oplus \Tor_R(M)$$
+                where:
+                    $$\Tor_R(M) \cong \bigoplus_{\p \in \Spec R} R/\p^{d(\p)}$$
+                for some finitely many non-zero $d(\p) \in \N$. From here, one can argue as in the previous example to see that:
+                    $$\K_0(R\mod^{\ft}) \cong \Z$$
+                as well.
+            \end{example}
+            \begin{remark}[Grothendieck rings of fusion categories are fusion rings]
+                If $\calO$ is a monoidal additive cateogry then one can check that $\K_0(\calO)$ now becomes a ring, on which multiplication is given by:
+                    $$[M] [N] := [M \tensor N]$$
+                In such a situation, one shall refer to $\K_0(\calO)$ as the \textbf{Grothendieck ring} of $\calA$.
+                
+                In the special case wherein $\calO$ is a fusion category, much more can be said about its Grothendieck ring. Firstly, by definition, fusion categories are semi-simple and contain finitely many isomorphism classes of simple objects, so firstly, $\K_0(\calO)$ is finitely generated as an abelian group, namely by those isomorphism classes of simple objects. Secondly, since fusion categories are rigid, one has that:
+                    $$[M] [M^{\vee}] = [M \tensor M^{\vee}] = [\1] = [M^{\vee} \tensor M] = [M^{\vee}] [M]$$
+                
+            \end{remark}
 
-        Now, back to representation theory. Let $G$ be the simple algebraic group $k$-scheme (recall also that algebraic groups over fields of characteristic $0$ are smooth \textit{a priori}) associated to the finite-dimensional simple Lie algebra $\g$ from the beginning, and choose once and for all a (positive) Borel subgroup $B^+ < G$. 
+        \subsection{A fusion rule for integrable modules for affine Kac-Moody algebras}
+
+        \subsection{The Kazhdan-Lusztig equivalences between affine Kac-Moody algebras and finite-type QUEs}
     
     \addcontentsline{toc}{section}{References}
     \printbibliography
