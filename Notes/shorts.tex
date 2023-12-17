@@ -129,28 +129,51 @@
                 \end{enumerate}
             \end{definition}
             \begin{example}
-                Let $\chara k = 0$ and $\g$ be a finite-dimensional simple Lie algebra over $k$. Let $\chi$ be a central character of $\g$ (i.e. a homomorphism of algebras from the centre $\rmU(\g)$ to $k$) and write $\Pi_{\chi}$ for the set of weights of $\g$ corresponding to the character $\chi$ via the Harish-Chandra Isomorphism. Denote by $\calO_{\chi}$ the category generated via finite colimits (finite direct sums and quotients) by the Verma modules $\standard_{\lambda}$ of highest-weights $\lambda \in \Pi_{\chi}$. This category $\calO_{\chi}$ is an instance of a $k$-finite abelian category.   
+                Let $\chara k = 0$ and $\g$ be a finite-dimensional simple Lie algebra over $k$. Let $\chi$ be a central character of $\g$ (i.e. a homomorphism of algebras from the centre $\rmU(\g)$ to $k$) and write $\Pi_{\chi}$ for the set of weights of $\g$ corresponding to the character $\chi$ via the Harish-Chandra Isomorphism. Denote by $\calO_{\chi}$ the category generated via finite colimits (finite direct sums and quotients) by the Verma modules $\standard_{\lambda}$ of highest-weights $\lambda \in \Pi_{\chi}$. By consider the full subcategory $\calO_{\chi}^{\integrable} \subset \calO_{\chi}$ consisting of objects that are finite-dimensional as $k$-vector spaces, i.e.:
+                    $$\calO_{\chi}^{\integrable} := \calO_{\chi} \cap \g\mod^{\fd}$$
+                one obtains an instance of a $k$-finite abelian category.
 
                 As a side note, the so-called category $\calO$ generated via finite colimits by all the Verma modules of $\g$ is semi-simple and decomposes as:
-                    $$\calO \cong \bigoplus_{\text{central characters $\chi: \rmZ(\g) \to k$}} \calO_{\chi}$$
+                    $$\calO \cong \bigoplus_{\chi \in \Spec \rmZ(\g)} \calO_{\chi}$$
                 However, since there are infinitely many central characters (or alternatively, infinitely many Verma modules, each correpsonding to a weight of $\g$), $\calO$ fails to be $k$-finite. 
             \end{example}
-            \begin{remark}
-                A theorem of Deligne asserts that any $k$-finite category $\calO$ is $k$-linearly equivalent to some ${}^rA\mod^{\fd}$, the category of \textit{finite-dimensional} right-modules over some finite-dimensional $k$-algebra $A$. How does one obtain $A$ ? If we write $\{\simple_{\lambda}\}_{\lambda \in \Pi}$ for a (finite) set of representatives of the finitely many isomorphism classes of simple objects of $\calO$, and $P_{\lambda} \to \simple_{\lambda}$ for their projective covers, then:
+            \begin{remark} \label{remark: deligne_theorem_on_finite_linear_categories}
+                A theorem of Deligne asserts that any $k$-finite category $\calO$ is \textit{$k$-linearly} equivalent to some $A\bimod^{\fd}$, the category of \textit{finite-dimensional} bimodules over some finite-dimensional $k$-algebra $A$. How does one obtain $A$ ? If we write $\{\simple_{\lambda}\}_{\lambda \in \Pi}$ for a (finite) set of representatives of the finitely many isomorphism classes of simple objects of $\calO$, and $P_{\lambda} \to \simple_{\lambda}$ for their projective covers, then:
                     $$A \cong \End_{\calO}( \bigoplus_{\lambda \in \Pi} P_{\lambda} )$$
                 As such, another large class of examples of finite linear categories are nothing but categories of finite-dimensional right-modules (or equivalently, left-modules, thanks to finite-dimensionality) over finite-dimensional associative algebras (e.g. matrix algebras, finite group algebras, path algebras of finite quivers without loops, etc.).  
+
+                If, furthermore, the $k$-finite category $\calO$ above is equipped with a monoidal structure, then its equivalence functor to $A\bimod$ will also be monoidal. 
             \end{remark}
 
             Imposing semi-simplicity and then putting a monoidal structure onto a finite linear category yields us the notion of a fusion category:
             \begin{definition}[Fusion categories] \label{def: fusion_categories}
                 A \textbf{$k$-fusion category} is a semi-simple $k$-finite rigid tensor category, which is to say that it is a $k$-finite abelian category $\calO$ with a $k$-bilinear monoidal structure $\tensor$ whose unit $\1$ satisfies:
                     $$\End_{\calO}(\1) \cong k$$
-                and wherein every object $M$ has a unique-up-to-isomorphism dual $M^{\vee}$ with respect to $\tensor$, i.e.:
-                    $$M \tensor M^{\vee} \cong \1 \cong M^{\vee} \tensor M$$
+                and wherein every object $M$ has a unique-up-to-isomorphism dual $M^{\vee}$ with respect to $\tensor$, i.e. there exist evaluation and coevaluation maps ntural in $M$ and $M^{\vee}$:
+                    $$M^{\vee} \tensor M \xrightarrow[]{\ev_M} \1 \xrightarrow[]{\co\ev_M} M \tensor M^{\vee}$$
             \end{definition}
-            The following is a neat reconstruction-style theorem characterising fusion categories amongst monoidal categories. Note that often, the interesting examples fusion categories tend not to be monoidally rigid; recall that rigid monoidal categories are Tannaka-equivalent to categories of modules over Hopf algebras, not weak ones. 
+            \begin{example}
+                Let $G$ be a finite group and suppose that $\chara k$ is coprime to the order of $G$. Then $kG\mod^{\fd}$ will be a fusion category\footnote{For a proof of semi-simplicity, see \cite{lam_first_course_in_noncommutative_rings}.}; duals of objects therein are given by full $k$-linear duals, on which the $kG$-action is twisted by the antipode thereof (recall that group algebras are Hopf algebras in a certain natural manner; cf. \cite[Chapter III]{kassel_quantum_groups}). 
+            \end{example}
+            \begin{definition}[Tannaka-equivalences/Tannakian categories/Tannakian reconstruction]
+                Suppose that $\calO$ is a $k$-linear monoidal category and:
+                    $$F: \calO \to k\mod$$
+                is a monoidal functor (which needs not be strict!) that is also $k$-linear, exact, and faithful. If there is a $k$-linear and monoidal equivalence:
+                    $$\calO \cong \End_{\Nat}(F)\bimod$$
+                then we will say that the algebra $\End_{\Nat}(F)$ can be \textbf{reconstructed} from the monoidal structure on $\calO$; the equivalence of monoidal categories in question can be referred to as a Tannakian equivalence. Any $k$-linear monoidal category $\calO$ for which such a \say{\textbf{fibre functor}} $F$ exists is called a \textbf{Tannakian category}.
+            \end{definition}
+            \begin{remark}
+                The algebra $A$ as in remark \ref{remark: deligne_theorem_on_finite_linear_categories} can be understood as the algebra of natural endomorphisms of the forgetful\footnote{By Freyd-Mitchell, any $k$-linear abelian category is equivalent to the category of modules over some $k$-algebra.} functor:
+                    $$\oblv: \calO \to A\bimod$$
+                as it can be proven that:
+                    $$A \cong \End_{\Nat}(\oblv)$$
+                As such, Deligne's theorem can be understood as an instance of Tannakian reconstruction. 
+            \end{remark}
+            The following is a neat reconstruction-style theorem characterising fusion categories amongst monoidal categories. Note that often, the interesting examples fusion categories tend not to come equipped with strict-monoidal fibre functors; recall that rigid monoidal categories with strict-monoidal functors are Tannaka-equivalent to categories of modules over Hopf algebras, not weak ones (cf. \cite[Chapter 5]{EGNO}). 
             \begin{theorem}[Victor Ostrik]
-                Every fusion category is Tannaka-equivalent\footnote{... which is to say that if $\calO$ is a fusion category and $Y$ is a weak Hopf algebra, and if there are $k$-linear monoidal functors $F: \calO \to k\mod, G: Y\mod \to k\mod$ (i.e. \say{fibre functors}) then there will be an equivalence $\calO \cong Y\mod$ compatible with these fibre functors; furthermore, we will have that $\End_{\Nat}(F) \cong Y$ as weak Hopf algebras.} to the category of modules over some weak Hopf $k$-algebra. 
+                Let $\calO$ be a fusion category that is equipped with a fibre functor:
+                    $$F: \calO \to k\mod$$
+                which may be lax-monoidal\footnote{Also called \say{weak-monoidal}.} Then $\End_{\Nat}(F)$ will have the structure of a weak Hopf $k$-algebra (cf. \cite[Section 7.23]{EGNO}) and will be Tannaka-reconstructible from $\calO$.
             \end{theorem}
             However, the point in writing down the notion of fusion categories arguably had less to do with this reconstruction theorem, but rather with K-theory; in particular, this is why the semi-simplicity condition is needed. To explain this, let us firstly recall the notion of Grothendieck groups $K_0$.
             \begin{definition}[Grothendieck groups] 
@@ -175,17 +198,45 @@
                     $$\K_0(R\mod^{\ft}) \cong \Z$$
                 as well.
             \end{example}
-            \begin{remark}[Grothendieck rings of fusion categories are fusion rings]
+            \begin{definition}[Grothendieck rings]
                 If $\calO$ is a monoidal additive cateogry then one can check that $\K_0(\calO)$ now becomes a ring, on which multiplication is given by:
                     $$[M] [N] := [M \tensor N]$$
                 In such a situation, one shall refer to $\K_0(\calO)$ as the \textbf{Grothendieck ring} of $\calA$.
+            \end{definition}
+            \begin{example}[$\K_0(\sl_2(k)\mod^{\fd})$ and the Clebsch-Gordan formula]
+                Let $\chara k = 0$.
                 
-                In the special case wherein $\calO$ is a fusion category, much more can be said about its Grothendieck ring. Firstly, by definition, fusion categories are semi-simple and contain finitely many isomorphism classes of simple objects, so firstly, $\K_0(\calO)$ is finitely generated as an abelian group, namely by those isomorphism classes of simple objects. Secondly, since fusion categories are rigid, one has that:
-                    $$[M] [M^{\vee}] = [M \tensor M^{\vee}] = [\1] = [M^{\vee} \tensor M] = [M^{\vee}] [M]$$
+                Firstly, let us recall that by a theorem of Weyl, the category of finite-dimensional modules of a finite-dimensional semi-simple Lie algebra $\g$ over $k$ is a semi-simple $k$-finite tensor category, i.e. any such module decomposes into (finitely many) simple submodules and the category is closed under binary tensor products over $k$ (since the universal enveloping algebra of any Lie algebra is a Hopf algebra \textit{a priori}). As such, the Grothendieck ring:
+                    $$\K_0(\g\mod^{\fd})$$
+                is free as a $\Z$-module with basis being isomorphism classes of simple $\g$-modules. 
+
+                Now, specialise to the case:
+                    $$\g \cong \sl_2(k)$$
+                In this case, a result of Clebsch-Gordan informs us of how, given two simple $\sl_2(k)$-modules $V, W$, their tensor product $V \tensor_k W$ can be decomposed into a direct sum of simple $\sl_2(k)$-submodules. 
+            \end{example}
+            
+            Let us now discuss how fusion categories may give rise to so-called \say{fusion rings} (also called \say{$\Z_{> 0}$-rings}). Instead of beginning with the definition of these fusion rings, let us analyse how the notion of a fusion category survives the decategorification process via Grothendieck rings. 
+            
+            If $\calO$ is a fusion category, a lot can be said about its Grothendieck ring. Firstly, by definition, fusion categories are semi-simple and contain finitely many isomorphism classes of simple objects, so firstly, $\K_0(\calO)$ is a finite free $\Z$-algebra, with choices of (finite) bases given by choices of representatives of the finitely many isomorphism classes of simple objects of $\calO$; furthermore, any such basis, e.g.:
+                $$\{[\simple_{\lambda}]\}_{\lambda \in \Pi}$$
+            can be easily shown to have $\Z_{> 0}$-structural constants, i.e.:
+                $$\forall \lambda, \mu \in \Pi: [\simple_{\lambda}] [\simple_{\mu}] = \sum_{\nu \in \Pi} c_{\lambda, \mu}^{\nu} [\simple_{\nu}]$$
+            for some $c_{\lambda, \mu}^{\nu} \in \Z_{> 0}$. Secondly, by interpreting the rigidity of $\calO$ (which is also by definition) as the existence of an involutive functor:
+                $$(-)^{\vee}: \calO \to \calO$$
+            Such a functor should decategorify into a $\Z$-linear involution on $\K_0(\calO)$, since $M^{\vee \vee} \cong M$ for all $M \in \Ob(\calO)$. Thirdly, we should note that it is not always true that the monoidal unit is a simple object, so in the special case wherein the monoidal unit of a fusion category $\calO$ is indeed simple, it shall decategorify into a basis element of the $\Z$-algebra $\K_0(\calO)$. 
+
+            The aforementioned properties of the Grothendieck rings of a fusion category leads us naturally to the notion of fusion rings.
+            \begin{definition}[Fusion rings]
+                (Cf. \cite[Subsection 3.1]{EGNO})
+            \end{definition}
+            \begin{example}
+                Let $G$ be a finite group and $\chara k$ be coprime to the order of $G$. Then the group algebra $\Z G$ will be a fusion ring, arising as the Grothendieck ring of the fusion category $(kG)^*\mod^{\fd}$. 
+            \end{example}
+            \begin{remark}[Grothendieck rings of weak Hopf algebras]
                 
             \end{remark}
 
-        \subsection{A fusion rule for integrable modules for affine Kac-Moody algebras}
+        \subsection{A fusion rule for integrable modules over affine Kac-Moody algebras}
 
         \subsection{The Kazhdan-Lusztig equivalences between affine Kac-Moody algebras and finite-type QUEs}
     
