@@ -153,7 +153,7 @@
                     $$M^{\vee} \tensor M \xrightarrow[]{\ev_M} \1 \xrightarrow[]{\co\ev_M} M \tensor M^{\vee}$$
             \end{definition}
             \begin{example}
-                Let $G$ be a finite group and suppose that $\chara k$ is coprime to the order of $G$. Then $kG\mod^{\fd}$ will be a fusion category\footnote{For a proof of semi-simplicity, see \cite{lam_first_course_in_noncommutative_rings}.}; duals of objects therein are given by full $k$-linear duals, on which the $kG$-action is twisted by the antipode thereof (recall that group algebras are Hopf algebras in a certain natural manner; cf. \cite[Chapter III]{kassel_quantum_groups}). 
+                Let $G$ be a finite group and suppose that $\chara k$ is coprime to the order of $G$; we need the latter assumption so that Maschke's Theorem would hold, i.e. so that $kG\mod^{\fd}$ would be a semi-simple category. Then $kG\mod^{\fd}$ will be a fusion category\footnote{For a proof of semi-simplicity, see \cite{lam_first_course_in_noncommutative_rings}.}; duals of objects therein are given by full $k$-linear duals, on which the $kG$-action is twisted by the antipode thereof (recall that group algebras are Hopf algebras in a certain natural manner; cf. \cite[Chapter III]{kassel_quantum_groups}). 
             \end{example}
             \begin{definition}[Tannaka-equivalences/Tannakian categories/Tannakian reconstruction]
                 Suppose that $\calO$ is a $k$-linear monoidal category and:
@@ -203,7 +203,7 @@
                     $$[M] [N] := [M \tensor N]$$
                 In such a situation, one shall refer to $\K_0(\calO)$ as the \textbf{Grothendieck ring} of $\calA$.
             \end{definition}
-            \begin{example}[$\K_0(\sl_2(k)\mod^{\fd})$ and the Clebsch-Gordan formula]
+            \begin{example}[$\K_0(\sl_2(k)\mod^{\fd})$ and the Clebsch-Gordan formula] \label{example: clebsch_gordan}
                 Let $\chara k = 0$.
                 
                 Firstly, let us recall that by a theorem of Weyl, the category of finite-dimensional modules of a finite-dimensional semi-simple Lie algebra $\g$ over $k$ is a semi-simple $k$-finite tensor category, i.e. any such module decomposes into (finitely many) simple submodules and the category is closed under binary tensor products over $k$ (since the universal enveloping algebra of any Lie algebra is a Hopf algebra \textit{a priori}). As such, the Grothendieck ring:
@@ -213,15 +213,17 @@
                 Now, specialise to the case:
                     $$\g \cong \sl_2(k)$$
                 In this case, a result of Clebsch-Gordan informs us of how, given two simple $\sl_2(k)$-modules $V, W$, their tensor product $V \tensor_k W$ can be decomposed into a direct sum of simple $\sl_2(k)$-submodules. 
+
+                \todo[inline]{Not done}
             \end{example}
             
-            Let us now discuss how fusion categories may give rise to so-called \say{fusion rings} (also called \say{$\Z_{> 0}$-rings}). Instead of beginning with the definition of these fusion rings, let us analyse how the notion of a fusion category survives the decategorification process via Grothendieck rings. 
+            Let us now discuss how fusion categories may give rise to so-called \say{fusion rings} (also called \say{$\Z_{\geq 0}$-rings}). Instead of beginning with the definition of these fusion rings, let us analyse how the notion of a fusion category survives the decategorification process via Grothendieck rings. 
             
             If $\calO$ is a fusion category, a lot can be said about its Grothendieck ring. Firstly, by definition, fusion categories are semi-simple and contain finitely many isomorphism classes of simple objects, so firstly, $\K_0(\calO)$ is a finite free $\Z$-algebra, with choices of (finite) bases given by choices of representatives of the finitely many isomorphism classes of simple objects of $\calO$; furthermore, any such basis, e.g.:
                 $$\{[\simple_{\lambda}]\}_{\lambda \in \Pi}$$
-            can be easily shown to have $\Z_{> 0}$-structural constants, i.e.:
+            can be easily shown to have $\Z_{\geq 0}$-structural constants, i.e.:
                 $$\forall \lambda, \mu \in \Pi: [\simple_{\lambda}] [\simple_{\mu}] = \sum_{\nu \in \Pi} c_{\lambda, \mu}^{\nu} [\simple_{\nu}]$$
-            for some $c_{\lambda, \mu}^{\nu} \in \Z_{> 0}$. Secondly, by interpreting the rigidity of $\calO$ (which is also by definition) as the existence of an involutive functor:
+            for some $c_{\lambda, \mu}^{\nu} \in \Z_{\geq 0}$. Secondly, by interpreting the rigidity of $\calO$ (which is also by definition) as the existence of an involutive functor:
                 $$(-)^{\vee}: \calO \to \calO$$
             Such a functor should decategorify into a $\Z$-linear involution on $\K_0(\calO)$, since $M^{\vee \vee} \cong M$ for all $M \in \Ob(\calO)$. Thirdly, we should note that it is not always true that the monoidal unit is a simple object, so in the special case wherein the monoidal unit of a fusion category $\calO$ is indeed simple, it shall decategorify into a basis element of the $\Z$-algebra $\K_0(\calO)$. 
 
@@ -229,12 +231,13 @@
             \begin{definition}[Fusion rings]
                 (Cf. \cite[Subsection 3.1]{EGNO})
             \end{definition}
-            \begin{example}
-                Let $G$ be a finite group and $\chara k$ be coprime to the order of $G$. Then the group algebra $\Z G$ will be a fusion ring, arising as the Grothendieck ring of the fusion category $(kG)^*\mod^{\fd}$. 
-            \end{example}
-            \begin{remark}[Grothendieck rings of weak Hopf algebras]
+            \begin{example}[Grothendieck ring of $\calO_{\chi}^{\integrable}$ in the $\sl_2$ case]
+                Suppose that $\chara k = 0$. Also, fix a central character $\chi$ of $\sl_2(k)$.
+            
+                The result of Clebsch-Gordan tells us how the tensor product over $k$ of two finite-dimensional simple $\sl_2(k)$-modules decompose into a direct sum of simple submodules and what the highest weights of those simple summands are, so we are entirely informed of how the ring structure on $\K_0(\calO_{\chi}^{\integrable})$ is given (cf. example \ref{example: clebsch_gordan}). $\calO_{\chi}^{\integrable}$ is a fusion category, so its Grothendieck ring is a fusion ring.
                 
-            \end{remark}
+                \todo[inline]{I think this fusion ring is both based and unital, and in fact has a partially ordered basis, since given any dominant weight, every other weight in its Weyl orbit will be lower than it \textit{a priori}. I think we should also be able to recover Weyl's character formula from this Grothendieck ring somehow.}
+            \end{example}
 
         \subsection{A fusion rule for integrable modules over affine Kac-Moody algebras}
 
