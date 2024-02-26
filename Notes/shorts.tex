@@ -33,7 +33,7 @@
             In algebraic geometry, nothing should be defined in terms of charts, but rather always in terms of functors of points because ultimately, we care about points valued in some ring for the sake of finding solutions of systems of polynomials equations; charts should always be computed from functors of points somehow. The topologies on the category of schemes are also horrendous from a point-set perspective, so we'd rather not have to look at them too directly.
             
             A particularly grave offender of this principle are the projective spaces $\P^n_S$ (with $n$ even being possibly infinite) over some fixed base scheme $S$. These are inevitably always given in terms of the $\Proj$-construction, which is ultimately a construction of locally ringed spaces in terms of Zariski charts; this locally ringed space would then need to be shown to be a scheme, adding to our despair. Sometimes one might also see the definition:
-                $$\P^n_S := \A^{n + 1}_S/(\G_m)_S$$
+                $$\P^n_S := \A^{n + 1}_S/(\GL_1)_S$$
             but quotients are rather hard to deal with in algebraic geometry, as the category of schemes does not admit all colimits (not even finite ones). How can we rectify this problem then ? Funnily enough, we can go back to the very basics, and remind ourselves that classically, i.e. when $S := \Spec k$ for some algebraically closed field $k$, the set of $k$-points of the projective space $\P^n_k$ is nothing but the set of all lines in the vector space $k^{\oplus (n + 1)}$. While we might be tempted to view these points as $1$-dimensional subspaces of $k^{\oplus (n + 1)}$, it is actually beneficial to view them as $1$-dimensional quotients instead. Ultimately, we do this because it makes it possible for us to say that the functor:
                 $$\P^n_k: (\Spec k)_{\Zar}^{\aff, \op} \to \Sets$$
                 $$\Spec A \mapsto \{ \text{locally free rank-$1$ quotients of $A^{\oplus (n + 1)}$} \}$$
@@ -44,7 +44,7 @@
             and then take its relative $\Spec$ to obtain an $S$-scheme:
                 $$\V(\scrE) := \Spec_S( \Sym_{\scrO_S}(\E) )$$
             We then have:
-            \begin{definition}[Projective spaces from locally free modules]
+            \begin{definition}[Projective spaces from locally free modules] \label{def: projective_space_functor_of_points}
                 Let $S$ be a scheme and $\scrE$ be a locally free $\scrO_S$-module. Then, the \textbf{projective space} constructed from $\scrE$ (sometimes called a \textbf{projective space bundle}) will be the functor:
                     $$\P(\scrE): S_{\Zar}^{\op} \to \Sets$$
                     $$(f: T \to S) \mapsto \{ \text{locally free rank-$1$ quotients of $f^* \scrE$} \}$$
@@ -99,20 +99,22 @@
                 but simultaneously (this statement does need $k$ to be a field), it classifies lines in $k^{\oplus 2}$ up to $\Gal(k^{\sep}/k)$-conjugates. The maps $\Spec k[x_j] \to \P^1_k$ are given by:
                     $$x_j \mapsto \frac{x_j}{x_i}, 1 \leq i \not = j \leq 2$$
             \end{example}
-    
-        \subsection{Cohomology of projective spaces}
-            \begin{definition}[Ample invertible modules] \label{def: ample_invertible_modules}
-                Let $S$ be a base scheme and $\pi: X \to S$ be a quasi-compact morphism of schemes. An invertible $\scrO_X$-module $\scrL$ is then said to be \textbf{(relatively) ample} if and only if:
-                    $$\exists N(\scrL) \in \N: n \geq N(\scrL) \implies ( \forall i > 0: R^i\pi_*\scrL^{\tensor r} \cong 0 )$$
-                The number $N(\scrL)$ is the \textbf{amplitude} of $\scrL$.
-            \end{definition}
-        
-            Fix a finite locally free $\scrO_S$-module $\scrE$ of constant rank $n$ and choose for $\P(\scrE)$ the usual Zariski covering by $n + 1$ copies of $\A^n_S$. 
-            \begin{lemma}
-                The structure sheaf of $\scrO_{\A^n_S}$ is ample. 
-            \end{lemma}
 
-            \todo[inline]{Not done.}
+        \subsection{Grassmannians}
+            One reason for introducing projective spaces as in definition \ref{def: projective_space_functor_of_points} is that it helps us setup the theory of Grassmannians in a more systematic way. Before we get into the details, let us set up some notations for our own convenience.
+            \begin{definition}[Finite Grassmannians] \label{def: finite_grassmanians}
+                Fix some $n \geq 0$ and some $0 \leq k \leq n$, as well as a base scheme $S$. Let us then define a category fibred in sets:
+                    $$\Gr_n^{(m)} \to \Sch_{/S}$$
+                whose fibres are given by:
+                    $$\Gr_n^{(m)}(T) := \{ \text{ $\scrO_T$-module epimorphisms $\scrO_T^{\oplus n} \to \scrE$ where $\rank_{\scrO_T} \scrE = m$ } \}/\cong$$
+                for each $T \in \Ob(\Sch_{/S})$, and for each morphism $(f: T' \to T) \in \Mor(\Sch_{/S})$, the map $\Gr_n^{(m)}(T') \to \Gr_n^{(m)}(T)$ between fibres is given by:
+                    $$( p': \scrO_{T'}^{\oplus n} \to \scrE' ) \mapsto ( f^*p: \scrO_T^{\oplus n} \to f^*\scrE )$$
+                Note that the maps between fibres are well-defined because $f^*\scrO_T \cong \scrO_{T'}$ and preserves colimits by virtue of being a left-adjoint.
+
+                Such fibred categories $\Gr_n^{(m)}$ (or equivalently, their associated presheaves) are called \textbf{$(n, m)$-Grassmannians}.
+            \end{definition}
+
+            It is not hard to see that Grassmannians satisfy fpqc descent, so let us move straight on to checking whether or not they are representable.
 
     \section{Fusion categories and Kazhdan-Lusztig stuff}
         \begin{convention}
@@ -242,6 +244,254 @@
         \subsection{A fusion rule for integrable modules over affine Kac-Moody algebras}
 
         \subsection{The Kazhdan-Lusztig equivalences between affine Kac-Moody algebras and finite-type QUEs}
+
+    \section{de Rham prestacks}
+        The slogan to live by when doing derived algebraic geometry is that:
+        \begin{center}
+            \textit{\say{Don't add extra structures, impose properties!}}
+        \end{center}
+        and perhaps the best example of this practice is the approach to de Rham cohomology and D-modules via so-called de Rham prestacks.
+
+        Suppose that $S$ is a scheme over $\Spec \Q$. Classically, if one is given a smooth scheme morphism $\pi: X \to S$, then one can define the \textbf{de Rham pushforward} functor on $\QCoh(X)$:
+            $$\pi_{\dR} := R\pi_*(- \tensor_{\scrO_X}^L \Omega_{X/S}^{\bullet})$$
+        whose cohomology is \textbf{de Rham cohomology}:
+            $$H^i_{\dR} := H^i(\pi_{\dR}) \cong R^i\pi_*(- \tensor_{\scrO_X}^L \Omega_{X/S}^{\bullet})$$
+        Actually, there is an issue with this formulation when viewed as-is: the diagram $\scrE \tensor_{\scrO_X}^L \Omega_{X/S}^{\bullet}$ is a chain complex if and only if $\scrE \in \Ob(\QCoh(X))$ is equipped with a flat/integrable connection:
+            $$\nabla_0: \scrE \to \scrE \tensor_{\scrO_X} \Omega^1_{X/S}$$
+        defined by:
+            $$\nabla_0(s f) := \nabla_0(s) \wedge f + s \tensor d f$$
+        for sections $s \in \scrE$ and $f \in \scrO_X$. These integrable connections induce maps:
+            $$\scrE \tensor_{\scrO_X} \Omega_{X/S}^i \xrightarrow[]{\nabla_i} \scrE \tensor_{\scrO_X} \Omega_{X/S}^{i + 1}$$
+        satisfying:
+            $$\nabla_{i + 1} \circ \nabla_i = 0$$
+        which is due to the fact that the maps $d_i: \Omega^i_{X/S} \to \Omega^{i + 1}_{X/S}$ \textit{a priori} satisfying $d_{i + 1} \circ d_i = 0$. Even though this shows that $\pi_{\dR}$ is not a t-exact functor on the triangulated category $\QCoh(X)$, the construction of de Rham cohomology is still a nice one: for instance, if $\pi: X \to S$ is proper, then per the fact that $\pi_*$ maps coherent modules to coherent modules, and per the smoothness assumption on $\pi$, which tells us that each $\Omega_{X/S}^i$ is finite free over $\scrO_X$, the de Rham pushforward functor maps coherent $\scrO_X$-modules with integrable connections to coherent $\scrO_S$-modules; from this, one infers that if $S \cong \Spec k$ for some field $k/\Q$, then the $k$-vector spaces:
+            $$H_{\dR}^i(\scrE, \nabla_0)$$
+        will be finite-dimensional.
+
+    \section{Dense clusters in hypergraphs}
+        \subsection{Hypergraphs}
+            \begin{definition}[Hypergraphs] \label{def: hypergraphs}
+                A \textbf{hypergraph} is a triple:
+                    $$H := (V, E, s)$$
+                consisting of a set $V$ of vertices, a set $E$ of edges, and a function $s: E \to \calP(V)$ into the power set of the set of vertices, called the \textbf{support function}.
+
+                A \textbf{sub-hypergraph} is a pair:
+                    $$H' := (V', E')$$
+                consisting of subsets $V' \subseteq V, E' \subseteq E$ which are such that:
+                    $$\forall e \in E': s(e) \in V'$$
+            \end{definition}
+
+            For example, let us think of each vertex in a hypergraph as a movie, and in order to find \say{clusters} of common interests in these movies, one can consider the edges: the more edges there are, the stronger the correlation. This prompts the following notion:
+            \begin{definition}[Hypergraph density]
+                Define the density of a hypergraph $H := (V, E, s)$ to be:
+                    $$\alpha(H) := \frac{|E|}{|V|}$$
+                Indeed, the more edges there are (supposing that the number of edges stays fixed), the higher the density, so it is a reasonable notion.
+            \end{definition}
+            \begin{question}
+                How do we find a sub-hypergraph $H' \subset H$ such that the density $\alpha(H')$ is maximised ? Note that it is not necessarily true that $\alpha(H') \leq \alpha(H)$, since a hypergraph can be denser locally than globally. 
+            \end{question}
+            There was a solution to this question due to A. Goldberg in 1984, using the method of flows in networks.
+
+        \subsection{Support matrices}
+            Fix a hypergraph $H := (V, E, s)$ with finitely many vertices and edges, along with an enumeration of vertices $V := \{v_1, ..., v_n\}$ and of edges $E := \{e_1, ..., e_m\}$.
+
+            We can then define an $m \x n$ matrix $A := (a_{ij})_{1 \leq i \leq m, 1 \leq j \leq n}$, called the \textbf{support matrix}, which is such that:
+            \begin{itemize}
+                \item $a_{ij} \geq 0$ for all $i, j$;
+                \item $v_j \not \in s(e_i) \implies a_{ij} = 0$;
+                \item $\forall 1 \leq i \leq m: \sum_{1 \leq j \leq n} a_{ij} = 1$.
+            \end{itemize}
+
+            \begin{theorem}
+                Let $H'$ range over all the sub-hypergraphs of $H$. Then: 
+                    $$\sup_{H' \subseteq H} \alpha(H') = \min_{\text{support matrices $A$ of $H$}} \|A^\top A\|$$
+                wherein $\|-\|$ denotes the operator norm.
+            \end{theorem}
+                \begin{proof}
+                    Firstly, to show that $\alpha(H') \leq \|A^{\top} A\|$, take $\e \in \R^n$ to be the vector with components $\e_j = 1$ if $v_j \in V'$ and $\e_j = 0$ otherwise. Then we will have that:
+                        $$\|A^{\top} A\| := \sup_{x \in \R^n \setminus \{0\}} \frac{\<A\e, A\e\>}{\<\e, \e\>} \geq \frac{|E'|}{|V'|} =: \alpha(H')$$
+                    For the converse inequality, we will firstly need the notion of the \textbf{spectral decomposition of a hypergraph}.
+                \end{proof}
+
+            \begin{definition}[Quotient hypergraphs]
+                Let $H' \subseteq H$ be a sub-hypergraph. Then, define:
+                    $$H/H' := (V/V' := V \setminus V', E/E' := E \setminus E', s/s')$$
+                with the support function $s/s'$ given by:
+                    $$\forall e \in E: (s/s')(e) = s(e) \cap V/V'$$
+            \end{definition}
+            \begin{lemma}
+                Any hypergraph has only one sub-hypergraph of maximal density, i.e. the set of sub-hypergraphs of $H$ has only one maximal element, say $H_{\alpha_0}$, when partially ordered by density. 
+            \end{lemma}
+            Let us now define:
+                $$H_{\alpha_{-1}} := H$$
+                $$H_{\alpha_1} := H/H_{\alpha_0}$$
+            and then inducively, define:
+                $$H_{\alpha_N} := H_{\alpha_{N - 2}}/H_{\alpha_{N - 1}}$$
+            Let us also abbreviate the densities of the hypergraphs $H_{\alpha_N}$ by $\alpha_N$. Then, note that:
+                $$\alpha_N \leq \alpha_{N - 1}$$
+            \begin{definition}[Spectra of hypergraphs]
+                The sequence:
+                    $$\{H_{\alpha_N}\}_{N \geq 0}$$
+                is called the \textbf{spectral decomposition} of the hypergraph $H$. Each $N$ is called a \textbf{spectral weight}. 
+            \end{definition}
+            \begin{lemma}
+                There exists a spectral weight $N \geq 0$ and a support matrix $A_N$ of $H$ such that the column sum is one the densities $\alpha_N$, i.e.:
+                    $$\sum_{1 \leq i \leq m} a_{ij} = \alpha_N$$
+            \end{lemma}
+
+    \section{Things about reductive groups and GIT that I should know better ...}
+        \begin{convention}
+            Throughout, $k$ will be an algebraically closed field.
+        \end{convention}
+    
+        \subsection{Cohomologically reductive group algebraic spaces}
+            The following theorem gives a more-or-less functorial description of the notion of reductivity for affine group schemes over algebraically closed fields.
+            \begin{theorem}[Cohomological criterion for reductivity of affine algebraic groups]
+                Let $G$ be an affine algebraic group over $\Spec k$. Then, the following are equivalent:
+                \begin{enumerate}
+                    \item $G$ is reductive (i.e. the functor $V \mapsto V^G$ from $\Rep_G$ to $k\mod$ is exact; here, $\Rep_k(G)$ denotes the category of all $k$-linear representations of $G$, without any finite-dimensionality assumption).
+                    \item The canonical map $\pi: [\Spec k/G] \to \Spec k$ is cohomologically affine, i.e. $\pi_*$ is exact\footnote{This is due to Serre's Criterion for Affineness, applicable to separated and quasi-compact morphisms. Because group schemes over fields (such as $G$) are separated \textit{a priori}, and because $G$ is algebraic and hence quasi-compact over $\Spec k$ too, the Criterion applies.}.
+                \end{enumerate}
+            \end{theorem}
+                \begin{proof}[Sketch]
+                    For any group scheme $G$, it is known that:
+                        $$\Rep_k(G) \cong \QCoh([\Spec k/G])$$
+                    as $k$-linear abelian symmetric monoidal categories with fibre functors to $k\mod$ (i.e. as $k$-Tannakian categories). If $G$ is reductive, then by definition\footnote{This hinges on the algebraic closedness of $k$.}, since the fibre functor $\Rep_k(G) \to k\mod$ (given by $V \to V^G$) is exact, so is the pushforward functor $\pi_*: \QCoh([\Spec k/G]) \to k\mod$, which is the fibre functor for $\QCoh([\Spec k/G])$ in the aforementioned Tannakian equivalence. The converse statement is clear. 
+                \end{proof}
+            \begin{corollary}
+                Suppose that $H \leq G$ is a \textit{closed} subgroup scheme. Assuming that we know that the canonically induced morphism of algebraic stacks:
+                    $$\iota: [\Spec k/H] \to [\Spec k/G]$$
+                is schematic/representable by $k$-schemes, of finite presentation, and quasi-projective (which is true for any affine algebraic group $G$ over $\Spec k$). The induction functor:
+                    $$R\Ind_H^G: D\Rep_k(H) \to D\Rep_k(G)$$
+                can then be viewed as the composition:
+                    $$D\Rep_k(H) \xrightarrow[]{\cong} D\QCoh([\Spec k/H]) \xrightarrow[]{R\iota_*} D\QCoh([\Spec k/G]) \xrightarrow[]{\cong} D\Rep_k(G)$$
+                and we have to resort to derived functors and categories because the functor $V \mapsto V^H$ might fail to be exact, causing the Tannakian equivalence:
+                    $$D\Rep_k(H) \cong D\QCoh([\Spec k/H])$$
+                to only hold at the derived level.
+            \end{corollary}
+            \begin{remark}[Parabolic induction via $\Bun_G$]
+                Fix a smooth, connected, and projective curve $X$ over $\Spec k$ and let $G$ be a reductive affine algebraic group over $\Spec k$. Write $\Bun_G$ for the moduli stack of principal $G$-bundles on $X$ and recall that its functor of points is given by:
+                    $$\Bun_G(S) := \Maps(X \x_{\Spec k} S, [\Spec k/G])$$
+                Recall also that sheaves (satisfying some kind of a six-functor formalism, e.g. lisse $\bar{\Q}_{\ell}$ local systems when $\chara k > 0$, D-modules when $\chara k = 0$, etc.) on $\Bun_G$ are to be thought of as categorified $G(K_X)$-valued automorphic representations of the absolute Galois group of the global function field $K_X$ of $X$. The Geometric Global Langlands Correspondence predicts a parametrisation of these automorphic representations by points of the (derived) moduli stack $\LocSys_{\check{G}}$ of so-called $\check{G}$-equivariant \say{de Rham local systems} (i.e. $\check{G}$-equivariant vector bundles + integrable connections; $\check{G}$ denotes the Langlands dual of $G$) on the given curve $X$, in the sense that for each point:
+                    $$x \in \LocSys_{\check{G}}$$
+                there ought to be an associated \say{packet} of non-isomorphic automorphic representations. In order to rigorously establish this idea as well as to prove it, one must employ a technique known as \say{parabolic induction}, which is to prove the assertion for parabolic subgroups $P \leq G$ and then to perform some kind of limiting procedure to obtain a result for $G$, with the necessity for this technique boiling down to the profinite nature of $\Gal(\overline{K_X}/K_X)$. Obviously, then, one would need to know how the canonical maps:
+                    $$\Bun_P \to \Bun_G$$
+                impact $P$-automorphic representations, and for such an analysis to be carried out, .
+            \end{remark}
+    
+        \subsection{Quotient stacks are covered by affine GIT quotients + automorphisms}
+            Suppose that $G$ is a reductive affine algebraic group over $\Spec k$. We shall demonstrate that if:
+                $$X := \bigcup_{i \in I} \Spec A_i$$
+            is a $k$-scheme acted on by $G$, then fppf-locally, the quotient stack:
+                $$[X/G]$$
+            will look like:
+                $$[\Spec A_i/G]$$
+            reinforcing the idea that algebraic stacks = schemes + non-trivial local automorphisms.
+
+            \begin{theorem}
+                Suppose that $\scrX$ is an algebraic stack of finite type over $\Spec k$ with affine diagonal. For any point $x \in \scrX(\Spec k)$ with reductive stabiliser $G_x$
+            \end{theorem}
+
+    \section{Non-abelian \texorpdfstring{$H^1$}{} and torsors}
+        \subsection{Computing non-abelian \texorpdfstring{$H^1$}{}}
+            \begin{convention}
+                Fix a base scheme $S$ and consider a Grothendieck topology $\tau$ on $\Sch_{/S}$, and for technical reasons, we require that $\tau$ is \textit{no finer than the fpqc topology}. For brevity, let us denote the resulting site by $S_{\tau}$. 
+            \end{convention}
+
+            Let $\E$ be an exact category (e.g. any additive category, the category of vector bundles on $S_{\tau}$, the category of $\Grp$-valued sheaves on $S_{\tau}$, etc.) with zero object $1$, and denote by $\E(S_{\tau})$ the category of $\E$-valued sheaves on $S_{\tau}$. By the Yoneda lemma, this is once again an exact category, but an issue is that even if we are given a short exact sequence:
+                $$1 \to K \to G \to Q \to 1$$
+            in $\E(S_{\tau})$, it is not guaranteed that for all $T \in \Ob(\Sch_{/S})$, it is necessarily true that the diagram:
+                $$1 \to K(T) \to G(T) \to Q(T)$$
+            can be completed into a short exact sequence. In other words, even if:
+                $$G \to Q$$
+            is surjective, it is not necessarily true that:
+                $$G(T) \to Q(T)$$
+            must also be surjective for all $T \in \Ob(\Sch_{/S})$. This is ultimately a categorical phenomenon: the natural fully faithful embedding:
+                $$\Sh(S_{\tau}) \hookrightarrow \Psh(\Sch_{/S})$$
+            does not generally admit a left-adjoint (i.e. sheafification)\footnote{For set-theoretic reasons.} so \textit{a priori}, thereby making the LHS a reflective subcategory of the RHS, so one can not expect epimorphisms on the LHS to be preserved by the embedding. This, in turn, is dependent on the very construction of the topology $\tau$ on $\Sch_{/S}$. For example, when $\tau = \et$, because $S_{\et}$ admits a small full subsite $S_{\et}^{\petit}$ which has all finite limits and is closed under the formation of said limits, sheafification not only exists over $S_{\et}^{\petit}$ but also would not map non-trivial presheaves to trivial sheaves; failure of surjectivity is therefore not a concern in that setting. On the other hand, if e.g. $\tau = \fppf$ then it seems to not be known still, whether or not there exists a finitely complete small full subsite $S_{\fppf}^{\petit} \subset S_{\fppf}$ which is closed under those limits, so even though a sheafification functor exists for $S_{\fppf}^{\petit}$, non-trivial presheaves might fppf-sheafify to something trivial. 
+    
+            Now, let's say we would like to measure the extent to which epimorphisms fail to be preserved. For instance, we would like to know how far the kernel is away from containing enough roots of unity (e.g. consider the sequence $1 \to \mu_n \to \GL_1 \xrightarrow[]{z \mapsto z^n} \GL_1 \to 1$). Naturally, this is a homological question (we are measuring a failure of exactness, after all), and the cohomologies to compute are:
+                $$\cdots \to Q(T) = H^0(S_{\tau}, Q) \to H^i(S_{\tau}, K) \to H^i(S_{\tau}, G) \to H^i(S_{\tau}, Q) \to \cdots$$
+            We might be tempted to just define:
+                $$H^i(S_{\tau}, -) := R^i\Gamma(S_{\tau}, -)$$
+            but because $\E$ is not guaranteed to be abelian, the derived functor \say{$R\Gamma(S_{\tau}, -)$} (or for that matter, even the derived category \say{$D\E(S_{\tau})$}) is ill-defined.
+    
+            When $\E = \Grp$ and $\tau \in \{ \Zar, \et, \mathrm{syntomic}, \fppf \}$, at least, it turns out that the method of \v{C}ech helps us write down an \say{injective resolution} $K^{\bullet}, G^{\bullet}, Q^{\bullet}$ by injective abelian groups for each of the groups $K, G, Q$, respectively. One then gets a long exact sequence of \textit{pointed sets} (not groups!):
+                $$1 \to H^0(S_{\tau}, K) \to H^0(S_{\tau}, G) \to H^0(S_{\tau}, Q) \to H^1(S_{\tau}, K) \to H^1(S_{\tau}, G) \to H^1(S_{\tau}, Q)$$
+            The problem, though, is that this does not continue to $H^{i > 1}$.
+
+            Nevertheless, these non-abelian $H^1$ groups carry within them valuable information: namely, they parametrise isomorphism classes of so-called \say{torsors} on $S$.
+
+            The following definition works also when we replace $S_{\tau}$ with an arbitrary site.
+            \begin{definition}[Torsors] \label{def: torsors}
+                Let $G$ be a group in $\Sh(S_{\tau})$. A \textbf{$G$-torsor} on $S_{\tau}$ (if $\tau$ is fixed, then we will say \say{torsor on $S$} only) is then a groupoid internal to $\Sh(S_{\tau})$:
+                    $$
+                        \begin{tikzcd}
+                    	{G \x \scrF } & \scrF
+                    	\arrow["\alpha", shift left=2, from=1-1, to=1-2]
+                    	\arrow["{\pr_2}"', shift right=2, from=1-1, to=1-2]
+                        \end{tikzcd}
+                    $$
+                defined by a \textit{simply transitive} action of $G$:
+                    $$\alpha: G \x \scrF \to \scrF$$
+                on another \textit{non-empty} sheaf $\scrF \in \Ob(\Sh(S_{\tau}))$. When $\alpha = \pr_1$, we say that the torsor is \textbf{trivial}.
+
+                $G$-torsors on $S_{\tau}$ are objects of a natural category, $\Bun_G(S_{\tau})$, where the morphisms are commutative diagrams of the form:
+                    $$
+                        \begin{tikzcd}
+                    	{G \x \scrF } & \scrF \\
+                    	{G \x \scrF'} & {\scrF'}
+                    	\arrow["\alpha", shift left=2, from=1-1, to=1-2]
+                    	\arrow["{\pr_2}"', shift right=2, from=1-1, to=1-2]
+                    	\arrow["{\pr_2}"', shift right=2, from=2-1, to=2-2]
+                    	\arrow["{\alpha'}", shift left=2, from=2-1, to=2-2]
+                    	\arrow["{\id_G \x \varphi}"', from=1-1, to=2-1]
+                    	\arrow["\varphi", from=1-2, to=2-2]
+                        \end{tikzcd}
+                    $$
+                where $\alpha: G \x \scrF \to \scrF$ and $\alpha': G \x \scrF' \to \scrF'$ are simply transitive $G$-actions on $\scrF, \scrF'$ respectively, and $\varphi: \scrF \to \scrF'$ is a morphism of sheaves.
+            \end{definition}
+            \begin{convention}
+                If $\C$ is a category, then let us denote the class of isomorphism classes of objects of $\C$ by $\pi_0(\C)$.
+            \end{convention}
+            \begin{lemma}
+                Let $G$ be a group object of $\Sh(S_{\tau})$. There is a functor:
+                    $$\Bun_G(S_{\tau}) \to G\mod(S_{\tau})$$
+                    $$\scrF \mapsto \Z\scrF$$
+                associating each $G$-torsor $\scrF$ to the free abelian group on it, regarded as a $G$-module where the $G$-action is given by how $G$ acts on the generating sheaf $\scrF$.
+            \end{lemma}
+                \begin{proof}
+                    
+                \end{proof}
+            \begin{theorem}[Non-abelian $H^1$ and torsors]
+                By composing the naturally defined functions:
+                    $$\pi_0( \Bun_G(S_{\tau}) ) \to \pi_0(G\mod(S_{\tau}))$$
+                and:
+                    $$\pi_0( G\mod(S_{\tau}) ) \to H^1(S_{\tau}, G)$$
+                one obtains a bijection between the set of isomorphism classes of $G$-torsors on $S_{\tau}$ and $H^1(S_{\tau}, G)$.
+            \end{theorem}
+                \begin{proof}
+                    
+                \end{proof}
+
+        \subsection{Examples}
+            \begin{example}[Principal bundles]
+                Let $G$ be a group object of $\Sh(S_{\tau})$. The category of $G$-torsors on $S_{\tau}$ naturally gives rise to a stack on $S_{\tau}$, in the sense of a category fibred in groupoids over $\Sch_{/S}$ and satisfying $\tau$-descent, called the \textbf{moduli stack of $G$-bundles} on $S_{\tau}$. As a slight abuse of notations, let us denote it also by $\Bun_G(S_{\tau})$. By its construction, it admits a universal map:
+                    $$\Bun_G(S_{\tau}) \to S/G$$
+                to the $\tau$-sheaf $S/G$; should the sheaf $S/G$ be representable by an algebraic space on $S_{\tau}$, it will be the coarse moduli space of $S/G$ per the definition of coarse moduli spaces.
+
+                Now, we know from GIT that under certain technical hypotheses, e.g. $G$ is reductive or finite.
+            \end{example}
+
+            \begin{example}[The Kummer and Artin-Schreier sequences]
+                
+            \end{example}
+
+            \begin{example}[Twistings]
+                
+            \end{example}
+
+    \section{Brauer groups}
     
     \addcontentsline{toc}{section}{References}
     \printbibliography

@@ -189,7 +189,7 @@
                 to be the $(\infty, 2)$-functor as in proposition \ref{prop: qcoh_*_pullbacks}, sending $S$-schemes $X$ to the categories of quasi-coherent $\scrO_X$-modules and sending morphisms of $S$-schemes:
                     $$f: X \to Y$$
                 to (t-exact) left-derived $*$-pullbacks:
-                    $$Lf^*: \rmD(\QCoh(Y)) \to \rmD(\QCoh(X))$$
+                    $$Lf^*: D(\QCoh(Y)) \to D(\QCoh(X))$$
                 between the derived categories of $\scrO_Y, \scrO_X$-modules with quasi-coherent cohomologies, viewed as stable $(\infty, 1)$-categories; the heart of the standartd t-structures on these categories are nothing but the abelian categories $\QCoh(Y)$ and $\QCoh(X)$. 
             \end{example}
 
@@ -226,7 +226,7 @@
                     
                 \end{proof}
             \begin{theorem}[Proper pushforwards] \label{theorem: proper_pushforwards}
-                If $f: X \to Y$ is morphism of schemes then there shall exist a natural transformation of functors $\rmD(\QCoh(X)) \to \rmD(\QCoh(Y))$:
+                If $f: X \to Y$ is morphism of schemes then there shall exist a natural transformation of functors $D(\QCoh(X)) \to D(\QCoh(Y))$:
                     $$Lf_! \to Rf_*$$
                 which will be a natural isomorphism when $f: X \to Y$ is proper. Equivalently, there is a natural transformation:
                     $$\id \to Rf^! \circ Rf_*$$
@@ -294,7 +294,7 @@
             \begin{theorem}[Extending $\QCoh$ from qc open subschemes] \label{theorem: extending_qcoh_from_qc_open_subschemes}
                 Let:
                     $$j: U \hookrightarrow X$$
-                be a qcqs\footnote{Technically, we only need to assume quasi-compactness, since open immersions are separated and hence quasi-separated \textit{a priori}.} open immersion. Then one has a natural isomorphism of functors $\rmD(\QCoh(X)) \to \rmD(\QCoh(U))$:
+                be a qcqs\footnote{Technically, we only need to assume quasi-compactness, since open immersions are separated and hence quasi-separated \textit{a priori}.} open immersion. Then one has a natural isomorphism of functors $D(\QCoh(X)) \to D(\QCoh(U))$:
                     $$Rj^! \xrightarrow[]{\cong} Lj^*$$
                 Equivalently, there is an adjunction counit:
                     $$Rf^! \circ Rf_* \xrightarrow[]{\cong} \id$$
@@ -433,7 +433,7 @@
                     $$f: X \to Y$$
                 is a morphism between schemes locally of finite type over $\Spec \bbC$. If $f$ is proper, then the canonical natural transformation:
                     $$i_Y^* \circ R f_* \Rightarrow R f^{\an}_* \circ i_X^*$$
-                will be a natural isomorphism of t-exact functors $\rmD^+(\scrO_X\mod) \to \rmD^+(\scrO_{Y^{\an}}\mod)$.
+                will be a natural isomorphism of t-exact functors $D^+(\scrO_X\mod) \to D^+(\scrO_{Y^{\an}}\mod)$.
             \end{theorem}
                 \begin{proof}
                     This is a result of proper base-change for general ringed spaces (see \cite[\href{https://stacks.math.columbia.edu/tag/09V4}{Tag 09V4}]{stacks} for now). 
@@ -475,7 +475,7 @@
                 Suppose that:
                     $$f: \calX \to \calY$$
                 is a morphism of complex-analytic spaces. If $f$ is proper then there will be a well-defined t-exact functor:
-                    $$Rf_*: \rmD^+(\Coh(\calX)) \to \rmD^+(\Coh(\calY))$$
+                    $$Rf_*: D^+(\Coh(\calX)) \to D^+(\Coh(\calY))$$
             \end{lemma}
                 \begin{proof}
                     
@@ -493,7 +493,7 @@
                     $$f: X \to Y$$
                 is a morphism between schemes locally of finite type over $\Spec \bbC$. If $f$ is proper, then the canonical natural transformation:
                     $$i_Y^* \circ R f_* \Rightarrow R f^{\an}_* \circ i_X^*$$
-                will be a natural isomorphism of t-exact functors $\rmD^+(\Coh(X)) \to \rmD^+(\Coh(Y^{\an}))$.
+                will be a natural isomorphism of t-exact functors $D^+(\Coh(X)) \to D^+(\Coh(Y^{\an}))$.
 
                 When $Y \cong \Spec \bbC$, the above implies that:
                     $$H^{\bullet}(X, \scrM) \cong H^{\bullet}(X^{\an}, i_X^*\scrM)$$
