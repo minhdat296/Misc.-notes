@@ -245,29 +245,6 @@
 
         \subsection{The Kazhdan-Lusztig equivalences between affine Kac-Moody algebras and finite-type QUEs}
 
-    \section{de Rham prestacks}
-        The slogan to live by when doing derived algebraic geometry is that:
-        \begin{center}
-            \textit{\say{Don't add extra structures, impose properties!}}
-        \end{center}
-        and perhaps the best example of this practice is the approach to de Rham cohomology and D-modules via so-called de Rham prestacks.
-
-        Suppose that $S$ is a scheme over $\Spec \Q$. Classically, if one is given a smooth scheme morphism $\pi: X \to S$, then one can define the \textbf{de Rham pushforward} functor on $\QCoh(X)$:
-            $$\pi_{\dR} := R\pi_*(- \tensor_{\scrO_X}^L \Omega_{X/S}^{\bullet})$$
-        whose cohomology is \textbf{de Rham cohomology}:
-            $$H^i_{\dR} := H^i(\pi_{\dR}) \cong R^i\pi_*(- \tensor_{\scrO_X}^L \Omega_{X/S}^{\bullet})$$
-        Actually, there is an issue with this formulation when viewed as-is: the diagram $\scrE \tensor_{\scrO_X}^L \Omega_{X/S}^{\bullet}$ is a chain complex if and only if $\scrE \in \Ob(\QCoh(X))$ is equipped with a flat/integrable connection:
-            $$\nabla_0: \scrE \to \scrE \tensor_{\scrO_X} \Omega^1_{X/S}$$
-        defined by:
-            $$\nabla_0(s f) := \nabla_0(s) \wedge f + s \tensor d f$$
-        for sections $s \in \scrE$ and $f \in \scrO_X$. These integrable connections induce maps:
-            $$\scrE \tensor_{\scrO_X} \Omega_{X/S}^i \xrightarrow[]{\nabla_i} \scrE \tensor_{\scrO_X} \Omega_{X/S}^{i + 1}$$
-        satisfying:
-            $$\nabla_{i + 1} \circ \nabla_i = 0$$
-        which is due to the fact that the maps $d_i: \Omega^i_{X/S} \to \Omega^{i + 1}_{X/S}$ \textit{a priori} satisfying $d_{i + 1} \circ d_i = 0$. Even though this shows that $\pi_{\dR}$ is not a t-exact functor on the triangulated category $\QCoh(X)$, the construction of de Rham cohomology is still a nice one: for instance, if $\pi: X \to S$ is proper, then per the fact that $\pi_*$ maps coherent modules to coherent modules, and per the smoothness assumption on $\pi$, which tells us that each $\Omega_{X/S}^i$ is finite free over $\scrO_X$, the de Rham pushforward functor maps coherent $\scrO_X$-modules with integrable connections to coherent $\scrO_S$-modules; from this, one infers that if $S \cong \Spec k$ for some field $k/\Q$, then the $k$-vector spaces:
-            $$H_{\dR}^i(\scrE, \nabla_0)$$
-        will be finite-dimensional.
-
     \section{Dense clusters in hypergraphs}
         \subsection{Hypergraphs}
             \begin{definition}[Hypergraphs] \label{def: hypergraphs}
@@ -491,7 +468,67 @@
                 
             \end{example}
 
-    \section{Brauer groups}
+    \section{Cohomology theories in algebraic arithmetic geometry}
+        \subsection{The outline}
+            \begin{convention}
+                If $\calA$ is an abelian category then $D(\calA)$ will be its derived category, i.e. the localisation of the category $\Ch(\calA)$ of chain complexes in $\calA$ (regarded as a category enriched over itself) at the class of quasi-isomorphisms. Unless specified otherwise, $D(\calA)$ will always carry the standard t-structure.
+    
+                The category of $\calA$-valued sheaves on a site $\C$ with Grothendieck topology $\tau$ and a terminal object $X$ will be denoted by $\calA(X_{\tau})$, and the derived category will be $D(X_{\tau}, \calA)$.
+            \end{convention}
+    
+            The \textit{desired} setup for a cohomology theory in algebraic geometry is as follows. Suppose that $\C$ is a $1$-category or $(2, 1)$-category (e.g. take $\C$ to be the category $\Sch$ of schemes or to be the category $\Alg\Stk$ of algebraic stacks) with terminal object $X$, and that $\tau$ is a Grothendieck topology on $\C$. Denote the sheaf topos thereon by $\Sh(X_{\tau})$. Next, specify a ring object $\scrO_X$ in $\Sh(X_{\tau})$; this is called the \textbf{structure sheaf} of $X$. The cohomology of the object $X$ is then the cohomology of the ringed topos $( \Sh(X_{\tau}), \scrO_X )$, which is to say that we will be concerned with the following compositions of functors, for all $i \geq 0$:
+                $$D(\scrO_X\mod) \xrightarrow[]{R\Gamma_{\tau}(X, -)} D(\Z\mod) \xrightarrow[]{H^i} \Z\mod$$
+            Here, we have written:
+                $$R\Gamma_{\tau}(X, -) := R\Hom_{\scrO_X}(\scrO_X, -)$$
+            is the right-derived functor of the functor of global sections of $\scrO_X$-modules; after composing with $H^n$ - the functor of $i^{th}$ cohomology of chain complexes in any abelian category - will yield:
+                $$R^i\Gamma_{\tau}(X, -) := \Ext^i_{\scrO_X}(\scrO_X, -) \cong \Hom_{D(\scrO_X\mod)}(\scrO_X, (-)[i])$$
+            where $(-)[i]: D(\scrO_X\mod) \to D(\scrO_X\mod)$ is the shifting auto-equivalence, defined for any triangulated category. One might also replace $D(\scrO_X\mod)$ with an appropriate full subcategory that may or may not arise as the derived category of a full subcategory of $\scrO_X\mod$. We will also be writing:
+                $$H^i_{\tau}(X, -) := R^i\Gamma_{\tau}(X, -)$$
+        
+            Historically, cohomology theories in algebraic geometry have been modelled after the two successful theory in algebraic topology and differential geometry: by and large, the various cohomology theories for schemes and algebraic stacks seem to resemble either singular cohomology or de Rham cohomology (say, of complex manifolds). Additionally, cohomology theories of \say{singular} natures usually would admit direct sum decompositions in terms of cohomology theories of \say{de Rham} nature. In this sense, one can reasonably regard cohomology theories of \say{de Rham} natures to be \say{interpreters} for those of \say{singular} nature. Let us illustrate this point via a few examples.
+    
+            \begin{convention}
+                If $X$ is a scheme and $\tau$ is a Grothendieck topology on the category $\Sch_{/X}$, then we will abbreviate the resulting site by $X_{\tau}$. The sheaf topos will be denoted by $\Sh(X_{\tau})$.
+            \end{convention}
+            \begin{convention}
+                In what follows, $X$ shall be a qcqs scheme over a field $k$ of characteristic $p \geq 0$. Also, $\ell$ shall be an auxiliary prime, which is to serve as the residual characteristic of the coefficient rings of the cohomology theories of \say{singular} natures.
+            \end{convention}
+    
+        \subsection{\texorpdfstring{$\ell$}{}-adic (pro-)\'etale cohomology}
+            Let $\ell \not = p$, i.e. $\ell$ be invertible in $k$, and let us endow $\Sch_{/X}$ with the \'etale topology. In order to set up $\ell$-adic \'etale cohomology, one can then proceed in the following traditional manner, which actually does not agree with the desired outline mentioned at the beginning. In the sequel, we will always be working with small categories, so in particular:
+                $$X_{\et} := X_{\et}^{\petit}$$
+            will be denoting the small \'etale site of $X$. 
+
+            Firstly, let $\Lambda$ simply be a ring, and let us use the same notation to mean the corresponding constant sheaf of rings in $\Sh(X_{\et})$. For each $Y \in \Ob(X_{\et})$, we will be considering the cohomology functor:
+                $$R\Gamma_{\et}(Y, -): D(Y_{\et}, \Lambda\mod) \to D(\Lambda\mod)$$
+            Secondly, recall the following finiteness property of \'etale cohomology:
+            \begin{lemma}[Finiteness of \'etale cohomology] \label{lemma: finiteness_of_etale_cohomology}
+                \cite[Lemma 6.4.2]{bhatt_scholze_2014_pro_etale} For any:
+                    $$U \in \Ob(\Sch^{\qc\qs}) \cap \Ob(X_{\et})$$
+                the functor:
+                    $$R\Gamma_{\et}(U, -): D(U_{\et}, \Lambda\mod) \to D(\Lambda\mod)$$
+                actually maps objects of $D^b(U_{\et}, \Lambda)$ to those of $D^b(\Lambda\mod)$, i.e. the functor is of finite cohomological dimension.
+            \end{lemma}
+
+            \begin{convention}
+                Assume also that there is a fixed $d \geq 0$ such that, for all\footnote{Recall that affine schemes are qcqs.}:
+                    $$U \in \Ob(\Sch^{\aff}) \cap \Ob(X_{\et}) \subset \Ob(\Sch^{\qc\qs}) \cap \Ob(X_{\et})$$
+                objects $\scrF^{\bullet}$ of the derived category $D(U_{\et}, \Lambda\mod)$ are such that:
+                    $$i \geq d \implies R^i\Gamma_{\et}(U, \scrF^{\bullet}) \cong 0$$
+                which is to say that all such $U$, the functors $R\Gamma_{\et}(U, -)$ are of finite cohomological dimensions bounded from above by the fixed $d$; in particular, this means that:
+                    $$D(U_{\et}, \Lambda\mod) \cong D^b(U_{\et}, \Lambda\mod)$$
+                under our assumption. 
+            \end{convention}
+        
+            \begin{example}[Artin vanishing]
+                A class of examples is supplied through Artin's \'etale vanishing theorem, for which one considers $k \cong k^{\sep}$ and $X$ to be a $k$-variety, and $\Lambda$ torsion, which then yields:
+                    $$i \geq \dim U \implies R^i\Gamma_{\et}(U, \Lambda) \cong 0$$
+                and one can then even consider the uniform bound $d := \dim X \geq \dim U$.
+            \end{example}
+
+        \subsection{Algebraic de Rham cohomology, crystalline cohomology, and rigid cohomology}
+
+        \subsection{A \texorpdfstring{$p$}{}-adic motive: prismatic cohomology}
     
     \addcontentsline{toc}{section}{References}
     \printbibliography
