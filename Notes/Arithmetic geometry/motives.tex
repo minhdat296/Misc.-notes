@@ -1,0 +1,179 @@
+\input{article preambles}
+
+\setcounter{section}{-1}
+
+\input{commands}
+
+\begin{document}
+
+    \title{Six-functor formalisms, ring stacks, and motives}
+    
+    \author{Dat Minh Ha}
+    \maketitle
+    
+    \begin{abstract}
+        
+    \end{abstract}
+    
+    {
+      \hypersetup{} 
+      %\dominitoc
+      \tableofcontents %sort sections alphabetically
+    }
+
+    \section{Introduction}
+
+    \section{Cohomology theories in algebraic arithmetic geometry}
+        \subsection{The outline}
+            \begin{convention}
+                If $\calA$ is an abelian category then $D(\calA)$ will be its derived category, i.e. the localisation of the category $\Ch(\calA)$ of chain complexes in $\calA$ (regarded as a category enriched over itself) at the class of quasi-isomorphisms. Unless specified otherwise, $D(\calA)$ will always carry the standard t-structure.
+    
+                The category of $\calA$-valued sheaves on a site $\C$ with Grothendieck topology $\tau$ and a terminal object $X$ will be denoted by $\calA(X_{\tau})$, and the derived category will be $D(X_{\tau}, \calA)$.
+
+                \todo[inline]{Notation for perfect complexes}
+            \end{convention}
+    
+            The \textit{desired} setup for a cohomology theory in algebraic geometry is as follows. Suppose that $\C$ is a $1$-category or $(2, 1)$-category (e.g. take $\C$ to be the category $\Sch$ of schemes or to be the category $\Alg\Stk$ of algebraic stacks) with terminal object $X$, and that $\tau$ is a Grothendieck topology on $\C$. Denote the sheaf topos thereon by $\Sh(X_{\tau})$. Next, specify a ring object $\scrO_X$ in $\Sh(X_{\tau})$; this is called the \textbf{structure sheaf} of $X$. The cohomology of the object $X$ is then the cohomology of the ringed topos $( \Sh(X_{\tau}), \scrO_X )$, which is to say that we will be concerned with the following compositions of functors, for all $i \geq 0$:
+                $$D(\scrO_X\mod) \xrightarrow[]{R\Gamma_{\tau}(X, -)} D(\Z\mod) \xrightarrow[]{H^i} \Z\mod$$
+            Here, we have written:
+                $$R\Gamma_{\tau}(X, -) := R\Hom_{\scrO_X}(\scrO_X, -)$$
+            is the right-derived functor of the functor of global sections of $\scrO_X$-modules; after composing with $H^n$ - the functor of $i^{th}$ cohomology of chain complexes in any abelian category - will yield:
+                $$R^i\Gamma_{\tau}(X, -) := \Ext^i_{\scrO_X}(\scrO_X, -) \cong \Hom_{D(\scrO_X\mod)}(\scrO_X, (-)[i])$$
+            where $(-)[i]: D(\scrO_X\mod) \to D(\scrO_X\mod)$ is the shifting auto-equivalence, defined for any triangulated category. One might also replace $D(\scrO_X\mod)$ with an appropriate full subcategory that may or may not arise as the derived category of a full subcategory of $\scrO_X\mod$. We might also be writing:
+                $$H^i_{\tau}(X, -) := R^i\Gamma_{\tau}(X, -)$$
+            Some authors even write:
+                $$H^*_{\tau}(X, -) := R\Gamma_{\tau}(X, -)$$
+            We will not be using such notations, since to us, this seems like a misleading abuse of notations, as given $\scrF^{\bullet} \in \Ob( D(\scrO_X\mod) )$, the literal interpretation of $H^*_{\tau}(X, \scrF^{\bullet})$ as a chain complex of cohomologies would be a trivial complex of $\Z$-modules; one proves this by considering the canonical long exact sequence of cohomologies attached to any given short exact sequence in $D(\Z\mod)$. 
+        
+            Historically, cohomology theories in algebraic geometry have been modelled after the two successful theory in algebraic topology and differential geometry: by and large, the various cohomology theories for schemes and algebraic stacks seem to resemble either singular cohomology or de Rham cohomology (say, of complex manifolds). Additionally, cohomology theories of \say{singular} natures usually would admit direct sum decompositions in terms of cohomology theories of \say{de Rham} nature. In this sense, one can reasonably regard cohomology theories of \say{de Rham} natures to be \say{interpreters} for those of \say{singular} nature. Furthermore, it is known in practice that quasi-coherent sheaf cohomology - of which cohomology theories of the \say{de Rham} kind are special case - is much easier to compute, so it is important that we understand the interactions between them and the cohomology theories of \say{singular} nature. 
+    
+            \begin{convention}
+                If $\scrX$ is a prestack and $\tau$ is a Grothendieck topology on the category $\Sch_{/\scrX}$ of schemes $S \to \scrX$, then we will abbreviate the resulting site by $\scrX_{\tau}$. The sheaf topos will be denoted by $\Sh(\scrX_{\tau})$.
+            \end{convention}
+            
+            Following an observation of Simpson from the 1990s, cohomology theories are nowadays given as follows. Suppose that one is given a scheme:
+                $$X$$
+            that belongs to a particularly interesting class (e.g. smooth projective connected varieties over a field). The task is then to firstly construct a stack that for now will be generically denoted by:
+                $$X^{\Stk}$$
+            and then secondly, to endow the $(2, 1)$-category:
+                $$\Sch_{/X^{\Stk}}$$
+            of schemes $S \to X^{\Stk}$ with an appropriate Grothendieck topology. Afterwards, we choose a commutative ring object (the structure sheaf of $X^{\Stk}$):
+                $$\scrO_{X^{\Stk}}$$
+            in the topos $\Sh(X^{\Stk}_{\tau})$ so that:
+                $$R^i\Gamma_{\tau}(X^{\Stk}, \scrF^{\bullet}) := R^i\Hom_{\scrO_{X^{\Stk}}}(\scrO_{X^{\Stk}}, \scrF^{\bullet}) \cong H^i_{\Stk}(X, \scrF^{\bullet})$$
+            for any $\scrF^{\bullet} \in \Ob( D(\scrO_{X^{\Stk}}\mod) )$. Here, by $H^i_{\Stk}(X, -)$ we generically mean the cohomology theory of $X$ that is supposed to be captured by the quasi-coherent cohomology of $X^{\Stk}$ (e.g. $\Stk := \dR$). Once more, the idea is to embrace the fact that quasi-coherent cohomology tends to be easier to compute, though the tradeoff is that it is not usually clear what $X^{\Stk}$ should be or, for that matter, whether there exists such an $X^{\Stk}$ in the first place. 
+            
+            \begin{convention}
+                In what follows, $X$ shall be a qcqs scheme over a field $k$ of characteristic $p \geq 0$. Also, $\ell$ shall be an auxiliary prime, which is to serve as the residual characteristic of the coefficient rings of the cohomology theories of \say{singular} natures.
+            \end{convention}
+    
+        \subsection{\texorpdfstring{$\ell$}{}-adic (pro-)\'etale cohomology}
+            Let $\ell \not = p$, i.e. $\ell$ be invertible in $k$, and let us endow $\Sch_{/X}$ with the \'etale topology. In order to set up $\ell$-adic \'etale cohomology, one can then proceed in the following traditional manner, which actually does not agree with the desired outline mentioned at the beginning. In the sequel, we will always be working with small categories, so in particular:
+                $$X_{\et} := X_{\et}^{\petit}$$
+            will be denoting the small \'etale site of $X$. 
+
+            Firstly, let us record some general properties of the cohomology of sheaves of modules over an arbitrary commutative ring on $X_{\et}$. To that end, let $\Lambda$ simply be a commutative ring, and let us use the same notation to mean the corresponding constant sheaf of rings in $\Sh(X_{\et})$. For each $Y \in \Ob(X_{\et})$, we will be considering the cohomology functor:
+                $$R\Gamma_{\et}(Y, -): D(Y_{\et}, \Lambda\mod) \to D(\Lambda\mod)$$
+            Secondly, recall the following finiteness property of \'etale cohomology:
+            \begin{lemma}[Finiteness of \'etale cohomology] \label{lemma: finiteness_of_etale_cohomology}
+                \cite[Lemma 6.4.2]{bhatt_scholze_2014_pro_etale} For any:
+                    $$U \in \Ob(\Sch^{\qc\qs}) \cap \Ob(X_{\et})$$
+                the functor:
+                    $$R\Gamma_{\et}(U, -): D(U_{\et}, \Lambda\mod) \to D(\Lambda\mod)$$
+                actually maps objects of $D^b(U_{\et}, \Lambda)$ to those of $D^b(\Lambda\mod)$, i.e. the functor is of finite cohomological dimension.
+            \end{lemma}
+
+            \begin{convention}
+                Assume also that there is a fixed $d \geq 0$ such that, for all\footnote{Recall that affine schemes are qcqs.}:
+                    $$U \in \Ob(\Sch^{\aff}) \cap \Ob(X_{\et}) \subset \Ob(\Sch^{\qc\qs}) \cap \Ob(X_{\et})$$
+                objects $\scrF^{\bullet}$ of the derived category $D(U_{\et}, \Lambda\mod)$ are such that:
+                    $$i \geq d \implies R^i\Gamma_{\et}(U, \scrF^{\bullet}) \cong 0$$
+                which is to say that all such $U$, the functors $R\Gamma_{\et}(U, -)$ are of finite cohomological dimensions bounded from above by the fixed $d$; in particular, this means that:
+                    $$D(U_{\et}, \Lambda\mod) \cong D^b(U_{\et}, \Lambda\mod)$$
+                under our assumption. 
+            \end{convention}
+        
+            \begin{example}[Artin vanishing] \label{example: artin_etale_vanishing}
+                A class of examples is supplied through Artin's \'etale vanishing theorem, for which one considers $k \cong k^{\sep}$ and $X$ to be a $k$-variety, and $\Lambda$ torsion, which then yields:
+                    $$i \geq \dim U \implies R^i\Gamma_{\et}(U, \Lambda) \cong 0$$
+                and one can then even consider the uniform bound $d := \dim X \geq \dim U$.
+            \end{example}
+
+            \begin{definition}[Constructible subschemes] \label{def: constructible_subschemes}
+                An immersion:
+                    $$Z \hookrightarrow X$$
+                into a qcqs scheme $X$, say with finite open cover $\{f_i: U_i \hookrightarrow X\}_{i \in I}$, is said to be \textbf{constructible} if and only if there exists a subset $I' \subseteq I$ along with closed immersions $\{Y_i \hookrightarrow X\}_{i \in I'}$ such that the following filtered colimit in $\Sch$ holds:
+                    $$Z \cong \indlim_{i \in I'} (Y_i \x_{X, f_i} U_i)$$
+                i.e. $Z$ is a finite \say{union} of locally closed subschemes of $X$. If instead each $Z \x_{X, f_i} U_i$ is constructible, then $Z$ will be said to be \textbf{locally constructible}.
+
+                Being locally constructible is weaker than being constructible, since filtered colimits and (finite) limits in $\Sch$ need not commute.
+            \end{definition}
+            \begin{lemma}[Constructible \'etale sheaves with perfect global sections] \label{lemma: constructible_etale_sheaves_with_perfect_global_Sections}
+                For any Zariski-constructible closed subscheme:
+                    $$\iota: Z \hookrightarrow X$$
+                and any $\scrF^{\bullet} \in \Ob( D_{\locallyconstant}(Z_{\et}, \Lambda\mod) )$ such that $R\Gamma(Z_{\et}, \scrF^{\bullet}) \in \Ob( D^{\perf}(\Lambda\mod) )$, one shall have that:
+                    $$R\iota_*\scrF^{\bullet} \in \Ob( D^{\omega}(X_{\et}, \Lambda\mod) )$$
+            \end{lemma}
+                \begin{proof}
+                    
+                \end{proof}
+            \begin{remark}[Noetherian coefficients]
+                Recall that when $\Lambda$ is Noetherian, the subcategory of $D(\Lambda\mod)$ consisting of perfect complexes is equivalent to the derived category of the abelian category of finite $\Lambda$-modules:
+                    $$D^{\perf}(\Lambda\mod) \cong D(\Lambda\mod^{\ft})$$
+                One thus gets a commutative diagram of triangulated categories and t-exact functors:
+                    $$
+                        \begin{tikzcd}
+                    	{D_{\locallyconstant}(Z_{\et}, \Lambda\mod^{\ft})} & {D(\Lambda\mod^{\ft})} \\
+                    	{D^{\omega}(X_{\et}, \Lambda\mod)}
+                    	\arrow["{R\iota_*}"', from=1-1, to=2-1]
+                    	\arrow["{R\Gamma_{\et}(Z, -)}", from=1-1, to=1-2]
+                    	\arrow["{R\Gamma_{\et}(X, -)}"', from=2-1, to=1-2]
+                        \end{tikzcd}
+                    $$
+            \end{remark}
+            \begin{example}
+                We note that the constructibility of $Z \subseteq X$ as in lemma \ref{lemma: constructible_etale_sheaves_with_perfect_global_Sections} is crucial. For a counterexample, let:
+                    $$X := \projlim_{\text{finite extensions $k'/k$}} \Spec k' \cong \projlim_{S \in (\Spec k)_{\fet}} S$$
+                and choose a closed point $x: \Spec \kappa \to X$ (for a distinguished $\Spec \kappa \in (\Spec k)_{\fet}$); write:
+                    $$\punc{X} := X \setminus \{x\}$$
+                The underlying topological space of $X$ is an infinite profinite set, and hence $X$ is indeed qcqs; furthermore, this underlying topological space is totally disconnected and any open cover thereof can be refined into a finite disjoint union of clopen subsets. $\punc{X}$ therefore is also clopen and constructible as a subset of $X$.
+            \end{example}
+            \begin{definition}[Constructible \'etale sheaves] \label{def: constructible_etale_sheaves}
+                Suppose that there exists a finite set $\{\iota_j: Z_j \hookrightarrow X\}_{j \in J}$ of constructible subschemes of $X$ such that:
+                    $$X \cong \coprod_{j \in J} Z_j$$
+                An object $\scrF^{\bullet} \in \Ob( D(X_{\et}, \Lambda\mod) )$ is then said to be \textbf{constructible} if and only if:
+                    $$\iota_j^*\scrF^{\bullet} \in \Ob( D_{\locallyconstant}((Z_j)_{\et}, \Lambda\mod) )$$
+            \end{definition}
+            \begin{proposition}[Constructible \'etale sheaves are compact] \label{prop: constructible_etale_sheaves_are_compact}
+                Suppose that there exists a finite set $\{\iota_j: Z_j \hookrightarrow X\}_{j \in J}$ of constructible subschemes of $X$ such that:
+                    $$X \cong \coprod_{j \in J} Z_j$$
+                There is an equivalence of categories:
+                    $$D_{\cons}(X_{\et}, \Lambda\mod) \cong D^{\omega}(X_{\et}, \Lambda\mod)$$
+                between the category $D_{\cons}(X_{\et}, \Lambda\mod)$ of constructible $\Lambda\mod$-valued sheaves on $X_{\et}$, and the full subcategory $D^{\omega}(X_{\et}, \Lambda\mod)$ of compact objects of $D(X_{\et}, \Lambda\mod)$.
+            \end{proposition}
+                \begin{proof}
+                    
+                \end{proof}
+
+            In light of proposition \ref{prop: constructible_etale_sheaves_are_compact}, let us from now on expand the definition of constructible sheaves on $X_{\et}$ (regardless of whether or not $X$ admits a stratification into a disjoint union of constructible subschemes) into the following, which is much more functorial. In practice, this generalisation does not really matter, since the schemes in practice (e.g. smooth projective connected varieties) tends to admit such constructible stratifications anyway.
+            \begin{definition}[Constructible \'etale sheaves] \label{def: constructible_etale_sheaves}
+                For any qcqs scheme $X$, let us simply declare that the category of constructible sheaves on $X_{\et}$ is:
+                    $$D_{\cons}(X_{\et}, \Lambda\mod) := D^{\omega}(X_{\et}, \Lambda\mod)$$
+            \end{definition}
+            \begin{lemma}
+                
+            \end{lemma}
+
+        \subsection{Algebraic de Rham cohomology, crystalline cohomology, and rigid cohomology}
+
+        \subsection{\texorpdfstring{A "$p$-adic motive"}{}: prismatic cohomology}
+
+    \section{Cohomology theories in rigid-analytic geometry}
+        \subsection{\'Etale cohomology of diamonds and v-stacks}
+
+        \subsection{Crystalline and prismatic cohomology for rigid-analytic varieties}
+    
+    \addcontentsline{toc}{section}{References}
+    \printbibliography
+
+\end{document}
