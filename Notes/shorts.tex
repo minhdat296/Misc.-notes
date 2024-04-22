@@ -1,6 +1,6 @@
 \input{article preambles}
 
-\setcounter{section}{-1}
+\setcounter{section}{0}
 
 \input{commands}
 
@@ -12,7 +12,7 @@
     \maketitle
     
     \begin{abstract}
-        
+        Unsorted short notes. Mostly about algebraic geometry and (geometric) representation theory.
     \end{abstract}
     
     {
@@ -20,9 +20,6 @@
       %\dominitoc
       \tableofcontents %sort sections alphabetically
     }
-
-    \section{Introduction}
-        Short unsorted notes.
 
     \section{Projective spaces}
         \subsection{Projective spaces as moduli spaces}
@@ -330,7 +327,7 @@
                     \item The canonical map $\pi: [\Spec k/G] \to \Spec k$ is cohomologically affine, i.e. $\pi_*$ is exact\footnote{This is due to Serre's Criterion for Affineness, applicable to separated and quasi-compact morphisms. Because group schemes over fields (such as $G$) are separated \textit{a priori}, and because $G$ is algebraic and hence quasi-compact over $\Spec k$ too, the Criterion applies.}.
                 \end{enumerate}
             \end{theorem}
-                \begin{proof}[Sketch]
+                \begin{proof}[Proof sketch]
                     For any group scheme $G$, it is known that:
                         $$\Rep_k(G) \cong \QCoh([\Spec k/G])$$
                     as $k$-linear abelian symmetric monoidal categories with fibre functors to $k\mod$ (i.e. as $k$-Tannakian categories). If $G$ is reductive, then by definition\footnote{This hinges on the algebraic closedness of $k$.}, since the fibre functor $\Rep_k(G) \to k\mod$ (given by $V \to V^G$) is exact, so is the pushforward functor $\pi_*: \QCoh([\Spec k/G]) \to k\mod$, which is the fibre functor for $\QCoh([\Spec k/G])$ in the aforementioned Tannakian equivalence. The converse statement is clear. 
@@ -347,7 +344,7 @@
                 to only hold at the derived level.
             \end{corollary}
             \begin{remark}[Parabolic induction via $\Bun_G$]
-                Fix a smooth, connected, and projective curve $X$ over $\Spec k$ and let $G$ be a reductive affine algebraic group over $\Spec k$. Write $\Bun_G$ for the moduli stack of principal $G$-bundles on $X$ and recall that its functor of points is given by:
+                Fix a smooth, connected, and projective curve $X$ over $\Spec k$ and let $G$ be a reductive affine algebraic group over $\Spec k$. Write $\Bun_G$ for the moduli stack of principal $G$-bundles on $X$ and recall that its functor of points is given by\footnote{Cf. definition \ref{def: moduli_stack_of_principal_bundles}.}:
                     $$\Bun_G(S) := \Maps(X \x_{\Spec k} S, [\Spec k/G])$$
                 Recall also that sheaves (satisfying some kind of a six-functor formalism, e.g. lisse $\bar{\Q}_{\ell}$ local systems when $\chara k > 0$, D-modules when $\chara k = 0$, etc.) on $\Bun_G$ are to be thought of as categorified $G(K_X)$-valued automorphic representations of the absolute Galois group of the global function field $K_X$ of $X$. The Geometric Global Langlands Correspondence predicts a parametrisation of these automorphic representations by points of the (derived) moduli stack $\LocSys_{\check{G}}$ of so-called $\check{G}$-equivariant \say{de Rham local systems} (i.e. $\check{G}$-equivariant vector bundles + integrable connections; $\check{G}$ denotes the Langlands dual of $G$) on the given curve $X$, in the sense that for each point:
                     $$x \in \LocSys_{\check{G}}$$
@@ -359,7 +356,7 @@
         \subsection{Quotient stacks are covered by affine GIT quotients + automorphisms}
             Suppose that $G$ is a reductive affine algebraic group over $\Spec k$. We shall demonstrate that if:
                 $$X := \bigcup_{i \in I} \Spec A_i$$
-            is a $k$-scheme acted on by $G$, then fppf-locally, the quotient stack:
+            is a $k$-scheme acted on by $G$, then fppf-locally, the quotient stack\footnote{Update Apr. $24^{th} 2024$: I have now written some things about quotient stacks. See definition \ref{def: quotient_stacks} and the materials that follow.}:
                 $$[X/G]$$
             will look like:
                 $$[\Spec A_i/G]$$
@@ -467,6 +464,140 @@
             \begin{example}[Twistings]
                 
             \end{example}
+
+    \section{Quotient stacks, classifying stacks, and principal bundles}
+        \begin{convention}
+            Fix a base scheme $S$ and consider a Grothendieck topology $\tau$ on $\Sch_{/S}$, and for technical reasons, we require that $\tau$ is \textit{no finer than the fpqc topology}. For brevity, let us denote the resulting site by $S_{\tau}$. 
+
+            Write $\Sh(S_{\tau})$ for the sheaf topos on $S_{\tau}$, and $\Stk(S_{\tau}) := \Grpd(\Sh(S_{\tau}))$ for the $(2, 1)$-category of $\Grpd$-valued stacks on $S_{\tau}$. 
+
+            Eventually, we will specialise to the case where $S := \Spec k$ where $k$ is an algebraically closed field of characteristic $0$.
+        \end{convention}
+
+        \begin{convention}
+            Throughout, let $G$ be an affine group $S$-scheme.
+        \end{convention}
+        \begin{remark}
+            If $G$ is smooth (e.g. when $S$ is a $\Q$-scheme) then on can take $\tau$ to be the \'etale topology. If not, then one will have to work with a topology at least as fine as the fppf topology.
+        \end{remark}
+
+    \subsection{Constructing \texorpdfstring{$\Bun_G$}{}}
+            \begin{definition}[Quotient stacks] \label{def: quotient_stacks}
+                Let $Z$ be an $S$-scheme with an action by $G$, say $\alpha: G \x_S Z \to X$. The \textbf{quotient stack} $[Z/_{\alpha}G]$ with respect to this action is then the following groupoid object of the sheaf topos $\Sh(S_{\tau})$:
+                    $$
+                        \begin{tikzcd}
+                    	{G \x_S Z} & X
+                    	\arrow["\alpha", shift left=2, from=1-1, to=1-2]
+                    	\arrow["{\pr_2}"', shift right=2, from=1-1, to=1-2]
+                        \end{tikzcd}
+                    $$
+            \end{definition}
+            \begin{remark}
+                One advantage of this definition over the usual one (cf. e.g. \cite[\href{https://stacks.math.columbia.edu/tag/044O}{Tag 044O}]{stacks}) is that it makes it clear that quotient stacks satisfy descent.
+    
+                Also, given any two principal $G$-bundles $P \to S, P' \to S$, any $G$-equivariant $S$-scheme morphism $P \to P'$ is invertible \textit{a priori}. As such, we can equivalently characterise:
+                    $$[Z/_{\alpha}G](T) \cong \left\{ \text{ principal $G$-bundles $P \to T$ and $G \x_S T$-equivariant (iso)morphisms } \right\}$$
+                As such, definition \ref{def: quotient_stacks} gives us a completely diagrammatic way to think about principal bundles, without having to worry about trivialisations and so on. 
+            \end{remark}
+            \begin{example}[Classifying stacks and universal principal bundles] \label{example: classifying_stacks}
+                Since $S$ is terminal in $\Sch_{/S}$, $G$ acts on it trivially. The \textbf{classifying stack} of $G$, often denoted by $BG$, is nothing but the quotient stacks $[S/G]$. For any $T \in \Ob(\Sch_{/S})$, its $T$-points (i.e. objects of $BG(T)$) are principal $G$-bundles $P \to T$ along with $G$-equivariant morphisms $P \to T$. If $T$ is furthermore acted on trivially by $G$ then we will have that:
+                    $$BG(T) \cong \{ \text{princial $G$-bundles $P \to T$} \}$$
+                In other words, this is telling us that, for all $S$-schemes $T$ acted on trivially by $G$, all principal $G$-bundles $P \to T$ on $T$, there shall exist a morphism $\pt: S \to BG$ giving rise to a $(2, 1)$-pullback diagram in $\Stk(S_{\tau})$ as follows:
+                    $$
+                        \begin{tikzcd}
+                    	P & S \\
+                    	T & BG
+                    	\arrow[from=1-1, to=1-2]
+                    	\arrow["\forall"', from=1-1, to=2-1]
+                    	\arrow["{(2, 1)}"{description}, "\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+                    	\arrow["\exists \pt", from=1-2, to=2-2]
+                    	\arrow["{\exists!}", dashed, from=2-1, to=2-2]
+                        \end{tikzcd}
+                    $$
+                where $P \to S$ is the structural morphism. In this sense, one may regard any morphism of stacks:
+                    $$\pt: S \to BG$$
+                as a \textbf{universal princial $G$-bundle on $S$}, as any princial $G$-bundle $P \to T$ on an $S$-scheme $T$ is obtained by pullback $\pt: S \to BG$. Strictly speaking, this is an abuse of terminology, but it is nevertheless a useful way to think about principal $G$-bundles.
+            \end{example}
+            \begin{remark}
+                 Definition \ref{def: quotient_stacks} and example \ref{example: classifying_stacks} actually remain true when we replace $Z$ and $T$ by arbitrary prestacks fibred in groupoids over $\Sch_{/T}$. There are some necessary but obvious modifications to be made, and there are some $2$-categorical subtleties to worry about, but these are mostly abstract-nonsensical.
+            \end{remark}
+    
+            The discussion in example \ref{example: classifying_stacks} leads to the following definition. Recall that for any prestacks $\scrX, \scrY$ fibred in groupoids over $\Sch_{/S}$, the mapping stack $\Maps_S(\scrX, \scrY)$ satisfies the following:
+                $$\Maps_S(\scrX, \scrY)(T) := \Maps_S( T, \Maps_S(\scrX, \scrY) ) \cong \Maps_T(\scrX \x_S T, \scrY) \cong \Maps_T(\scrX \x_S T, \scrY \x_S T)$$
+            for all prestacks $T$ in groupoids over $\Sch_{/S}$, where the first equivalence holds because $\Maps_S(-, -)$ is an internal Hom and the second equivalence holds thanks to the universal property of $(2, 1)$-pullbacks.
+            \begin{definition}[Moduli stack of principal bundles] \label{def: moduli_stack_of_principal_bundles}
+                The \textbf{moduli stack of principal $G$-bundles} $P \to X$ on a fixed $S$-scheme $X$ is given as the following mapping stack over $S$:
+                    $$\Bun_G(X) := \Maps_S( X, BG )$$
+            \end{definition}
+            
+            Before moving on, let us try to understand the definition. Firstly, consider the following for all $S$-scheme $X$, which holds because $\Maps_S(-, -)$ is an internal Hom:
+                $$\Maps_S( X, \Maps_S( S, BG ) ) \cong \Maps_S( X \x_S S, BG ) \cong \Maps_S( X, BG ) = \Bun_G(X)$$
+            Next, notice that $\Maps_S( X, \Maps_S( S, BG )  )$ is equivalent to the groupoid of $(2, 1)$-pullback squares:
+                $$
+                    \begin{tikzcd}
+                        P & S \\
+                        X & BG
+                        \arrow[from=1-1, to=1-2]
+                        \arrow["\forall"', from=1-1, to=2-1]
+                        \arrow["{(2, 1)}"{description}, "\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+                        \arrow["\exists \pt", from=1-2, to=2-2]
+                        \arrow["{\exists!}", dashed, from=2-1, to=2-2]
+                    \end{tikzcd}
+                $$
+            where $P \to X$ are principal $G$-bundles on the $S$-scheme $X$. At the same time, we know from example \ref{example: classifying_stacks} that any such bundle gives rise to such a pullback diagram. Therefore, it makes sense to regard $\Bun_G(X)$ as the moduli stack of principal $G$-bundles on $X$.
+            
+            \begin{example}
+                When $X \cong S$, we have:
+                    $$\Bun_G(S) \cong \Maps_S( S, BG )$$
+                which is indeed the groupoid of principal $G$-bundles on $S$, per the content of example \ref{example: classifying_stacks}.
+            \end{example}
+            \begin{example}[$\Bun_{\GL_n}$ classifies rank-$n$ vector bundles] \label{example: Bun_GL_n_classifies_rank_n_vector_bundles}
+                A very nice fact is that $\Bun_{\GL_n}(X)$ is isomorphic as an $S$-stack to the moduli stack of rank-$n$ vector bundles on $X$. This is useful for proving that, when $X$ is flat, of finite-presentation, and projective over $S$ and $G$ is smooth over $S$, the stack $\Bun_G(X)$ will in fact be algebraic (in fact, it will also be smooth!). The proof usually involves firstly proving that $\Bun_{\GL_n}(X)$ is algebraic, and then using some kind of change-of-group result.
+    
+                But back to the current discussion. Firstly, let us consider the $S$-stack $\Vect_n(S)$ given as follows for all $S$-schemes $T$:
+                    $$\Vect_n(S)(T) := \{ \text{locally free $\scrO_T$-modules of rank $n$ and $\scrO_T$-linear isomorphisms} \}$$
+                It can be shown (see \cite[Lemma 4.1.1]{wang_algebraicity_of_Bun_G}) that there is an isomorphism of $S$-stacks:
+                    $$\Vect_n(S) \to B\GL_n$$
+                given for each $T \in \Ob(\Sch_{/S})$ (i.e. given as a natural transformation) by:
+                    $$\scrE \mapsto \Isom_{\scrO_T}( \scrO_T^{\oplus n}, \scrE )$$
+                where $\Isom_{\scrO_T}(-, -)$ is as in \cite[\href{https://stacks.math.columbia.edu/tag/08K7}{Tag 08K7}]{stacks} (see \cite[\href{https://stacks.math.columbia.edu/tag/0D3T}{Tag 0D3T}]{stacks} in particular for a description of $\Isom_{\scrO_T}(\scrF, \scrF')$ as a geometric object for any $\scrF, \scrF' \in \Ob(\QCoh(T))$); this is well-defined because any $\Isom_{\scrO_T}( \scrO_T^{\oplus n}, \scrE )$ has a natural $\GL_n \x_S T$-action, as isomorphisms of finite-dimensional vector spaces are given by invertible matrices. From this, we get that:
+                    $$
+                        \begin{aligned}
+                            \Bun_{\GL_n}(X) & := \Maps_S(X, B\GL_n)
+                            \\
+                            & \cong \Maps_S(X, \Vect_n(S))
+                            \\
+                            & = \{ \text{locally free $\scrO_X$-modules of rank $n$ and $\scrO_X$-linear isomorphisms} \}
+                        \end{aligned}
+                    $$
+                which means that $\Bun_{\GL_n}(X)$ is the moduli stack of rank-$n$ vector bundles on $X$.
+            \end{example}
+            
+            Now, as a matter of fact, for any \textit{algebraic} $S$-stack $\scrY$, it makes sense to consider the moduli stack of rank-$n$ vector bundles on $\scrY$:
+                $$\Vect_n(\scrY)(T) := \{ \text{locally free $\scrO_{\scrY}$-modules of rank $n$ and $\scrO_{\scrY}$-linear isomorphisms} \}$$
+            with quasi-coherent modules over the structure sheaf of an algebraic stack being understood in the sense of \cite[\href{https://stacks.math.columbia.edu/tag/06WU}{Tag 06WU}]{stacks}; in particular, this means that it makes sense to speak of:
+                $$\Bun_{\GL_n}(\scrY)$$
+            as the moduli space of rank-$n$ vector bundles on $\scrY$. In light of example \ref{example: Bun_GL_n_classifies_rank_n_vector_bundles}, let us suppose that $\Bun_G(X)$ - and hence $\Bun_G(X) \x_S X$, since schemes are instances of algebraic stacks - is an algebraic stack (which can happen) and then consider the following:
+                $$
+                    \begin{aligned}
+                        \Bun_{\GL_n}(\Bun_G(X) \x_S X) & = \Maps_S( \Bun_G(X) \x_S X, B\GL_n )
+                        \\
+                        & \cong \Maps_S(\Bun_G(X), \Maps_S(X, B\GL_n))
+                        \\
+                        & \cong \Maps_S(\Bun_G(X), \Bun_{\GL_n}(X))
+                    \end{aligned}
+                $$
+            Vector bundles of rank $n$ on the algebraic stack $\scrY := \Bun_G(X) \x_S X$ are thus the same as morphisms $\Bun_G(X) \to \Bun_{\GL_n}(X)$, and when $G = \GL_n$, one has also a \textbf{universal vector bundle} (of rank $n$):
+                $$\scrE_0$$
+            on $\Bun_{\GL_n}(X) \x_S X$, corresponding to any representative of the isomorphism class of $\id_{\Bun_{\GL_n}(X)}$. This is universal in the sense that, because for any prestack $Y$ fibred in groupoids over $S$ an any $S$-scheme $T$, the groupoid $\Maps_S(Y, Y)(T)$ is monoidal with respect to compositions, for every:
+                $$\scrE \in \Ob( \Bun_{\GL_n}(\scrY)(T) )$$
+            there exists some:
+                $$\varphi \in \Ob( \Maps_S(\Bun_{\GL_n}(X), \Bun_{\GL_n}(X)) )$$
+            such that:
+                $$\scrE \cong \varphi^* \scrE_0$$
+            \todo[inline]{Needs more details}
+
+        \subsection{\texorpdfstring{$\Bun_G$}{} is an algebraic stack}
     
     \addcontentsline{toc}{section}{References}
     \printbibliography
