@@ -21,6 +21,8 @@
       \tableofcontents %sort sections alphabetically
     }
 
+    \listoftodos
+
     \section{Projective spaces}
         \subsection{Projective spaces as moduli spaces}
             \begin{convention}
@@ -356,7 +358,7 @@
         \subsection{Quotient stacks are covered by affine GIT quotients + automorphisms}
             Suppose that $G$ is a reductive affine algebraic group over $\Spec k$. We shall demonstrate that if:
                 $$X := \bigcup_{i \in I} \Spec A_i$$
-            is a $k$-scheme acted on by $G$, then fppf-locally, the quotient stack\footnote{Update Apr. $24^{th} 2024$: I have now written some things about quotient stacks. See definition \ref{def: quotient_stacks} and the materials that follow.}:
+            is a $k$-scheme acted on by $G$, then fppf-locally, the quotient stack\footnote{Update Apr. $24^{th} 2024$: I have now written some things about quotient stacks. See definition \ref{def: principal_bundles_and_quotient_stacks} and the materials that follow.}:
                 $$[X/G]$$
             will look like:
                 $$[\Spec A_i/G]$$
@@ -369,7 +371,7 @@
     \section{Non-abelian \texorpdfstring{$H^1$}{} and torsors}
         \subsection{Computing non-abelian \texorpdfstring{$H^1$}{}}
             \begin{convention}
-                Fix a base scheme $S$ and consider a Grothendieck topology $\tau$ on $\Sch_{/S}$, and for technical reasons, we require that $\tau$ is \textit{no finer than the fpqc topology}. For brevity, let us denote the resulting site by $S_{\tau}$. 
+                Fix a base scheme $S$ and consider a Grothendieck topology $\tau$ on $\Sch_{/S}$, and for technical reasons, we require that $\tau$ is \textit{subcanonical}\footnote{The reader can assume that it is either the fpqc topology or finer.}. For brevity, let us denote the resulting site by $S_{\tau}$. 
             \end{convention}
 
             Let $\E$ be an exact category (e.g. any additive category, the category of vector bundles on $S_{\tau}$, the category of $\Grp$-valued sheaves on $S_{\tau}$, etc.) with zero object $1$, and denote by $\E(S_{\tau})$ the category of $\E$-valued sheaves on $S_{\tau}$. By the Yoneda lemma, this is once again an exact category, but an issue is that even if we are given a short exact sequence:
@@ -465,139 +467,199 @@
                 
             \end{example}
 
-    \section{Quotient stacks, classifying stacks, and principal bundles}
-        \begin{convention}
-            Fix a base scheme $S$ and consider a Grothendieck topology $\tau$ on $\Sch_{/S}$, and for technical reasons, we require that $\tau$ is \textit{no finer than the fpqc topology}. For brevity, let us denote the resulting site by $S_{\tau}$. 
+    \section{Small results in commutative algebra and algebraic geometry}
+        I can't seem to locate explicit references for these facts, which should be very well-known, so I thought I'd note them down.
 
-            Write $\Sh(S_{\tau})$ for the sheaf topos on $S_{\tau}$, and $\Stk(S_{\tau}) := \Grpd(\Sh(S_{\tau}))$ for the $(2, 1)$-category of $\Grpd$-valued stacks on $S_{\tau}$. 
+        \subsection{Global section functor is represented by \texorpdfstring{$\A^1$}{}}
+            \begin{lemma}
+                Let $\Spec k$ be an affine base scheme, let $X$ be an scheme over $\Spec k$, and $\A^1_k := \Spec k[x]$ be the affine line over $\Spec k$. There is a $k$-algebra isomorphism:
+                    $$\Gamma(X, \scrO_X) \xrightarrow[]{\cong} \Maps_k(X, \A^1_k)$$
+            \end{lemma}
+                \begin{proof}
+                    The Zariski topology is subcanonical, so representable presheaves such as $\Maps_k(-, \A^1_k)$ are sheaves. This means that we can assume without any loss of generality that $X$ is affine; suppose that $X := \Spec A$ for some commutative $k$-algebra $A$. Consider, then, the $k$-algebra isomorphism\footnote{I'm sure a proof of this being an algebra homomorphism is in every algebra textbook :)} (the algebra structure on the RHS comes from pointwise addition and multiplication):
+                        $$\ev: A \to \Hom_{k\-\Comm\Alg}(k[x], A)$$
+                    determined for every $a \in A$ and every $\varphi \in \Hom_{k\-\Comm\Alg}(k[x], A)$ by:
+                        $$\ev(a)( \varphi ) := \varphi(a)$$
+                    Using this, we will get a sequence of $k$-algebra isomorphisms as follows:
+                        $$\Gamma(X, \scrO_X) \xrightarrow[]{\cong} A \xrightarrow[]{\ev} \Hom_{k\-\Comm\Alg}(k[x], A) \xrightarrow[]{\Spec} \Maps_k(X, \A^1_k)$$
+                    where the first isomorphism comes from the adjunction $\Gamma \ladjoint \Spec$.
+                \end{proof}
 
-            Eventually, we will specialise to the case where $S := \Spec k$ where $k$ is an algebraically closed field of characteristic $0$.
-        \end{convention}
-
-        \begin{convention}
-            Throughout, let $G$ be an affine group $S$-scheme.
-        \end{convention}
-        \begin{remark}
-            If $G$ is smooth (e.g. when $S$ is a $\Q$-scheme) then on can take $\tau$ to be the \'etale topology. If not, then one will have to work with a topology at least as fine as the fppf topology.
-        \end{remark}
-
-    \subsection{Constructing \texorpdfstring{$\Bun_G$}{}}
-            \begin{definition}[Quotient stacks] \label{def: quotient_stacks}
-                Let $Z$ be an $S$-scheme with an action by $G$, say $\alpha: G \x_S Z \to X$. The \textbf{quotient stack} $[Z/_{\alpha}G]$ with respect to this action is then the following groupoid object of the sheaf topos $\Sh(S_{\tau})$:
-                    $$
-                        \begin{tikzcd}
-                    	{G \x_S Z} & X
-                    	\arrow["\alpha", shift left=2, from=1-1, to=1-2]
-                    	\arrow["{\pr_2}"', shift right=2, from=1-1, to=1-2]
-                        \end{tikzcd}
-                    $$
-            \end{definition}
-            \begin{remark}
-                One advantage of this definition over the usual one (cf. e.g. \cite[\href{https://stacks.math.columbia.edu/tag/044O}{Tag 044O}]{stacks}) is that it makes it clear that quotient stacks satisfy descent.
-    
-                Also, given any two principal $G$-bundles $P \to S, P' \to S$, any $G$-equivariant $S$-scheme morphism $P \to P'$ is invertible \textit{a priori}. As such, we can equivalently characterise:
-                    $$[Z/_{\alpha}G](T) \cong \left\{ \text{ principal $G$-bundles $P \to T$ and $G \x_S T$-equivariant (iso)morphisms } \right\}$$
-                As such, definition \ref{def: quotient_stacks} gives us a completely diagrammatic way to think about principal bundles, without having to worry about trivialisations and so on. 
-            \end{remark}
-            \begin{example}[Classifying stacks and universal principal bundles] \label{example: classifying_stacks}
-                Since $S$ is terminal in $\Sch_{/S}$, $G$ acts on it trivially. The \textbf{classifying stack} of $G$, often denoted by $BG$, is nothing but the quotient stacks $[S/G]$. For any $T \in \Ob(\Sch_{/S})$, its $T$-points (i.e. objects of $BG(T)$) are principal $G$-bundles $P \to T$ along with $G$-equivariant morphisms $P \to T$. If $T$ is furthermore acted on trivially by $G$ then we will have that:
-                    $$BG(T) \cong \{ \text{princial $G$-bundles $P \to T$} \}$$
-                In other words, this is telling us that, for all $S$-schemes $T$ acted on trivially by $G$, all principal $G$-bundles $P \to T$ on $T$, there shall exist a morphism $\pt: S \to BG$ giving rise to a $(2, 1)$-pullback diagram in $\Stk(S_{\tau})$ as follows:
-                    $$
-                        \begin{tikzcd}
-                    	P & S \\
-                    	T & BG
-                    	\arrow[from=1-1, to=1-2]
-                    	\arrow["\forall"', from=1-1, to=2-1]
-                    	\arrow["{(2, 1)}"{description}, "\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
-                    	\arrow["\exists \pt", from=1-2, to=2-2]
-                    	\arrow["{\exists!}", dashed, from=2-1, to=2-2]
-                        \end{tikzcd}
-                    $$
-                where $P \to S$ is the structural morphism. In this sense, one may regard any morphism of stacks:
-                    $$\pt: S \to BG$$
-                as a \textbf{universal princial $G$-bundle on $S$}, as any princial $G$-bundle $P \to T$ on an $S$-scheme $T$ is obtained by pullback $\pt: S \to BG$. Strictly speaking, this is an abuse of terminology, but it is nevertheless a useful way to think about principal $G$-bundles.
-            \end{example}
-            \begin{remark}
-                 Definition \ref{def: quotient_stacks} and example \ref{example: classifying_stacks} actually remain true when we replace $Z$ and $T$ by arbitrary prestacks fibred in groupoids over $\Sch_{/T}$. There are some necessary but obvious modifications to be made, and there are some $2$-categorical subtleties to worry about, but these are mostly abstract-nonsensical.
-            \end{remark}
-    
-            The discussion in example \ref{example: classifying_stacks} leads to the following definition. Recall that for any prestacks $\scrX, \scrY$ fibred in groupoids over $\Sch_{/S}$, the mapping stack $\Maps_S(\scrX, \scrY)$ satisfies the following:
-                $$\Maps_S(\scrX, \scrY)(T) := \Maps_S( T, \Maps_S(\scrX, \scrY) ) \cong \Maps_T(\scrX \x_S T, \scrY) \cong \Maps_T(\scrX \x_S T, \scrY \x_S T)$$
-            for all prestacks $T$ in groupoids over $\Sch_{/S}$, where the first equivalence holds because $\Maps_S(-, -)$ is an internal Hom and the second equivalence holds thanks to the universal property of $(2, 1)$-pullbacks.
-            \begin{definition}[Moduli stack of principal bundles] \label{def: moduli_stack_of_principal_bundles}
-                The \textbf{moduli stack of principal $G$-bundles} $P \to X$ on a fixed $S$-scheme $X$ is given as the following mapping stack over $S$:
-                    $$\Bun_G(X) := \Maps_S( X, BG )$$
-            \end{definition}
-            
-            Before moving on, let us try to understand the definition. Firstly, consider the following for all $S$-scheme $X$, which holds because $\Maps_S(-, -)$ is an internal Hom:
-                $$\Maps_S( X, \Maps_S( S, BG ) ) \cong \Maps_S( X \x_S S, BG ) \cong \Maps_S( X, BG ) = \Bun_G(X)$$
-            Next, notice that $\Maps_S( X, \Maps_S( S, BG )  )$ is equivalent to the groupoid of $(2, 1)$-pullback squares:
-                $$
-                    \begin{tikzcd}
-                        P & S \\
-                        X & BG
-                        \arrow[from=1-1, to=1-2]
-                        \arrow["\forall"', from=1-1, to=2-1]
-                        \arrow["{(2, 1)}"{description}, "\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
-                        \arrow["\exists \pt", from=1-2, to=2-2]
-                        \arrow["{\exists!}", dashed, from=2-1, to=2-2]
-                    \end{tikzcd}
-                $$
-            where $P \to X$ are principal $G$-bundles on the $S$-scheme $X$. At the same time, we know from example \ref{example: classifying_stacks} that any such bundle gives rise to such a pullback diagram. Therefore, it makes sense to regard $\Bun_G(X)$ as the moduli stack of principal $G$-bundles on $X$.
-            
+        \subsection{Homotopy equivalence between \texorpdfstring{$\Spec A$ and $\Spm A$}{}}
+            \begin{lemma} \label{lemma: spectra_of_integral_domains_are_contractible}
+                Let $A$ be an integral domain. Then the underlying Zariski topological space of $\Spec A$ will be contractible.
+            \end{lemma}
+                \begin{proof}
+                    We must require the input ring to be an integral domain because we would like there to be a generic point, i.e. the prime $(0) \in |\Spec A|$. Let $S := |\Spec A|$, let $\eta: \{(0)\} \hookrightarrow S$ denote the canonical inclusion of the open subspace $\{(0)\}$ into $S$, and then consider the following map, which we shall show to be a retract (recall that if a space retracts to a point, then it will be contractible):
+                        $$r: S \to \{(0)\}$$
+                    It is clear that this is continuous and that $r \circ \eta = \id_{(0)}$, so let us find a homotopy:
+                        $$h: \eta \circ r \Rightarrow \id_S$$
+                    which is to be a map:
+                        $$h: [0, 1] \x S \to S$$
+                    fitting into the following commutative diagram in $\Top$:
+                        $$
+                            \begin{tikzcd}
+                        	S & {\{(0)\}} \\
+                        	{[0, 1] \x S} & S \\
+                        	S
+                        	\arrow["r", from=1-1, to=1-2]
+                        	\arrow["{\delta_0}"', from=1-1, to=2-1]
+                        	\arrow["\eta", from=1-2, to=2-2]
+                        	\arrow["h", dashed, from=2-1, to=2-2]
+                        	\arrow["{\delta_1}", from=3-1, to=2-1]
+                        	\arrow["{\id_S}"', from=3-1, to=2-2]
+                            \end{tikzcd}
+                        $$
+                    where $\delta_0(\p) := (0, \p), \delta_1(s) := (1, \p)$ for all $\p \in S$. To this end, consider $h$ given by:
+                        $$h
+                            (t, \p) := 
+                            \begin{cases}
+                                \text{$\p$ if $t = 0$}
+                                \\
+                                \text{$(0)$ if $t > 0$}
+                            \end{cases}
+                        $$
+                    It is clear that this map fits into the diagram above as a set map, so it remains only to show that it is continuous. For this, pick any $f \in A$ and any basic open subspace $U_f := |\Spec A[f^{-1}]|$. Next, consider the following:
+                        $$
+                            \begin{aligned}
+                                & h^{-1}(U_f)
+                                \\
+                                := & \{ (t, \p) \in [0, 1] \x S \mid h(t, \p) \in U_f \}
+                                \\
+                                = & \{ (t, \p) \in [0, 1] \x S \mid h(t, \p) \not \ni f \}
+                                \\
+                                = & \{ (t, \p) \in [0, 1] \x S \mid \left( h(0, \p) := \p \not \ni f \right) \vee \left( (t > 0) \wedge ( h(t, \p) := (0) \not \ni f ) \right) \}
+                                \\
+                                = & (\{0\} \x U_f) \cup ((0, 1] \x U_f)
+                                \\
+                                = & [0, 1] \x U_f
+                            \end{aligned}
+                        $$
+                    and note that even though $0 \in (0)$, the last equality remains true because $U_0 = \varnothing$ and hence $h^{-1}(U_0) = h^{-1}(\varnothing) = \varnothing = \{(t, \p) \in [0, 1] \x S \mid (0) \not \ni 0\}$ (the subset of elements satisfying a false statement is empty). We have therefore shown that $h$ is continuous, and so we are done.
+                \end{proof}
+            \begin{corollary}
+                When $A$ is an integral domain, $|\Spec A|$ and $|\Spm A|$ will be homotopically equivalent to one another if and only if $|\Spm A|$ is contractible.
+            \end{corollary}
             \begin{example}
-                When $X \cong S$, we have:
-                    $$\Bun_G(S) \cong \Maps_S( S, BG )$$
-                which is indeed the groupoid of principal $G$-bundles on $S$, per the content of example \ref{example: classifying_stacks}.
+                If $k$ is an integral domain then $\A^n_k := \Spec k[x_1, ..., x_n]$ will be contractible. Weirdly enough, because $\A^1_{\bbC}$ is the fine moduli space of the moduli stack $\calM_{\elliptic}$ of complex elliptic curves (elliptic curves are parametrised by their $j$-invariants), this means that is a stacky family over a contractible space. 
             \end{example}
-            \begin{example}[$\Bun_{\GL_n}$ classifies rank-$n$ vector bundles] \label{example: Bun_GL_n_classifies_rank_n_vector_bundles}
-                A very nice fact is that $\Bun_{\GL_n}(X)$ is isomorphic as an $S$-stack to the moduli stack of rank-$n$ vector bundles on $X$. This is useful for proving that, when $X$ is flat, of finite-presentation, and projective over $S$ and $G$ is smooth over $S$, the stack $\Bun_G(X)$ will in fact be algebraic (in fact, it will also be smooth!). The proof usually involves firstly proving that $\Bun_{\GL_n}(X)$ is algebraic, and then using some kind of change-of-group result.
-    
-                But back to the current discussion. Firstly, let us consider the $S$-stack $\Vect_n(S)$ given as follows for all $S$-schemes $T$:
-                    $$\Vect_n(S)(T) := \{ \text{locally free $\scrO_T$-modules of rank $n$ and $\scrO_T$-linear isomorphisms} \}$$
-                It can be shown (see \cite[Lemma 4.1.1]{wang_algebraicity_of_Bun_G}) that there is an isomorphism of $S$-stacks:
-                    $$\Vect_n(S) \to B\GL_n$$
-                given for each $T \in \Ob(\Sch_{/S})$ (i.e. given as a natural transformation) by:
-                    $$\scrE \mapsto \Isom_{\scrO_T}( \scrO_T^{\oplus n}, \scrE )$$
-                where $\Isom_{\scrO_T}(-, -)$ is as in \cite[\href{https://stacks.math.columbia.edu/tag/08K7}{Tag 08K7}]{stacks} (see \cite[\href{https://stacks.math.columbia.edu/tag/0D3T}{Tag 0D3T}]{stacks} in particular for a description of $\Isom_{\scrO_T}(\scrF, \scrF')$ as a geometric object for any $\scrF, \scrF' \in \Ob(\QCoh(T))$); this is well-defined because any $\Isom_{\scrO_T}( \scrO_T^{\oplus n}, \scrE )$ has a natural $\GL_n \x_S T$-action, as isomorphisms of finite-dimensional vector spaces are given by invertible matrices. From this, we get that:
-                    $$
-                        \begin{aligned}
-                            \Bun_{\GL_n}(X) & := \Maps_S(X, B\GL_n)
-                            \\
-                            & \cong \Maps_S(X, \Vect_n(S))
-                            \\
-                            & = \{ \text{locally free $\scrO_X$-modules of rank $n$ and $\scrO_X$-linear isomorphisms} \}
-                        \end{aligned}
-                    $$
-                which means that $\Bun_{\GL_n}(X)$ is the moduli stack of rank-$n$ vector bundles on $X$.
+            \begin{example}
+                Likewise, if $k$ is an integral domain then $\P^1 \cong \A^1_k \cup_{\Spec k[x^{\pm 1}]} \A^1_k$. Likewise for $\P^n_k$ generally.
             \end{example}
-            
-            Now, as a matter of fact, for any \textit{algebraic} $S$-stack $\scrY$, it makes sense to consider the moduli stack of rank-$n$ vector bundles on $\scrY$:
-                $$\Vect_n(\scrY)(T) := \{ \text{locally free $\scrO_{\scrY}$-modules of rank $n$ and $\scrO_{\scrY}$-linear isomorphisms} \}$$
-            with quasi-coherent modules over the structure sheaf of an algebraic stack being understood in the sense of \cite[\href{https://stacks.math.columbia.edu/tag/06WU}{Tag 06WU}]{stacks}; in particular, this means that it makes sense to speak of:
-                $$\Bun_{\GL_n}(\scrY)$$
-            as the moduli space of rank-$n$ vector bundles on $\scrY$. In light of example \ref{example: Bun_GL_n_classifies_rank_n_vector_bundles}, let us suppose that $\Bun_G(X)$ - and hence $\Bun_G(X) \x_S X$, since schemes are instances of algebraic stacks - is an algebraic stack (which can happen) and then consider the following:
-                $$
-                    \begin{aligned}
-                        \Bun_{\GL_n}(\Bun_G(X) \x_S X) & = \Maps_S( \Bun_G(X) \x_S X, B\GL_n )
-                        \\
-                        & \cong \Maps_S(\Bun_G(X), \Maps_S(X, B\GL_n))
-                        \\
-                        & \cong \Maps_S(\Bun_G(X), \Bun_{\GL_n}(X))
-                    \end{aligned}
-                $$
-            Vector bundles of rank $n$ on the algebraic stack $\scrY := \Bun_G(X) \x_S X$ are thus the same as morphisms $\Bun_G(X) \to \Bun_{\GL_n}(X)$, and when $G = \GL_n$, one has also a \textbf{universal vector bundle} (of rank $n$):
-                $$\scrE_0$$
-            on $\Bun_{\GL_n}(X) \x_S X$, corresponding to any representative of the isomorphism class of $\id_{\Bun_{\GL_n}(X)}$. This is universal in the sense that, because for any prestack $Y$ fibred in groupoids over $S$ an any $S$-scheme $T$, the groupoid $\Maps_S(Y, Y)(T)$ is monoidal with respect to compositions, for every:
-                $$\scrE \in \Ob( \Bun_{\GL_n}(\scrY)(T) )$$
-            there exists some:
-                $$\varphi \in \Ob( \Maps_S(\Bun_{\GL_n}(X), \Bun_{\GL_n}(X)) )$$
-            such that:
-                $$\scrE \cong \varphi^* \scrE_0$$
-            \todo[inline]{Needs more details}
+            \begin{example}
+                By \say{variety}, we shall mean a scheme over a field that is integral, of finite type, and separated; we do not require irreducibility. Algebraic curves - i.e. varieties of (pure) dimension $1$ - are Dedekind schemes \textit{a priori}\footnote{This is a basic fact from algebraic number theory. See, for instance, \cite{neukirch_2010_algebraic_number_theory}.}, so they are also locally contractible; if the curve is irreducible then it will be globally contractible.
+            \end{example}
 
-        \subsection{\texorpdfstring{$\Bun_G$}{} is an algebraic stack}
+        \subsection{Tangent spaces}
+            In algebraic geometry, it often pays to set up constructions in a way that is as functorial as possible. For instance, this tends to help in the context of moduli theory, where one has to attach geometric constructions to abstract functors. One construction that is well-known to be functorial (in a certain sense), yet is usually recorded in non-functorial terms is that of Zariski tangent spaces. We assume that the reader is comfortable with the idea that tangent vectors at a given point are derivations from the local ring at that point to itself.  
+        
+            \begin{lemma}[A functorial characterisation of tangent spaces] \label{lemma: functorial_characterisation_of_tangent_spaces}
+                Let $k$ be a field, let $X$ be a scheme over $\Spec k$, and let $x \in \Maps_{\Sch_{/\Spec k}}(\Spec k, X)$ be a point with residue field $k$. Then, there will be $k$-vector space isomorphisms:
+                    $$(\m_{X, x}/\m_{X, x}^2)^* \xrightarrow[]{\cong} \Der_k(\scrO_{X, x}) \xrightarrow[]{\cong} \Maps_{\Sch_{/\Spec k}}(\Spec k[\e]/\e^2, X)$$
+                characterising the tangent space of $X$ at $x$; here, we have abbreviated $\Der_k(\scrO_{X, x}) := \Der_k(\scrO_{X, x}, \scrO_{X, x})$.
+            \end{lemma}
+                \begin{proof}
+                    Due to the assertion being (Zariski-)local in nature, we may assume without any loss of generality that $X$ is affine, say $X := \Spec A$; in fact, we can even assume that $A$ is a local commutative $k$-algebra, which in particular will result in $x \in X(k)$ being the unique point with residue field $k$, as well as $\scrO_{X, x} \cong A$. In this case, we have that:
+                        $$\Maps_{\Sch_{/\Spec k}}(\Spec k[\e]/\e^2, X) \cong \Hom_{k\-\Comm\Alg}(\scrO_{X, x}, k[\e]/\e^2)$$
+                        
+                    \begin{enumerate}
+                        \item To prove that there is a $k$-vector space isomorphism:
+                            $$(\m_{X, x}/\m_{X, x}^2)^* \xrightarrow[]{\cong} \Der_k(\scrO_{X, x})$$
+                        let us recall two well-documented details. Firstly, that $\m_{X, x}/\m_{X, x}^2$ is nothing but the stalk of $\Omega^1_{X/k}$ at $x$, and secondly, that from the universal property of K\"ahler differentials, we know that $\Omega^1_{X/k}$ corepresents the functor $\Der_{\scrO_{\Spec k}}(\scrO_X, -): \scrO_X\mod \to \scrO_X\mod$ and hence in particular:
+                            $$\Hom_{\scrO_X}(\Omega^1_X, \scrO_X) \cong \Der_{\scrO_{\Spec k}}(\scrO_X)$$
+                        By taking stalks, we shall get:
+                            $$( \Omega^1_{X/k, x} )^* \cong \Der_k(\scrO_X)$$
+                        and hence:
+                            $$(\m_{X, x}/\m_{X, x}^2)^* \cong \Der_k(\scrO_{X, x})$$
+                        \item Let us now attempt to identify $\Hom_{k\-\Comm\Alg}(\scrO_{X, x}, k[\e]/\e^2)$ with $\Der_k(\scrO_{X, x})$. We claim that there is a $k$-vector space isomorphism:
+                            $$T: \Der_k(\scrO_{X, x}) \xrightarrow[]{\cong} \Hom_{k\-\Comm\Alg}(\scrO_{X, x}, k[\e]/\e^2)$$
+                        specified in the following manner\footnote{One can think of this as the evaluation $D(f)$ of the derivation $D$ at $f$ is being sent to the corresponding Taylor polynomial of degree $\leq 1$.}, for all $f \in \scrO_{X, x}$:
+                            $$T(D)(f) := f + D(f)\e \pmod{\e^2}$$
+                        Each $T(D): \scrO_{X, x} \to k[\e]/\e^2$ can be easily shown to be a $k$-algebra homomorphism, so the map $T$ is well-defined, and it is also easy to see that $T$ is $k$-linear. As such, let us focus on proving that it is bijective. Firstly, to prove that $T$ is injective, note that:
+                            $$
+                                \begin{aligned}
+                                    \ker T & := \{ D \in \Der_k(\scrO_{X, x}) \mid \forall f \in \scrO_{X, x}: T(D)(f) \equiv 0 \pmod{\e^2}\}
+                                    \\
+                                    & = \{ D \in \Der_k(\scrO_{X, x}) \mid \forall f \in \scrO_{X, x}: f + D(f)\e \equiv 0 \pmod{\e^2}\}
+                                \end{aligned}
+                            $$
+                        To prove that $T$ is surjective, pick an arbitrary $k$-algebra homomorphism $\varphi: \scrO_{X, x} \to k[\e]/\e^2$. Next, pick an arbitrary element $f \in \scrO_{X, x}$. We will be done if we can find a derivation $D \in \Der_k(\scrO_{X, x})$ such that:
+                            $$\varphi(f) - f \equiv D(f) \e \pmod{\e^2}$$
+                    \end{enumerate}
+                \end{proof}
+
+        \subsection{Representability of mapping spaces}
+            \begin{convention}
+                Fix a base scheme $S$ and consider a Grothendieck topology $\tau$ on $\Sch_{/S}$, and for technical reasons, we require that $\tau$ is \textit{subcanonical}\footnote{The reader can assume that it is either the fpqc topology or finer.}. For brevity, let us denote the resulting \textit{small} site by $S_{\tau}$.
+
+                If $\calS$ is an algebraic space over $S$ then by $\Sch_{/\calS}$, we shall mean the full subcategory of $\Sh( S_{\fppf} )$ spanned by morphisms $X \to \calS$ from scheme $X$. Should $\Sch_{/S}$ be endowed with any subcanonical Grothendieck topology $\tau$, then that topology will also induce another on $\Sch_{/\calS}$. The resulting small site will be denoted by $\calS_{\tau}$.
+            \end{convention}
+        
+            A natural question in algebraic geometry is as follows:
+            \begin{question}
+                Given two schemes/algebraic spaces/algebraic stacks $X, Y$, when is the mapping space $\Maps(X, Y)$ representable by a scheme/algebraic space/algebraic stacks ?
+            \end{question}
+
+            Many attempts have been made towards this question, usually with various practical assumptions imposed upon $X$ and $Y$. The proof techniques can vary in complexity, depending on the assumptions on $X$ and $Y$, but in most cases, the general strategy is to use Artin's Criteria for Representability, which is a deformation-theoretic method. One salient advantage of using this method is that the tangent space at a given point $f \in \Maps(X, Y)$ is relatively easy to describe: it is nothing but:
+                $$T_{\Maps(X, Y), f} \cong H^0(X_{\Zar}, \Hom_{\scrO_X}( f^*\Omega^1_{Y/X}, \scrO_X ))$$
+            
+            Grothendieck, for instance, was interested in maps between projective schemes, and made use of his Existence Theorem that was developed during his work on the Hilbert and Quot schemes in order to prove representability of mapping spaces. An easy but nevertheless important notion in this proof is that of the graph of a morphism in an arbitrary category. It is a natural generalisation of the definition of functions as certain ordered pairs as in material set theory. 
+            \begin{definition}[Graph of morphisms] \label{def: graphs_of_morphisms}
+                (Cf. \cite[\href{https://stacks.math.columbia.edu/tag/024T}{Tag 024T}]{stacks}) Let $\C$ be a category and $f: X \to Y$ be a morphism therein. Its \textbf{graph}, commonly denoted by $\Gamma(f)$ is then obtained via:
+                    $$
+                        \begin{tikzcd}
+                    	{\Gamma(f)} & Y \\
+                    	{X \x Y} & {Y \x Y}
+                    	\arrow[from=1-1, to=1-2]
+                    	\arrow[from=1-1, to=2-1]
+                    	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+                    	\arrow["{\Delta_Y}", from=1-2, to=2-2]
+                    	\arrow["{f \x \id_Y}", from=2-1, to=2-2]
+                        \end{tikzcd}
+                    $$
+                \textit{should the products and pullback exist in the first place}; here, $\Delta_Y: Y \to Y \x Y$ is the diagonal morphism.
+            \end{definition}
+            \begin{remark}
+                When $\C := \Sch_{/S}$, then we see that if $Y$ is separated over $S$, i.e. $\Delta_{Y/S}: Y \to Y \x_S Y$ is a closed immersion by definition, then because closed immersions are preserved by pullbacks, the canonical map:
+                    $$\Gamma(f) \to X \x_S Y$$
+                coming from a morphism of $S$-schemes $f: X \to Y$ will also be a closed immersion. In other words, if $Y$ is separated, then the graph of $f$ will be a closed subscheme of the \say{plane} whose two \say{axes} are $X$ and $Y$.
+            \end{remark}
+            Recall firstly that the Hilbert moduli problem is given in the following manner. Suppose for a moment that $X, \calS$ are algebraic spaces over a fixed base scheme $S$ and that $f: X \to \calS$ is a morphism of finite presentation over $S$. Then, the \textbf{Hilbert moduli problem} will be the presheaf on $\calS_{\fpqc}$ given by:
+                $$
+                    \Hilb_{X/S}(T) :=
+                    \left\{
+                        \begin{array}{cc}
+                             & \text{closed immersions $Z \hookrightarrow X \x_{\calS} T$ such that}
+                             \\
+                             & \text{the canonical composition $Z \to X \x_{\calS} T \to T$ is}
+                             \\
+                             & \text{of finite presentation, flat, and proper}
+                        \end{array}
+                    \right\}
+                $$
+            for all $T \in \Ob(\calS_{\fpqc})$.
+            \begin{theorem}[Grothendieck's theorem on mapping space between projective schemes]
+                Let $S$ be a base scheme, let $X, Y$ be projective $S$-scheme, and suppose that $X$ is flat over $S$. Then, $\Maps_{\Sch_{/S}}(X, Y)$ will be a quasi-projective $S$-scheme.
+            \end{theorem}
+                \begin{proof}[Proof sketch]
+                    If we take for granted the representability of Hilbert schemes (\textit{the proof of which requires deformation theory}), then the strategy to prove that $\Maps_{\Sch_{/S}}(X, Y)$ is representable by an $S$-scheme (namely, a quasi-projective one) hinges on proving that there is a monomorphism of sheaves on $S_{\fpqc}$:
+                        $$\Gamma: \Maps_{\Sch_{/S}}(X, Y) \hookrightarrow \Hilb_{X \x_S Y/S}$$
+                    that is representable by open immersions of schemes.
+
+                    For any $T \in \Ob(S_{\fpqc})$, we claim that the corresponding component:
+                        $$\Gamma_T: \Maps_{\Sch_{/S}}(X, Y)(T) \hookrightarrow \Hilb_{X \x_S Y/S}(T)$$
+                    of the natural transformation $\Gamma$ mentioned above maps morphisms of $T$-schemes $f \in \Maps_{\Sch_{/T}}(X \x_S T, Y \x_S T) =: \Maps_{\Sch_{/S}}(X, Y)(T)$ to their graphs $\Gamma_T(f)$ (in the sense of definition \ref{def: graphs_of_morphisms}); see \cite[\href{https://stacks.math.columbia.edu/tag/0D1A}{Tag 0D1A}]{stacks}. To see that this is well-defined, simply note that because $Y$ is projective and hence separated, of finite presentation, flat, and proper by definition, $\Gamma_T(f)$ will always be a closed subscheme of $(X \x_S T) \x_T (Y \x_S T) \cong (X \x_S Y) \x_S T$ that is of finite presentation, flat, and proper over $T$, i.e. $\Gamma_T(f)$ is indeed nothing but an element of $\Hilb_{X \x_S Y/S}(T)$.
+
+                    Now, to see that $\Gamma$ is representable by open immersions, we will need to show that given any morphism of schemes $u: U \to \Hilb_{X \x_S Y/S}$, the canonical projection:
+                        $$\Maps_{\Sch_{/S}}(X, Y) \x_{ \Gamma, \Hilb_{X \x_S Y/S}, u } U \to U$$
+                    is an open immersion of schemes. 
+
+                    Lastly, note that because an open subsheaf of a scheme is itself a scheme, $\Maps_{\Sch_{/S}}(X, Y)$ is now necessarily representable by a scheme. \textit{A priori}, $\Hilb_{X \x_S Y/S}$ is a projective $S$-scheme, so $\Maps_{\Sch_{/S}}(X, Y)$ is quasi-projective over $S$ by definition.
+                \end{proof}
+            There is a mild generalisation of the above to the setting of algebraic spaces that does away with some of the unnecessary hypotheses, which is perhaps useful when one is concerned with mapping spaces between certain quotients (e.g. by finite group actions, which arise naturally over positive characteristics).
+            \begin{proposition}[Mapping spaces between proper algebraic spaces]
+                
+            \end{proposition}
     
     \addcontentsline{toc}{section}{References}
     \printbibliography
