@@ -1,0 +1,136 @@
+\input{article preambles}
+
+\setcounter{section}{-1}
+
+\input{commands}
+
+\begin{document}
+
+    \title{dg-categories}
+    
+    \author{Dat Minh Ha}
+    \maketitle
+    
+    \begin{abstract}
+        This is a recap of the important properties of and constructions involving dg-categories that one might need for higher representation theory.
+    \end{abstract}
+    
+    {
+      \hypersetup{} 
+      %\dominitoc
+      \tableofcontents %sort sections alphabetically
+    }
+
+    \section{Introduction}
+
+    \section{What is a dg-category}
+        \subsection{The \texorpdfstring{$(\infty, 1)$}{}-category of dg-categories}
+            We begin right away with the definition.
+            \begin{definition}[dg-categories] \label{def: dg_categories}
+                A \textbf{differential-graded category} (or \textbf{dg-category}) over a commutative ring $R$ is a stable $(\infty, 1)$-category that is enriched over the stable $(\infty, 1)$-category of chain complexes of $R$-modules. Sometimes we also refer to such an $(\infty, 1)$-category as an $R$-linear dg-category.
+            \end{definition}
+
+            It will also be convenient to fix the following terminology:
+            \begin{definition}[Continuous functors] \label{def: continuous_functors}
+                A functor between two $(\infty, 1)$-categories is said to be \textbf{continuous} if it preserves small filtered colimits. 
+            \end{definition}
+            Let us also recall that between two $(\infty, 1)$-categories, a functor is said to be left/right-exact if and only if it preserves finite limits/finite colimits respectively. Clearly, being continuous is stronger than being right-exact. 
+
+            The following lemma is trivial but important.
+            \begin{lemma}
+                Let $\C, \D$ be stable $(\infty, 1)$-categories and let $F: \C \to \D$ be an exact functor. Then, the following statements are equivalent:
+                \begin{enumerate}
+                    \item $F$ is continuous.
+                    \item $F$ preserves small direct sums.
+                    \item $F$ preserves all small colimits.
+                \end{enumerate}
+            \end{lemma}
+
+            \begin{definition}[$R\-\dg\Cat_1$] \label{def: (infinity, 1)_category_of_dg_categories}
+                Let $R$ be a commutative ring. By $R\-\dg\Cat_1$, we will mean the $(\infty, 1)$-category whose objects are $R$-linear dg-categories and whose morphisms are \textit{$R$-linear} continuous functors.
+
+                A full subcategory of $R\-\dg\Cat_1$ that we are also interested in is $R\-\dg\Cat_1^{\co\complete}$, the full subcategory spanned small-cocomplete $R$-linear dg-categories.
+            \end{definition}
+            \begin{remark}
+                One main reason for the definition of $R\-\dg\Cat_1$ as above, namely for the requirement that morphisms are \textit{continuous} functors as opposed to say, merely exact ones or $R$-linear ones, is that only by making this requirement do we obtain a symmetric monoidal structure on $R\-\dg\Cat_1$. After all, the point of considering dg-categories is not so much to provide a more general and abstract framework for categories that look like those of chain complexes, but rather to be able to treat chain complex categories with their natural symmetric monoidal structures as a sort of \say{higher algebras}, and these higher algebras are to then act on other stable $(\infty, 1)$-categories to give rise to \say{higher modules}. The idea goes back to the much older idea, whereby monoidal categories are to be thought of as (weak) monoid objects in the category of all categories.
+            \end{remark}
+
+            \begin{lemma} \label{lemma: hom_of_dg_categories}
+                Let $R$ be a commutative ring and let $\C, \D$ be (small-cocomplete) $R$-linear dg-categories. Then, $\Hom_{R\-\dg\Cat_1}(\C, \D)$ will also be a (small-cocomplete) $R$-linear dg-category, whose morphisms are homotopy equivalences between functors $F, G \in \Hom_{R\-\dg\Cat_1}(\C, \D)$.
+            \end{lemma}
+
+        \subsection{Tensor products of dg-categories}
+            \begin{definition}[Tensor products of dg-categories] \label{def: tensor_products_of_dg_categories}
+                Let $R$ be a commutative ring and let $\C_1, \C_2 \in \Ob( R\-\dg\Cat_1 )$ be $R$-linear dg-categories. We can then define the tensor product over $R$ of $\C_1, \C_2$, denoted by:
+                    $$\C_1 \boxtimes_R \C_2$$
+                is then characterised by the property that, for all test $R$-linear categories $\D$, the $(\infty, 1)$-groupoid:
+                    $$\Hom_{R\-\dg\Cat_1}(\C_1 \boxtimes_R \C_2, \D)$$
+                is to consist of $R$-bilinear and bi-continuous functors $\C_1 \x \C_2 \to \D$.
+            \end{definition}
+            \begin{proposition}[Symmetric monoidal structure on $R\-\dg\Cat_1$] \label{prop: symmetric_monoidoial_structure_on_the_category_of_dg_categories}
+                Let $R$ be a commutative ring. The tensor product of objects of $R\-\dg\Cat_1$, as in definition \ref{def: tensor_products_of_dg_categories}, defines a symmetric monoidal structure on $R\-\dg\Cat_1$, whose monoidal unit is $R\mod$, the $R$-linear dg-category of chain complexes of $R$-modules.
+
+                Furthermore, in light of lemma \ref{lemma: hom_of_dg_categories}, the symmetric monoidal structure on $R\-\dg\Cat_1$ is closed.
+            \end{proposition}
+            Having access now to such closed monoidal structures on categories of dg-categories, one can now begin to do linear algebra with dg-categories.
+
+            \begin{proposition}[Dual dg-categories] \label{prop: dual_dg_categories}
+                Let $R$ be a commutative ring. Up to equivalences, the $R$-linear dual of an $R$-linear dg-category $\C$, denoted by $\C^{\vee}$, is given by nothing but:
+                    $$\C^{\vee} := \Hom_{R\-\dg\Cat_1}(\C, R\mod)$$
+                The dual $\C^{\vee}$ supplies also the following \textbf{duality data}, consisting of:
+                \begin{enumerate}
+                    \item $R$-linear continuous functors:
+                        $$\ev_{\C}: \C \boxtimes_R \C^{\vee} \to R\mod$$
+                        $$\co\ev_{\C}: R\mod \to \C^{\vee} \boxtimes_R \C$$
+                    called the \textbf{(co)evaluation functors}, which are to satisfy the following commutative diagrams in $R\-\dg\Cat_1$:
+                    \item
+                        $$( \ev_{\C} \boxtimes_R \id_{\C} ) \circ ( \id_{\C} \boxtimes_R \co\ev_{\C} ) \cong \id_{\C}$$
+                        $$( \id_{\C^{\vee}} \boxtimes_R \ev_{\C} ) \circ ( \co\ev_{\C} \boxtimes_R \id_{\C^{\vee}} ) \cong \id_{\C^{\vee}}$$
+                \end{enumerate}
+            \end{proposition}
+            \begin{corollary}[Double-duals of dg-categories]
+                In the setting of proposition \ref{prop: dual_dg_categories}, we have also a canonical equivalence of $R$-linear dg-categories:
+                    $$\C^{\vee \vee} \xrightarrow[]{\cong} \C$$
+                As such, there exists an involutive duality functor:
+                    $$\bbD_R: R\-\dg\Cat_1 \xrightarrow[]{\cong} R\-\dg\Cat_1^{\op}$$
+                given by $\bbD_R := \Hom_{R\-\dg\Cat_1}(-, R\mod)$.
+            \end{corollary}
+            Note also that, given $R$-linear dg-categories $\C, \D$, one shall get via the fact that the symmetric monoidal structure $\boxtimes_R$ is closed, that there are isomorphisms in $R\-\dg\Cat_1$:
+                $$\C^{\vee} \boxtimes_R \D \xrightarrow[]{\cong} \Hom_{R\-\dg\Cat_1}(\C, \D)$$
+                $$\Phi \boxtimes d \mapsto \left( F_{\Phi \boxtimes d}: \C \to \D: c \mapsto  \right)$$
+
+    \section{Higher algebra with dg-categories}
+        \subsection{Monads and the Barr-Beck-Lurie Monadicity Theorem}
+
+        \subsection{Actions of monoidal categories on dg-categories}
+            Let $R$ be a commutative ring and let $(\calO, \tensor, \1)$ be an $R$-linear monoidal $(\infty, 1)$-category; in particular, this means that the bifunctor $\tensor: \calO \x \calO \to \calO$ is $R$-bilinear and bi-continuous. Consequently, if $\calO$ is furthermore an $R$-linear dg-category, then the induced \say{multiplication} functor $\tensor: \calO \boxtimes_R \calO \to \calO$ will be $R$-linear and continuous, i.e. a morphism in $R\-\dg\Cat_1$.
+
+            In light of the above, we make the following definition:
+            \begin{definition}[Monoidal dg-categories] \label{def: monoidal_dg_categories}
+                Let $R$ be a commutative ring. A \textbf{monoidal $R$-linear dg-category} is a monoidal category $(\calO, \tensor, \1)$ such that:
+                \begin{itemize}
+                    \item the underlying category $\calO$ is an $R$-linear dg-category, and
+                    \item the bifunctor $\tensor$ is both $R$-bilinear and bicontinuous.
+                \end{itemize}
+            \end{definition}
+
+            \begin{definition}[Modules over monoidal dg-categories] \label{def: modules_over_monoidal_dg_categories}
+                Let $R$ be a commutative ring and let $\calO$ be a monoidal $R$-linear dg-category. A \textbf{module} or \textbf{module category} over $\calO$ is then the data of an $R$-linear dg-category $\C$ along with an \textbf{action}:
+                    $$\rho: \calO \boxtimes_R \C \to \C$$
+                which is to be a morphism in $R\-\dg\Cat_1$ satisfying the following associativity conditions:
+            \end{definition}
+            \begin{lemma}[Homomorphisms between module categories] \label{lemma: homomorphisms_between_module_categories}
+                For two module categories $\C_1, \C_2$ over the same monoidal $R$-linear dg-category $\calO$, let us denote by $\Hom_{\calO\mod}(\C_1, \C_2)$ the $(\infty, 1)$-category of $R$-linear and continuous functors $\C_1 \to \C_2$ compatible with the $\calO$-actions.
+                \begin{enumerate}
+                    \item $\Hom_{\calO\mod}(\C_1, \C_2)$ is once more an $R$-linear dg-category.
+                    \item If $\calO$ is symmetric, it will also be an $\calO$-module.
+                \end{enumerate}
+            \end{lemma}
+            \begin{lemma}[Tensor products of module categories] \label{lemma: tensor_products_of_module_categories}
+                For two module categories $\C_1, \C_2$ over the same \textit{symmetric} monoidal $R$-linear dg-category $\calO$, their tensor product $\C_1 \boxtimes_R \C_2$ is once more an $\calO$-module. Furthermore, the process of taking tensor products of $\calO$-modules 
+            \end{lemma}
+    
+    \addcontentsline{toc}{section}{References}
+    \printbibliography
+
+\end{document}

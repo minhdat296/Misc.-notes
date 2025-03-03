@@ -588,78 +588,194 @@
                     \end{enumerate}
                 \end{proof}
 
-        \subsection{Representability of mapping spaces}
-            \begin{convention}
-                Fix a base scheme $S$ and consider a Grothendieck topology $\tau$ on $\Sch_{/S}$, and for technical reasons, we require that $\tau$ is \textit{subcanonical}\footnote{The reader can assume that it is either the fpqc topology or finer.}. For brevity, let us denote the resulting \textit{small} site by $S_{\tau}$.
-
-                If $\calS$ is an algebraic space over $S$ then by $\Sch_{/\calS}$, we shall mean the full subcategory of $\Sh( S_{\fppf} )$ spanned by morphisms $X \to \calS$ from scheme $X$. Should $\Sch_{/S}$ be endowed with any subcanonical Grothendieck topology $\tau$, then that topology will also induce another on $\Sch_{/\calS}$. The resulting small site will be denoted by $\calS_{\tau}$.
-            \end{convention}
-        
-            A natural question in algebraic geometry is as follows:
-            \begin{question}
-                Given two schemes/algebraic spaces/algebraic stacks $X, Y$, when is the mapping space $\Maps(X, Y)$ representable by a scheme/algebraic space/algebraic stacks ?
-            \end{question}
-
-            Many attempts have been made towards this question, usually with various practical assumptions imposed upon $X$ and $Y$. The proof techniques can vary in complexity, depending on the assumptions on $X$ and $Y$, but in most cases, the general strategy is to use Artin's Criteria for Representability, which is a deformation-theoretic method. One salient advantage of using this method is that the tangent space at a given point $f \in \Maps(X, Y)$ is relatively easy to describe: it is nothing but:
-                $$T_{\Maps(X, Y), f} \cong H^0(X_{\Zar}, \Hom_{\scrO_X}( f^*\Omega^1_{Y/X}, \scrO_X ))$$
-            
-            Grothendieck, for instance, was interested in maps between projective schemes, and made use of his Existence Theorem that was developed during his work on the Hilbert and Quot schemes in order to prove representability of mapping spaces. An easy but nevertheless important notion in this proof is that of the graph of a morphism in an arbitrary category. It is a natural generalisation of the definition of functions as certain ordered pairs as in material set theory. 
-            \begin{definition}[Graph of morphisms] \label{def: graphs_of_morphisms}
-                (Cf. \cite[\href{https://stacks.math.columbia.edu/tag/024T}{Tag 024T}]{stacks}) Let $\C$ be a category and $f: X \to Y$ be a morphism therein. Its \textbf{graph}, commonly denoted by $\Gamma(f)$ is then obtained via:
-                    $$
-                        \begin{tikzcd}
-                    	{\Gamma(f)} & Y \\
-                    	{X \x Y} & {Y \x Y}
-                    	\arrow[from=1-1, to=1-2]
-                    	\arrow[from=1-1, to=2-1]
-                    	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
-                    	\arrow["{\Delta_Y}", from=1-2, to=2-2]
-                    	\arrow["{f \x \id_Y}", from=2-1, to=2-2]
-                        \end{tikzcd}
-                    $$
-                \textit{should the products and pullback exist in the first place}; here, $\Delta_Y: Y \to Y \x Y$ is the diagonal morphism.
+    \section{Nilpotent cones}
+        This section exists because I'm annoyed by how these materials are usually treated in references on geometric representation theory. It's a sin to equate varieties with their $k$-points!
+    
+        \begin{convention}
+            Throughout, we work over an algebraically closed field $k$ of characteristic $0$.
+        \end{convention}
+    
+        \subsection{Why is it a "cone" ?}
+            \begin{definition}[Nilpotent cones] \label{def: nilpotent_cones}
+                Let $\g$ be a finite-dimensional simple Lie algebra, regarded as a closed $k$-subvariety of some $\gl_n := \Spec k[t_{1, 1}, t_{1, 2}, ..., t_{n, n - 1}, t_{n, n}]$. Then, the \textbf{nilpotent cone} of $\g$ will be the closed $k$-subvariety $\calN$ whose functor of points is given by:
+                    $$\calN(\Spec A) := \{ x \in \g(\Spec A) \mid \forall y \in \g(\Spec A): \trace(xy) = 0 \}$$
             \end{definition}
             \begin{remark}
-                When $\C := \Sch_{/S}$, then we see that if $Y$ is separated over $S$, i.e. $\Delta_{Y/S}: Y \to Y \x_S Y$ is a closed immersion by definition, then because closed immersions are preserved by pullbacks, the canonical map:
-                    $$\Gamma(f) \to X \x_S Y$$
-                coming from a morphism of $S$-schemes $f: X \to Y$ will also be a closed immersion. In other words, if $Y$ is separated, then the graph of $f$ will be a closed subscheme of the \say{plane} whose two \say{axes} are $X$ and $Y$.
+                Why is definition \ref{def: nilpotent_cones} even reasonable ?
+
+                Recall firstly that any finite-dimensional simple Lie algebra $\g$ admits a triangular decomposition:
+                    $$\g \cong \n^- \oplus \h \oplus \n^+$$
+                in which elements of $\n^{\pm}$ are $\ad$-nilpotent; in fact, a basis for $\g$ can be chosen so that elements of $\n^{\pm}$ are strictly upper/lower triangular matrices and those of $\h$ are diagonal. Recall secondly, that any such $\g$ admits non-degenerate and invariant symmetric $k$-bilinear forms $(-, -)_{\g}$ that are non-zero multiples of one another, with the trace form:
+                    $$\trace(xy)$$
+                being one such forms. A property of such bilinear forms is that an element $x \in \g$ is $\ad$-nilpotent if and only if:
+                    $$\forall y \in \g: (x, y)_{\g} = 0$$
+                (for some $c \in k^{\x}$), and this can be proven by finding a rescaling:
+                    $$(-, -)_{\g} = c \trace$$
+                and then exploiting the fact that if $y$ is either diagonal or strictly triangular, then $\trace(xy) = 0$ for all $x$ strictly triangular. 
+
+                Next, there is also the task of verifying that $\calN$ as given is indeed functorial. Since $k$ is algebraically closed, it is actually enough to only specify $\calN(\Spec k)$, per \'etale descent, and the assertion is thus automatic.
+
+                Lastly, let us see why $\calN$ deserves to be called a \say{cone}. For this, recall firstly (cf. \cite[\href{https://stacks.math.columbia.edu/tag/062Q}{Tag 062Q}]{stacks}) that a cone associated to a $\Z_{\geq 0}$-graded quasi-coherent commutative algebra\footnote{This definition comes from the fact that when a homogeneous polynomial in $\R[x, y]$ is sketched onto $\R^2$, one shall yield a cone.} $\scrA := \bigoplus_{n \geq 0} \scrA_n$ on some base scheme $S$, such that $\scrA_0 \cong \scrO_S$, is given by:
+                    $$C_S(\scrA) := \Spec_S \scrA$$
+                Now, from the discussion above, we see that:
+                    $$\Gamma(\calN, \scrO_{\calN}) \cong \Sym_k( (\n^- \oplus \n^+)^* )$$
+                Symmetric algebras are canonically graded, with the degree-$0$ component being isomorphic to the ground field, and so we indeed have that:
+                    $$\calN \cong \Spec\left( \Sym_k( (\n^- \oplus \n^+)^* ) \right) \cong C_{\Spec k}( \Sym_k( (\n^- \oplus \n^+)^* ) )$$
             \end{remark}
-            Recall firstly that the Hilbert moduli problem is given in the following manner. Suppose for a moment that $X, \calS$ are algebraic spaces over a fixed base scheme $S$ and that $f: X \to \calS$ is a morphism of finite presentation over $S$. Then, the \textbf{Hilbert moduli problem} will be the presheaf on $\calS_{\fpqc}$ given by:
-                $$
-                    \Hilb_{X/S}(T) :=
-                    \left\{
-                        \begin{array}{cc}
-                             & \text{closed immersions $Z \hookrightarrow X \x_{\calS} T$ such that}
-                             \\
-                             & \text{the canonical composition $Z \to X \x_{\calS} T \to T$ is}
-                             \\
-                             & \text{of finite presentation, flat, and proper}
-                        \end{array}
-                    \right\}
-                $$
-            for all $T \in \Ob(\calS_{\fpqc})$.
-            \begin{theorem}[Grothendieck's theorem on mapping space between projective schemes]
-                Let $S$ be a base scheme, let $X, Y$ be projective $S$-scheme, and suppose that $X$ is flat over $S$. Then, $\Maps_{\Sch_{/S}}(X, Y)$ will be a quasi-projective $S$-scheme.
-            \end{theorem}
-                \begin{proof}[Proof sketch]
-                    If we take for granted the representability of Hilbert schemes (\textit{the proof of which requires deformation theory}), then the strategy to prove that $\Maps_{\Sch_{/S}}(X, Y)$ is representable by an $S$-scheme (namely, a quasi-projective one) hinges on proving that there is a monomorphism of sheaves on $S_{\fpqc}$:
-                        $$\Gamma: \Maps_{\Sch_{/S}}(X, Y) \hookrightarrow \Hilb_{X \x_S Y/S}$$
-                    that is representable by open immersions of schemes.
+            \begin{remark}
+                It is also worth noting that cones in general - and hence $\calN$ in particular - are $\G_m$-equivariant. Even more interestingly, they are also $\G_a$-equivariant, and the two actions are moreover compatible.
+            \end{remark}
 
-                    For any $T \in \Ob(S_{\fpqc})$, we claim that the corresponding component:
-                        $$\Gamma_T: \Maps_{\Sch_{/S}}(X, Y)(T) \hookrightarrow \Hilb_{X \x_S Y/S}(T)$$
-                    of the natural transformation $\Gamma$ mentioned above maps morphisms of $T$-schemes $f \in \Maps_{\Sch_{/T}}(X \x_S T, Y \x_S T) =: \Maps_{\Sch_{/S}}(X, Y)(T)$ to their graphs $\Gamma_T(f)$ (in the sense of definition \ref{def: graphs_of_morphisms}); see \cite[\href{https://stacks.math.columbia.edu/tag/0D1A}{Tag 0D1A}]{stacks}. To see that this is well-defined, simply note that because $Y$ is projective and hence separated, of finite presentation, flat, and proper by definition, $\Gamma_T(f)$ will always be a closed subscheme of $(X \x_S T) \x_T (Y \x_S T) \cong (X \x_S Y) \x_S T$ that is of finite presentation, flat, and proper over $T$, i.e. $\Gamma_T(f)$ is indeed nothing but an element of $\Hilb_{X \x_S Y/S}(T)$.
+        \subsection{Symplectic singularities and the Grothendieck-Springer resolution}
+            \begin{convention}
+                From now on, let $G$ be the linear algebraic group of $\g$. 
+            \end{convention}
 
-                    Now, to see that $\Gamma$ is representable by open immersions, we will need to show that given any morphism of schemes $u: U \to \Hilb_{X \x_S Y/S}$, the canonical projection:
-                        $$\Maps_{\Sch_{/S}}(X, Y) \x_{ \Gamma, \Hilb_{X \x_S Y/S}, u } U \to U$$
-                    is an open immersion of schemes. 
-
-                    Lastly, note that because an open subsheaf of a scheme is itself a scheme, $\Maps_{\Sch_{/S}}(X, Y)$ is now necessarily representable by a scheme. \textit{A priori}, $\Hilb_{X \x_S Y/S}$ is a projective $S$-scheme, so $\Maps_{\Sch_{/S}}(X, Y)$ is quasi-projective over $S$ by definition.
-                \end{proof}
-            There is a mild generalisation of the above to the setting of algebraic spaces that does away with some of the unnecessary hypotheses, which is perhaps useful when one is concerned with mapping spaces between certain quotients (e.g. by finite group actions, which arise naturally over positive characteristics).
-            \begin{proposition}[Mapping spaces between proper algebraic spaces]
+            \begin{lemma}[$\ad$-stability of $\calN$]
                 
+            \end{lemma}
+                \begin{proof}
+                    
+                \end{proof}
+
+    \section{Function-measure duality}
+        Let $X$ be a locally compact Hausdorff space, let $K \in \{\R, \bbC\}$ be equipped with the standard metric topology, and let $C^0_c(X, K)$ denote the $K$-Hilbert space of \textit{compactly supported} $K$-valued continuous functions $X \to K$. Also, if $V$ is a topological vector space over $K$, then let us write $V^{\vee}$ for its topological dual, i.e. the vector space consisting of continuous linear functionals $V \to K$ endowed with the weak topology, i.e. the coarsest possible topology so that elements of the image of $V$ inside $V^{\vee}$ are continuous. The Riesz Representation Theorem can then be phrased succinctly as follows: there is an isometry:
+            $$C^0_c(X)^{\vee} \xrightarrow[\cong]{\int} \{ \text{finite and compactly supported Radon measures on $X$} \}$$
+        where the RHS is endowed with the so-called total variation norm.
+
+    \section{Killing form as curvature}
+        This is related to Steve's question about recasting the constructino of $\gamma$-toroidal Lie algberas in some kind of gerbal language.
+    
+        Let $G$ be a compact, simply connected, and simple Lie group over $\bbC$ with Lie algebra $\g$, which is a finite-dimensional simple Lie algebra over $\bbC$. As such, there is a non-degenerate, invariant, and symmetric bilinear form on $\g$, the Killing form $\kappa$, that is unique up to non-zero rescalings. On the other hand, $G$ is \textit{a priori} a complex manifold, and since every tangent space of $G$ is isomorphic to $\g$ and hence carries the Killing form, $\kappa$ can be regarded as a metric on $G$.
+        
+        At the same time, on any smooth complex manifold $M$, one can speak of connections, which correspond bijectively pointwise around points $x \in M$ to (possibly non-abelian) Lie algebra extensions of the tangent space $T_xM$, equipped with the standard commutator bracket. More explicitly, given such a Lie algebra extension:
+            $$0 \to \t \to \a \to T_xM \to 0$$
+        one can regard a connection as a linear section:
+            $$\nabla: T_xM \to \a$$
+        and define its curvature to be:
+            $$\sigma_{\nabla}(\xi, \xi') := [\nabla(\xi), \nabla(\xi')]_{\a} - \nabla( [\xi, \xi']_{T_xM} )$$
+        It is clear that $\sigma_{\nabla} \in Z^2_{\Lie}(T_xM, \t)$. Suppose now that $M$ is acted upon by $G$ and carries a (non-degenerate and) $G$-invariant (symmetric) metric $\kappa_M$ with a lift $\tilde{\kappa}_M$ to $\a$.
+        \begin{definition}
+            We then say that a connection $\nabla$ on $M$ is \textbf{$G$-invariant} if and only if:
+                $$\tilde{\kappa}_M(\sigma_{\nabla}(\xi, \xi'), \xi'') = \tilde{\kappa}_M(\xi, \sigma_{\nabla}(\xi', \xi''))$$
+            for all $\xi, \xi', \xi'' \in T_xM$ and all $x \in M$.
+        \end{definition}
+        
+        When $M := G$ and $\kappa_M := \kappa$ (let us also write $\tilde{\kappa} := \tilde{\kappa}_M$) and $G$ acts on itself via left-multiplication, the condition above amounts to specifying that the extended bilinear form $\tilde{\kappa}$ on the extension $\a$ of $\g$ is also invariant (with respect to $[- ,-]_{\a}$). That said, if $\t$ is finite-dimensional then by Whitehead's Lemma, we will have that:
+            $$H^i_{\Lie}(\g, \t) \cong 0$$
+        for all $i > 0$, and hence there will be no non-flat $G$-invariant connections on $G$.
+
+        Now, if instead of equipping $M$ with a metric so that $T_xM$ would be endowed with a bilinear form, we are to equip $\t$ with an invariant symmetric bilinear form (which might be degenerate) and a non-degenerate and invariant extension thereof to $\a$,
+
+    \section{Weyl's Semi-simplicity Theorem as a cohomological result}
+        Let $\g$ be a finite-dimensional Lie algebra over a field of characteristic $0$, and let $U, V$ be finite-dimensional $\g$-modules. Whitehead's Lemma tells us that $\Ext^1_{\g\mod}(V, U) = 0$, and by the construction of $\Ext$, this means that the only extension of $V$ by $U$ in $\g\mod$ is $U \oplus V$, corresponding to the cohomological class $0$. In turn, this means that any short exact sequence/$1$-extension of $\g$-modules:
+            $$0 \to U \to W \to V \to 0$$
+        splits, and hence we get Weyl's theorem that states that any finite-dimensional $\g$-module is semi-simple.
+
+    \section{Pull-push for algebraic de Rham cohomology}
+        \subsection{de Rham spaces}
+            \begin{convention}
+                Given any commutative ring $R$, write $R_{\red} := R/\Nil(R)$ for the \say{underlying} reduced ring (the idea here is that $\Nil(R/\Nil(R)) = 0$).
+            \end{convention}
+        
+            \begin{definition}[Zariski-infinitesimally close points] \label{def: zariski_infinitesimally_close_points}
+                Let $X$ be a scheme and let $S$ be a test scheme. Two $S$-points $x, y \in X(S) := \Mor_{\Sch}(S, X)$ are said to be \textbf{Zariski-infinitesimally close} to one another if and only if their images under the canonical map $X(S) \to X(S_{\red})$ coincide.
+            \end{definition}
+            Here, $S_{\red}$ is the underlying reduced subscheme of $S$. As a locally ringed space, it is given by:
+                $$S_{\red} := (|S|, \scrO_{S^{\red}})$$
+            with the structure sheaf given by:
+                $$\scrO_{S^{\red}}(U) := \scrO_S(U)^{\red}$$
+            and in particular, when $S := \Spec R$, we have $S_{\red} \cong \Spec R_{\red}$. This construction stipulates that there is a canonical closed embedding $S_{\red} \subset S$ (cut out by the ideal sheaf $\Nil(\scrO_S) \subset \scrO_S$) and as such, the condition that two $S$-points $x, y: S \toto X$ are Zariski-infinitesimally close to one another is that the following two compositions are equal to one another:
+                $$
+                    \begin{tikzcd}
+                	{S_{\red}} & S & X
+                	\arrow[from=1-1, to=1-2]
+                	\arrow["y"', shift right, from=1-2, to=1-3]
+                	\arrow["x", shift left, from=1-2, to=1-3]
+                    \end{tikzcd}
+                $$
+
+            For what follows, it is useful to recall the universal property of formal completions. The following result is the affine scheme special case of \cite[\href{https://stacks.math.columbia.edu/tag/0AIN}{Tag 0AIN}]{stacks}, which even though is much more general, is ultimately unnecessary for our purposes.
+            \begin{lemma}[Universal property of formal completion] \label{lemma: universal_property_of_formal_completion}
+                Let $A$ be a Noetherian ring and let $I \subset A$ be an ideal. Then, the formal completion $(A, I)^{\wedge} := \projlim_{n \geq 1} A/I^n$ satisfies the following universal property: the canonical ring map $(A \to (A, I)^{\wedge}) := \projlim_{n \geq 1} (A \to A/I^n)$ is initial amongst all ring maps $f: A \to R$ such that $f(I) \subseteq \Nil(R)$.
+            \end{lemma}
+                \begin{proof}
+                    Exercise.
+                \end{proof}
+            \begin{remark}
+                If we let $\pi: R \to R_{\red}$ denote the canonical quotient map, then in other words, the canonical ring map $A \to (A, I)^{\wedge}$ is initial amongst all ring maps $\varphi: A \to R$ such that:
+                    $$(\pi \circ \varphi)(I) = 0$$
+            \end{remark}
+            \begin{proposition}[Infinitesimality and the diagonal] \label{prop: infinitesimality_and_the_diagonal}
+                Let $X$ be a separated Noetherian scheme and let $S$ be a test scheme. Two $S$-points $x, y \in X(S)$ are Zariski-infinitesimally close to one another if and only if there is a factorisation in the category of formal schemes as follows:
+                    $$
+                        \begin{tikzcd}
+                    	S & {(X, \Delta_X)^{\wedge}} \\
+                    	& {X^2}
+                    	\arrow["(x \x y)^{\wedge}", dashed, from=1-1, to=1-2]
+                    	\arrow["{x \x y}"', from=1-1, to=2-2]
+                    	\arrow["{\Delta_X^{\wedge}}", from=1-2, to=2-2]
+                        \end{tikzcd}
+                    $$
+                wherein $(X^2, \Delta_X)^{\wedge}$ is the formal completion\footnote{This is why we need $X$ to be separated and Noetherian. Otherwise, the formal completion will not be a formal scheme in the sense of \cite{hartshorne}.} of $X^2$ along the closed subscheme $\im \Delta_X$, and $\Delta_X^{\wedge}$ is the canonical immersion. 
             \end{proposition}
+                \begin{proof}
+                    By Zariski descent, it suffices to check that the result holds for $S \in \Ob(\Sch^{\aff})$, say $S := \Spec R$. Moreover, we can assume without any loss of generality that $X$ is affine, say $X := \Spec A$; affine schemes are separated \textit{a priori}, so we need only assume that $A$ is Noetherian. With these reduction steps in place, the problem now becomes to prove that given any two ring maps $f, g: A \to R$, we have that:
+                        $$\pi \circ f = \pi \circ g$$
+                    with $\pi: R \to R_{\red}$ being the canonical quotient map, if and only if there is a factorisation in $\Cring$ as follows:
+                        \begin{equation} \label{diagram: formal_neighbourhood_of_diagonal_algebraic}
+                            \begin{tikzcd}
+                        	R & {(A, I)^{\wedge}} \\
+                        	& {A^{\tensor 2}}
+                        	\arrow["{(f \tensor g)^{\wedge}}"', dashed, from=1-2, to=1-1]
+                        	\arrow["{f \tensor g}", from=2-2, to=1-1]
+                        	\arrow["{\mu^{\wedge}}"', from=2-2, to=1-2]
+                            \end{tikzcd}
+                        \end{equation}
+                    wherein:
+                        $$I := \ker(\mu: A^{\tensor 2} \to A)$$
+                    is the kernel of the multiplication map on $A$, and:
+                        $$\mu^{\wedge}: A^{\tensor 2} \to (A^{\tensor 2}, I)^{\wedge}$$
+                    is the composition $A^{\tensor 2} \xrightarrow[]{\mu} A \to (A^{\tensor 2}, I)^{\wedge}$, wherein the second arrow is given by $\projlim_{n \geq 1} (A^{\tensor 2} \to A^{\tensor 2}/I^n)$. Also, to be clear, by $f \tensor g: A^{\tensor 2} \to R$, we mean the map given by:
+                        $$(f \tensor g)(a \tensor b) := f(a) g(b)$$
+                    for all $a, b \in A$.
+
+                    Firstly, suppose that the factorisation \eqref{diagram: formal_neighbourhood_of_diagonal_algebraic} exists. The universal property of $(A^{\tensor 2}, I)^{\wedge}$ (cf. lemma \ref{lemma: universal_property_of_formal_completion}) tells us that:
+                        $$(\pi \circ (f \tensor g))(I) = 0$$
+                    and because $I$ is generated by the subset $\{a \tensor 1 - 1 \tensor a\}_{a \in A}$, the above implies that:
+                        \begin{equation} \label{equation: difference_of_points_along_diagonal}
+                            \begin{aligned}
+                                0 & = (\pi \circ (f \tensor g))(a \tensor 1 - 1 \tensor a)
+                                \\
+                                & = \pi(f(a) g(1) - f(1) g(a))
+                                \\
+                                & = \pi(f(a) - g(a))
+                                \\
+                                & = (\pi \circ (f - g))(a)
+                            \end{aligned}
+                        \end{equation}
+                    for all $a \in A$. This then implies that $\pi \circ (f - g) = 0$ as maps $A \to R_{\red}$, and hence:
+                        $$\pi \circ f = \pi \circ g$$
+                    as needed.
+
+                    Conversely, suppose that $x, y \in X(S)$ are Zariski-infinitesimally close. By definition, this means that:
+                        $$\pi \circ (f - g) = 0$$
+                    and through equation \eqref{equation: difference_of_points_along_diagonal}, we see therefore that:
+                        $$(\pi \circ (f \tensor g))(I) = 0$$
+                    Via the universal property of the formal completion $(A^{\tensor 2}, I)^{\wedge}$ (cf. lemma \ref{lemma: universal_property_of_formal_completion}), we then see that the factorisation \eqref{diagram: formal_neighbourhood_of_diagonal_algebraic} must exist.
+                \end{proof}
+
+            It can be shown that Zariski-infinitesimality between pairs of points $x, y: S \toto X$ is an equivalence relation on the set $X(S)$. The classifying space of this equivalence relation is known as the \say{de Rham space} of $X$, and in light of the Zariski-infinitesimality criterion of proposition \ref{prop: infinitesimality_and_the_diagonal}, we see that $X_{\dR}$ as in the following definition is equivalently given by the following colimit of presheaves on $(\Sch^{\aff})$:
+                $$X_{\dR} := \coeq( (X, \Delta_X)^{\wedge} \toto X )$$
+            wherein the arrows are composition of the immersion $\Delta_X^{\wedge}: (X, \Delta_X)^{\wedge} \to X$ with the two canonical  projections $X^2 \to X$, respectively.
+            \begin{definition}[de Rham spaces] \label{def: de_rham_spaces}
+                The \textbf{de Rham space} of a scheme $X$ is the presheaf $X_{\dR}: (\Sch^{\aff})^{\op} \to \Sets$ given by:
+                    $$X_{\dR}(S) := X(S_{\red})$$
+                for all test schemes $S$.
+            \end{definition}
+
+        \subsection{Algebraic de Rham cohomology as quasi-coherent cohomology}
+            The reason we care about $X_{\dR}$ is that when $X$ is over characteristic $0$, its big Zariski site is the same as the crystalline/infinitesimal site of $X$, and therefore its quasi-coherent cohomology coincides with the de Rham cohomology of $X$. Then, under certain conditions (e.g. $X$ smooth and proper over a field of characteristic $0$), the $5$-functor pull-push for quasi-coherent modules will automatically induce such a formalism for algebraic de Rham cohomology, thereby conceptually simplifying the latter. Applying cohomological duality then yields a pull-push formalism for D-modules on $X$.
     
     \addcontentsline{toc}{section}{References}
     \printbibliography
