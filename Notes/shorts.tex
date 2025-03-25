@@ -672,110 +672,175 @@
             $$0 \to U \to W \to V \to 0$$
         splits, and hence we get Weyl's theorem that states that any finite-dimensional $\g$-module is semi-simple.
 
-    \section{Pull-push for algebraic de Rham cohomology}
-        \subsection{de Rham spaces}
-            \begin{convention}
-                Given any commutative ring $R$, write $R_{\red} := R/\Nil(R)$ for the \say{underlying} reduced ring (the idea here is that $\Nil(R/\Nil(R)) = 0$).
-            \end{convention}
-        
-            \begin{definition}[Zariski-infinitesimally close points] \label{def: zariski_infinitesimally_close_points}
-                Let $X$ be a scheme and let $S$ be a test scheme. Two $S$-points $x, y \in X(S) := \Mor_{\Sch}(S, X)$ are said to be \textbf{Zariski-infinitesimally close} to one another if and only if their images under the canonical map $X(S) \to X(S_{\red})$ coincide.
-            \end{definition}
-            Here, $S_{\red}$ is the underlying reduced subscheme of $S$. As a locally ringed space, it is given by:
-                $$S_{\red} := (|S|, \scrO_{S^{\red}})$$
-            with the structure sheaf given by:
-                $$\scrO_{S^{\red}}(U) := \scrO_S(U)^{\red}$$
-            and in particular, when $S := \Spec R$, we have $S_{\red} \cong \Spec R_{\red}$. This construction stipulates that there is a canonical closed embedding $S_{\red} \subset S$ (cut out by the ideal sheaf $\Nil(\scrO_S) \subset \scrO_S$) and as such, the condition that two $S$-points $x, y: S \toto X$ are Zariski-infinitesimally close to one another is that the following two compositions are equal to one another:
-                $$
-                    \begin{tikzcd}
-                	{S_{\red}} & S & X
-                	\arrow[from=1-1, to=1-2]
-                	\arrow["y"', shift right, from=1-2, to=1-3]
-                	\arrow["x", shift left, from=1-2, to=1-3]
-                    \end{tikzcd}
-                $$
-
-            For what follows, it is useful to recall the universal property of formal completions. The following result is the affine scheme special case of \cite[\href{https://stacks.math.columbia.edu/tag/0AIN}{Tag 0AIN}]{stacks}, which even though is much more general, is ultimately unnecessary for our purposes.
-            \begin{lemma}[Universal property of formal completion] \label{lemma: universal_property_of_formal_completion}
-                Let $A$ be a Noetherian ring and let $I \subset A$ be an ideal. Then, the formal completion $(A, I)^{\wedge} := \projlim_{n \geq 1} A/I^n$ satisfies the following universal property: the canonical ring map $(A \to (A, I)^{\wedge}) := \projlim_{n \geq 1} (A \to A/I^n)$ is initial amongst all ring maps $f: A \to R$ such that $f(I) \subseteq \Nil(R)$.
-            \end{lemma}
-                \begin{proof}
-                    Exercise.
-                \end{proof}
-            \begin{remark}
-                If we let $\pi: R \to R_{\red}$ denote the canonical quotient map, then in other words, the canonical ring map $A \to (A, I)^{\wedge}$ is initial amongst all ring maps $\varphi: A \to R$ such that:
-                    $$(\pi \circ \varphi)(I) = 0$$
-            \end{remark}
-            \begin{proposition}[Infinitesimality and the diagonal] \label{prop: infinitesimality_and_the_diagonal}
-                Let $X$ be a separated Noetherian scheme and let $S$ be a test scheme. Two $S$-points $x, y \in X(S)$ are Zariski-infinitesimally close to one another if and only if there is a factorisation in the category of formal schemes as follows:
+    \section{Singular cohomology from the algebraic point of view}
+        \begin{example}[A non-abelian fundamental group] \label{example: non_abelian_fundamental_group}
+            Consider the pointed $1$-sphere, which we shall abusively denote by $\bbS^1$. A straightforward application of van Kampen's Theorem tells us that $\pi_1(\bbS^1 \vee \bbS^1) \cong \<a\> * \<b\>$, which is a non-abelian fundamental group.
+    	\end{example}
+    	
+    	In contrast, the first homology group $H_1(\bbS^1 \vee \bbS^1)$, as we shall see, is actually $\Z \oplus \Z$ an hence abelian. One might think of this divergence in \say{abelian-ness} as meaning that homology groups encoding less data than homotopy groups, but the trade-off is that they will always be abelian and therefore easier to manipulate, thanks to the category of abelian groups being abelian (as we will see, they are also much easier to compute, for the same reason).
+    	
+    	\subsection{\texorpdfstring{$\Delta$}{}-complexes and geometric realisation}
+    	    \begin{definition}[$\Delta$-simplicies] \label{def: delta_simplicies}
+                
+                \begin{enumerate}
+                    \item \textbf{(Simplicies):} 
+                        \begin{itemize}
+                            \item An \textbf{$n$-simplex} $\Delta^n$ is an $(n + 1)$-tuple $\{x_0, ..., x_n\}$ of non-colinear points in $\R^{n + 1}$ such that $\sum_{i = 0}^n x_i = 1$.
+                            \item Fix some $n \in \N$ and some $0 \leq i \leq n$. Then, the \textbf{$i^{th}$ face} of $\Delta^n$, which we shall denote by $\Delta^n_i$ is the $(n - 1)$-simplex spanned by $\{x_0, ..., x_{i - 1}, x_{i + 1}, ..., x_n\}$. 
+                        \end{itemize}
+                    \item \textbf{($\Delta$-simplicies):} The category of \textbf{$\Delta$-simplicies} (also call \textbf{semi-simplicial sets}) is the subcategory of $\Sets^{\simp^{\op}}$, the category of simplicial sets, consisting of all simplicial sets and all injective functions. We denote it by $\Sets^{\simp_+^{\op}}$.
+                \end{enumerate}
+    	    \end{definition}
+    	    \begin{remark}
+                The \textbf{boundary} of $\Delta^n$ is nothing but $\bigcup_{i = 0}^n \Delta^n_i$, and the \textbf{interior} of $\Delta^n$ is therefore $\Delta^n \setminus \del\Delta^n$.
+    	    \end{remark}
+    	    
+    	 \subsection{Simplicial homology}   
+    	    \begin{definition}[Singular simplices] \label{def: singular_simplices}
+                An \textbf{singular $n$-simplex} in a topological space $X$ is simply a continuous map $\sigma: \Delta^n \to X$, and we denote the set of all such maps by $\Delta^n(X)$. Let us write $\Z[\Delta^n(X)]$ for the free abelian groups on all $n$-simplicies of $X$, where the group structure is given by vector sums in $\R^{n + 1}$; we call this the group of \textbf{singular $n$-chains} in $X$.
+    	    \end{definition}
+    	    \begin{remark}
+                Having defined singular chains, our task is now to construct a chain complex out of the sequence $\{\Z[\Delta^n(X)]\}_{n \in \N}$ of abelian groups. For this, note that for all $n \in \N$, there exists a natural group homomorphism as follows, which we call the \textbf{boundary map}: 
+                    $$\del_n: \Z[\Delta^{n + 1}(X)] \to \Z[\Delta^n(X)]$$
+                    $$[x_0, ..., x_{n + 1}] \mapsto \sum_{i = 0}^n (-1)^i [x_0, ..., \hat{x}_i, ..., x_{n + 1}]$$
+                Furthermore, observe that $\del_n \circ \del_{n + 1} = 0$ for all $n \in \N$, so we indeed have a chain complex, namely the following, which we shall denote by $\Z[\Delta^{\bullet}(X)]$:
                     $$
                         \begin{tikzcd}
-                    	S & {(X, \Delta_X)^{\wedge}} \\
-                    	& {X^2}
-                    	\arrow["(x \x y)^{\wedge}", dashed, from=1-1, to=1-2]
-                    	\arrow["{x \x y}"', from=1-1, to=2-2]
-                    	\arrow["{\Delta_X^{\wedge}}", from=1-2, to=2-2]
+                        	\cdots & {\Z[\Delta_{n + 1}(X)]} & {\Z[\Delta_n(X)]} & \cdots
+                        	\arrow["{\del_{n + 1}}", from=1-1, to=1-2]
+                        	\arrow["{\del_n}", from=1-2, to=1-3]
+                        	\arrow["{\del_{n - 1}}", from=1-3, to=1-4]
                         \end{tikzcd}
                     $$
-                wherein $(X^2, \Delta_X)^{\wedge}$ is the formal completion\footnote{This is why we need $X$ to be separated and Noetherian. Otherwise, the formal completion will not be a formal scheme in the sense of \cite{hartshorne}.} of $X^2$ along the closed subscheme $\im \Delta_X$, and $\Delta_X^{\wedge}$ is the canonical immersion. 
+                It should be noted that usually, one abbreviates the boundary maps $\del_n$ via its action on basis elements $\sigma \in \Z[\Delta^n(X)]$:
+                    $$\del_n(\sigma) = \sum_{i = 0}^n (-1)^i d_i(\sigma)$$
+                where $d_i: \Delta^{n + 1} \to \Delta^n$ is the $i^{th}$ face map $[x_0, ..., x_{n + 1}] \mapsto [x_0, ..., \hat{x}_i, ..., x_{n + 1}]$. 
+    	    \end{remark}
+    	    \begin{definition}[Singular homology] \label{def: singular_homology}
+                The \textbf{singular homologies} of a toplogical space $X$ is the chain homology of the corresponding singular chain complex $\Z[\Delta^{\bullet}(X)]$. We denote these homology groups by $H_{\bullet}(X, \Z)$.
+    	    \end{definition}
+    	    \begin{remark}[Pushforwards of homologies] \label{remark: homology_pushforwards}
+    	        Let $f: X \to Y$ be a continuous function between topological spaces. Since the assignment of chain complexes of singular $n$-simplices to topological spaces is nothing but the functor $\Z[\Delta^{\bullet}(-)]: \Top \to \rmD^{\leq 0}(\Ab)$\footnote{Note how we have implicitly passed to the derived category of the category of chain complexes of abelian groups concentrated in degrees $\leq 0$.}, we obtain from $f: X \to Y$ a chain map:
+    	            $$f^{\sharp}_{\bullet}: \Z[\Delta^{\bullet}(X)] \to \Z[\Delta^{\bullet}(Y)]$$
+                called the \textbf{pushforward} of homologies along $f$. 
+    	    \end{remark}
+    	    \begin{remark}[Coefficients]
+    	        There is actually nothing special about $\Z$ as a coefficient ring for singular homology, as the construction of free $R$-modules is functorial regardless of the underlying ring $R$. As a result, one can easily define - for any ring $R$ - a chain complex $R[\Delta^{\bullet}(X)]$ of $R$-modules whose chain homologies are the singular homologies of $X$, but this time with coefficients in $R$ instead of $\Z$. In fact, this works even if we were to replace $R$ by a monoid internal to any monoidal abelian category (e.g. the category $\Shv_{\Z}(X)$ of sheaves of abelian groups on $X$).
+    	    \end{remark}
+    	    
+    	    \begin{proposition}[$0^{th}$ homology] \label{prop: 0th_homology}
+                If $X$ is any topological space then $H_0(X, \Z) \cong \Z[\pi_0(X)]$, where $\pi_0(X)$ denotes the set of path-connected components of $X$.
+    	    \end{proposition}
+    	        \begin{proof}
+                    By definition, $H_0(X, \Z) \cong \ker \del_0/\im \del_1$, so let us first consider the fact that:
+                        $$\ker \del_0 := \{\sigma \in \Z[\Delta^1(X)] \mid \del_0(\sigma) = d_0(\sigma) = 0\}$$
+                    and then the fact that:
+                        $$\im \del_1 := \{\sigma \in \Z[\Delta^1(X)] \mid \exists \tau \in \Z[\Delta^2(X)]: \sigma = \del_1(\tau) = d_0(\tau) - d_1(\tau)\}$$
+                    From these two facts, one sees that 
+    	        \end{proof}
+            \begin{corollary}
+                If $X$ is a non-empty path-connected space then $H_0(X, \Z) \cong \Z$. 
+            \end{corollary}
+            \begin{proposition}[A homological criterion for path-connectedness] \label{prop: a_homological_criterion_for_path_connectedness}
+                If $X$ is a topological space such that $H_0(X, \Z) \cong \Z$ then $X$ is path-connected and non-empty. 
             \end{proposition}
                 \begin{proof}
-                    By Zariski descent, it suffices to check that the result holds for $S \in \Ob(\Sch^{\aff})$, say $S := \Spec R$. Moreover, we can assume without any loss of generality that $X$ is affine, say $X := \Spec A$; affine schemes are separated \textit{a priori}, so we need only assume that $A$ is Noetherian. With these reduction steps in place, the problem now becomes to prove that given any two ring maps $f, g: A \to R$, we have that:
-                        $$\pi \circ f = \pi \circ g$$
-                    with $\pi: R \to R_{\red}$ being the canonical quotient map, if and only if there is a factorisation in $\Cring$ as follows:
-                        \begin{equation} \label{diagram: formal_neighbourhood_of_diagonal_algebraic}
-                            \begin{tikzcd}
-                        	R & {(A, I)^{\wedge}} \\
-                        	& {A^{\tensor 2}}
-                        	\arrow["{(f \tensor g)^{\wedge}}"', dashed, from=1-2, to=1-1]
-                        	\arrow["{f \tensor g}", from=2-2, to=1-1]
-                        	\arrow["{\mu^{\wedge}}"', from=2-2, to=1-2]
-                            \end{tikzcd}
-                        \end{equation}
-                    wherein:
-                        $$I := \ker(\mu: A^{\tensor 2} \to A)$$
-                    is the kernel of the multiplication map on $A$, and:
-                        $$\mu^{\wedge}: A^{\tensor 2} \to (A^{\tensor 2}, I)^{\wedge}$$
-                    is the composition $A^{\tensor 2} \xrightarrow[]{\mu} A \to (A^{\tensor 2}, I)^{\wedge}$, wherein the second arrow is given by $\projlim_{n \geq 1} (A^{\tensor 2} \to A^{\tensor 2}/I^n)$. Also, to be clear, by $f \tensor g: A^{\tensor 2} \to R$, we mean the map given by:
-                        $$(f \tensor g)(a \tensor b) := f(a) g(b)$$
-                    for all $a, b \in A$.
-
-                    Firstly, suppose that the factorisation \eqref{diagram: formal_neighbourhood_of_diagonal_algebraic} exists. The universal property of $(A^{\tensor 2}, I)^{\wedge}$ (cf. lemma \ref{lemma: universal_property_of_formal_completion}) tells us that:
-                        $$(\pi \circ (f \tensor g))(I) = 0$$
-                    and because $I$ is generated by the subset $\{a \tensor 1 - 1 \tensor a\}_{a \in A}$, the above implies that:
-                        \begin{equation} \label{equation: difference_of_points_along_diagonal}
-                            \begin{aligned}
-                                0 & = (\pi \circ (f \tensor g))(a \tensor 1 - 1 \tensor a)
-                                \\
-                                & = \pi(f(a) g(1) - f(1) g(a))
-                                \\
-                                & = \pi(f(a) - g(a))
-                                \\
-                                & = (\pi \circ (f - g))(a)
-                            \end{aligned}
-                        \end{equation}
-                    for all $a \in A$. This then implies that $\pi \circ (f - g) = 0$ as maps $A \to R_{\red}$, and hence:
-                        $$\pi \circ f = \pi \circ g$$
-                    as needed.
-
-                    Conversely, suppose that $x, y \in X(S)$ are Zariski-infinitesimally close. By definition, this means that:
-                        $$\pi \circ (f - g) = 0$$
-                    and through equation \eqref{equation: difference_of_points_along_diagonal}, we see therefore that:
-                        $$(\pi \circ (f \tensor g))(I) = 0$$
-                    Via the universal property of the formal completion $(A^{\tensor 2}, I)^{\wedge}$ (cf. lemma \ref{lemma: universal_property_of_formal_completion}), we then see that the factorisation \eqref{diagram: formal_neighbourhood_of_diagonal_algebraic} must exist.
+                    
+                \end{proof}
+                
+            \begin{proposition}[Singular homology is homotopy-invariant] \label{prop: singular_homology_is_homotopy_invariant}
+                Let $f: X \to Y$ is a homotopy equivalence. Then, the pushforward $f^{\sharp}_{\bullet}: \Z[\Delta^{\bullet}(X)] \to \Z[\Delta^{\bullet}(Y)]$ will be a quasi-isomorphism of chain complexes. 
+    	    \end{proposition}
+    	        \begin{proof}[Proof sketch]
+    	            Use CW-approximation to interpolate both $X$ and $Y$ by a CW-complex that is weakly homotopically equivalent to both $X$ and $Y$. 
+    	        \end{proof}
+                
+            \begin{proposition}[Higher homologies] \label{prop: higher_singular_homologies} 
+                Let $X$ be a topological space. Then:
+                    $$H_n(X) \cong \bigoplus_{\alpha \in \pi_0(X)} H_n(X_{\alpha})$$
+            \end{proposition}
+                \begin{proof}
+                    By abstract nonsense, one has $\Delta^n(X) \cong \coprod_{\alpha \in \pi_0(X)} \Delta^n(X_{\alpha})$ for all $n \in \N$. The functor $\Z[-]: \Sets \to \Ab$ is left-adjoint and hence preserves colimits (coproducts in particular), and so for all $n \in \N$, one has $\Z[\Delta^n(X)] \cong \bigoplus_{\alpha \in \pi_0(X)} \Z[\Delta^n(X_{\alpha})]$. Homology is \textit{a priori} an exact functor at the level of derived categories, so the above tells us that $H_n(X) \cong \bigoplus_{\alpha \in \pi_0(X)} H_n(X_{\alpha})$ as claimed.
+                \end{proof}
+            
+        \subsection{Relative homology}    
+            \begin{lemma}
+                Let $X$ be a topological space and $A$ a subspace thereof. Then, the pushforward of singular homologies with coefficients in $\Z$ (cf. remark \ref{remark: homology_pushforwards}) along the canonical inclusion $\iota: A \hookrightarrow X$ is injective.
+            \end{lemma}
+                \begin{proof}
+                    Since $H_n: \rmD^{\leq 0}(\Z\mod) \to \Ab$ is an exact functor for all $n \in \N$, and since every monomorphism in an abelian category (such as $\Ab$) is a kernel, it shall suffice to show that $\Z[\Delta^n(-)]$ preserves monomorphisms for all $n \in \N$. To that end, note that the functor $\Delta^n(-)$ obviously preserves monomorphisms, as it is corepresentable by $\Delta^n$ and hence preserves all limits. At the same time, observe that because the functor $\Z[-]$ is given via direct sums of abelian groups, which are biproducts in $\Z\mod$, it must also preserve monomorphisms. By putting the two observations together, we get the lemma.
+                \end{proof}
+            \begin{definition}[Relative homology] \label{def: relative_homology}
+                Let $X$ be a topological space and $A$ a subspace thereof. Then, the $A$-relative singular homology of $X$ with coefficient in a ring $R$ is given in the derived category $\rmD^{\leq 0}(\Z\mod)$ by $H_n(R[\Delta^{\bullet}(X)]/R[\Delta^{\bullet}(A)])$. We denote it by $H_n((X, A), R)$ or simply $H_n(X, A)$ when $R \cong \Z$.
+            \end{definition}
+        
+            \begin{theorem}[Excision] \label{theorem: excision}
+                
+                \begin{enumerate}
+                    \item Let $Z \subseteq A \subseteq X$ be a sequence of three topological spaces such that $\bar{Z}$ remains a subspace of $A^{\circ}$. Then, one has an isomorphism of relative homologies:
+                        $$H_n(X, A) \cong H_n(X \setminus Z, A \setminus Z)$$
+                    \item Suppose that $A, B$ are subspaces of a given topological space $X$ such that $A^{\circ} \sqcup B^{\circ}$ covers $X$. Then:
+                        $$H_n(X, A) \cong H_n(B, A \cap B)$$
+                \end{enumerate}
+            \end{theorem}
+                \begin{proof}
+                    
+                    \begin{enumerate}
+                        \item 
+                        \item 
+                    \end{enumerate}
                 \end{proof}
 
-            It can be shown that Zariski-infinitesimality between pairs of points $x, y: S \toto X$ is an equivalence relation on the set $X(S)$. The classifying space of this equivalence relation is known as the \say{de Rham space} of $X$, and in light of the Zariski-infinitesimality criterion of proposition \ref{prop: infinitesimality_and_the_diagonal}, we see that $X_{\dR}$ as in the following definition is equivalently given by the following colimit of presheaves on $(\Sch^{\aff})$:
-                $$X_{\dR} := \coeq( (X, \Delta_X)^{\wedge} \toto X )$$
-            wherein the arrows are composition of the immersion $\Delta_X^{\wedge}: (X, \Delta_X)^{\wedge} \to X$ with the two canonical  projections $X^2 \to X$, respectively.
-            \begin{definition}[de Rham spaces] \label{def: de_rham_spaces}
-                The \textbf{de Rham space} of a scheme $X$ is the presheaf $X_{\dR}: (\Sch^{\aff})^{\op} \to \Sets$ given by:
-                    $$X_{\dR}(S) := X(S_{\red})$$
-                for all test schemes $S$.
-            \end{definition}
+    \section{Symmetry of \texorpdfstring{$\Tor$}{} and derived tensor products}
+        \begin{lemma}[Symmetry of $\Tor$] \label{lemma: symmetry_of_Tor}
+            Let $R$ be a commutative ring and let $M, N$ be two $R$-modules. Then:
+                $$\Tor_R^m(M, N) \cong \Tor_R^m(N, M)$$
+            for all degrees $m \geq 0$ (we are grading \textit{homologically} here).
+        \end{lemma}
+            \begin{proof}
+                Suppose that $P_{\bullet} := \{\cdots \to P_1 \to P_0 \to N\}$ and $Q_{\bullet} := \{\cdots \to Q_1 \to Q_0 \to M\}$ are two projective resolutions. From these two complexes, we can construct the $\N$-graded $R$-modules $P := \bigoplus_{i \geq 0} P_i$ and $Q := \bigoplus_{j \geq 0} Q_j$, which in turn induces the following complex\footnote{Note also that this is the total complex of the bicomplex $P_{\bullet} \tensor_R Q_{\bullet}$.}:
+                    $$(P \tensor_R Q)_{\bullet} := \left\{ \cdots \to \bigoplus_{i + j = 1} P_i \tensor_R Q_j \to \bigoplus_{i + j = 0} P_i \tensor_R Q_j \to M \tensor_R N \right\}$$
+                (i.e. the components are of the form $(P \tensor_R Q)_n := \bigoplus_{i + j = n} P_i \tensor_R Q_j$ for each $n \geq 0$). Tensor products and direct sums of projective modules are once again projective, so each $(P \tensor_R Q)_n$ is projective, and hence $(P \tensor_R Q)_{\bullet}$ is a projective resolution of $M \tensor_R N$.
 
-        \subsection{Algebraic de Rham cohomology as quasi-coherent cohomology}
-            The reason we care about $X_{\dR}$ is that when $X$ is over characteristic $0$, its big Zariski site is the same as the crystalline/infinitesimal site of $X$, and therefore its quasi-coherent cohomology coincides with the de Rham cohomology of $X$. Then, under certain conditions (e.g. $X$ smooth and proper over a field of characteristic $0$), the $5$-functor pull-push for quasi-coherent modules will automatically induce such a formalism for algebraic de Rham cohomology, thereby conceptually simplifying the latter. Applying cohomological duality then yields a pull-push formalism for D-modules on $X$.
+                Now, we claim that there are two natural $\N$-filtrations on $(P \tensor_R Q)_{\bullet}$, whose filtrants are sub-complexes $E_{\bullet}, F_{\bullet}$ whose terms are given by:
+                    $$E_n^r := \bigoplus_{ \substack{i + j = n \\ i \geq r} } P_i \tensor_R Q_j$$
+                    $$F_n^s := \bigoplus_{ \substack{i + j = n \\ j \geq s} } P_i \tensor_R Q_j$$
+                Also, note that $E_{\bullet}^0 = F_{\bullet}^0 = (P \tensor_R Q)_{\bullet}$ so the filtrations are in fact descending. Then, consider the associated $\N$-graded complexes:
+                    $$\gr E_{\bullet} := \bigoplus_{r \geq 0} E_{\bullet}^r/E_{\bullet}^{r + 1} \cong \bigoplus_{r \geq 0} P_r \tensor_R Q_{\bullet - r}$$
+                    $$\gr F_{\bullet} := \bigoplus_{s \geq 0} F_{\bullet}^s/F_{\bullet}^{s + 1} \cong \bigoplus_{s \geq 0} P_{\bullet - s} \tensor_R Q_s$$
+                Because each $P_r$ and each $Q_s$ are projective by assumption, we see that:
+                    $$
+                        H_m(P_r \tensor_R Q_{\bullet - r}) \cong
+                        \begin{cases}
+                            \text{$P_m \tensor_R M$ if $m = r$}
+                            \\
+                            \text{$0$ otherwise}
+                        \end{cases}
+                    $$
+                    $$
+                        H_m(P_{\bullet - s} \tensor_R Q_s) \cong
+                        \begin{cases}
+                            \text{$N \tensor_R Q_m$ if $m = s$}
+                            \\
+                            \text{$0$ otherwise}
+                        \end{cases}
+                    $$
+                Per the construction of $\Tor_R^m$, the above shows that $\Tor_R^m(M, N) \cong \Tor_R^m(N, M)$.
+            \end{proof}
+        \begin{corollary}[Symmetry of $\tensor^{\L}$] \label{coro: symmetry_of_derived_tensor_products}
+            Given two connective objects $P_{\bullet}, Q_{\bullet}$ of the derived category $\rmD(R\mod)$ (with the usual t-structure), we have a quasi-isomorphism:
+                $$P_{\bullet} \tensor^{\L} Q_{\bullet} \underset{\qis}{\cong} Q_{\bullet} \tensor^{\L} P_{\bullet}$$
+            Therefore, $\tensor^{\L}$ is a symmetric monoidal structure on the subcategory $\rmD^{\leq 0}(R\mod)$.
+        \end{corollary}
+
+        This symmetry of derived tensor products is what allows us to construct an $\infty$-/simplicial category of derived/simplicial affine schemes (depending on the model that we choose for $\rmD^{\leq 0}(R\mod)$) as the opposite of the category of commutative algebra objects in $\rmD^{\leq 0}(R\mod)$. This category of derived/simplicial will automatically have all finite homotopy products and pullbacks, since coproducts and pushouts exist in $\Comm\Alg(\rmD^{\leq 0}(R\mod))$ and are given by derived tensor products of commutative algebra objects.
+
+        One reason to care about this derived generalisation of affine schemes is because it allows us to \say{see} higher-multiplicity intersection.
+        \begin{example}
+            Let $k$ be a field and consider the local ring $A := k[x]/x^2$; note that because $A/x \cong k$, we can consider $k$ as an $A$-module. As an $A$-module, $k$ has $x$-torsion, meaning that:
+                $$\Tor_A^1(k, M) \cong \ker(M \xrightarrow[]{x \cdot} M)$$
+            
+        \end{example}
     
     \addcontentsline{toc}{section}{References}
     \printbibliography
